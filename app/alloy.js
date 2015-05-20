@@ -1,3 +1,4 @@
+Alloy.Globals.json="";
 Alloy.Globals.CustomTabBar = function(settings) {
 	var tabBarItems = [];
 	var	tabCurrent = 0;

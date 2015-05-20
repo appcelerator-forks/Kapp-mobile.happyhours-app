@@ -23,49 +23,49 @@ function Controller() {
     }
     var $ = this;
     var exports = {};
-    var __alloyId0 = [];
-    $.__views.__alloyId1 = Alloy.createController("moment", {
-        id: "__alloyId1"
+    var __alloyId12 = [];
+    $.__views.__alloyId13 = Alloy.createController("moment", {
+        id: "__alloyId13"
     });
     $.__views.tab1 = Ti.UI.createTab({
-        window: $.__views.__alloyId1.getViewEx({
+        window: $.__views.__alloyId13.getViewEx({
             recurse: true
         }),
         id: "tab1"
     });
-    __alloyId0.push($.__views.tab1);
-    $.__views.__alloyId2 = Alloy.createController("all", {
-        id: "__alloyId2"
+    __alloyId12.push($.__views.tab1);
+    $.__views.__alloyId14 = Alloy.createController("all", {
+        id: "__alloyId14"
     });
     $.__views.tab2 = Ti.UI.createTab({
-        window: $.__views.__alloyId2.getViewEx({
+        window: $.__views.__alloyId14.getViewEx({
             recurse: true
         }),
         id: "tab2"
     });
-    __alloyId0.push($.__views.tab2);
-    $.__views.__alloyId4 = Alloy.createController("map", {
-        id: "__alloyId4"
+    __alloyId12.push($.__views.tab2);
+    $.__views.__alloyId17 = Alloy.createController("map", {
+        id: "__alloyId17"
     });
     $.__views.tab3 = Ti.UI.createTab({
-        window: $.__views.__alloyId4.getViewEx({
+        window: $.__views.__alloyId17.getViewEx({
             recurse: true
         }),
         id: "tab3"
     });
-    __alloyId0.push($.__views.tab3);
-    $.__views.__alloyId5 = Alloy.createController("info", {
-        id: "__alloyId5"
+    __alloyId12.push($.__views.tab3);
+    $.__views.__alloyId18 = Alloy.createController("info", {
+        id: "__alloyId18"
     });
     $.__views.tab4 = Ti.UI.createTab({
-        window: $.__views.__alloyId5.getViewEx({
+        window: $.__views.__alloyId18.getViewEx({
             recurse: true
         }),
         id: "tab4"
     });
-    __alloyId0.push($.__views.tab4);
+    __alloyId12.push($.__views.tab4);
     $.__views.tabgroup = Ti.UI.createTabGroup({
-        tabs: __alloyId0,
+        tabs: __alloyId12,
         id: "tabgroup",
         backgroundColor: "white"
     });
@@ -92,6 +92,7 @@ function Controller() {
             selected: "cloud_over.png"
         } ]
     });
+    alert(Alloy.Globals.json);
     _.extend($, exports);
 }
 

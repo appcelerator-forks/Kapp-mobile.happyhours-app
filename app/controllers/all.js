@@ -1,11 +1,4 @@
-/*function getAllDatas(){
-	
-	var apiUrl = "http://happyhours-app.fr/api/allEtablishment.php";
-	var json;
+var etablishment = Alloy.createCollection('etablishment');
+etablishment.fetch();
 
-	var xhr = Ti.Ti.Network.createHTTPClient({
-
-		json = JSON.parse(this.responseText);
-
-	});
-}*/
+Alloy.Collections.etablishment.fetch();
