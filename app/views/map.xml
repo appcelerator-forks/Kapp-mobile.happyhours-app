@@ -1,0 +1,5 @@
+<Alloy>
+	<Window id="win1" tabBarHidden="true" navBarHidden="true">
+       <Label id="label1" color="#999">map</Label>
+    </Window>
+</Alloy>

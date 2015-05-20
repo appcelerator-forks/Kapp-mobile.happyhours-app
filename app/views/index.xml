@@ -1,0 +1,18 @@
+<Alloy>
+	 <TabGroup id="tabgroup" backgroundColor="white" >
+            <Tab id="tab1">
+            	<Require src="moment" />
+            </Tab>
+            <Tab id="tab2">
+                <Window id="win2" title="Tab 2" tabBarHidden="true">
+                    <Label id="label2" color="#999">I am Window 2</Label>
+                </Window>
+            </Tab>
+            <Tab id="tab3">
+                <Require src="map" />
+            </Tab>
+            <Tab id="tab4">
+                <Require src="info" />
+            </Tab>
+        </TabGroup>
+</Alloy>
