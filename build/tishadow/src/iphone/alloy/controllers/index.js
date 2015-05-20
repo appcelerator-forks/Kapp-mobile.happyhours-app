@@ -34,39 +34,31 @@ function Controller() {
         id: "tab1"
     });
     __alloyId0.push($.__views.tab1);
-    $.__views.win2 = __ui.createWindow({
-        id: "win2",
-        title: "Tab 2",
-        tabBarHidden: "true"
+    $.__views.__alloyId2 = Alloy.createController("all", {
+        id: "__alloyId2"
     });
-    $.__views.label2 = Ti.UI.createLabel({
-        width: Ti.UI.SIZE,
-        height: Ti.UI.SIZE,
-        color: "#999",
-        text: "I am Window 2",
-        id: "label2"
-    });
-    $.__views.win2.add($.__views.label2);
     $.__views.tab2 = Ti.UI.createTab({
-        window: $.__views.win2,
+        window: $.__views.__alloyId2.getViewEx({
+            recurse: true
+        }),
         id: "tab2"
     });
     __alloyId0.push($.__views.tab2);
-    $.__views.__alloyId2 = Alloy.createController("map", {
-        id: "__alloyId2"
+    $.__views.__alloyId4 = Alloy.createController("map", {
+        id: "__alloyId4"
     });
     $.__views.tab3 = Ti.UI.createTab({
-        window: $.__views.__alloyId2.getViewEx({
+        window: $.__views.__alloyId4.getViewEx({
             recurse: true
         }),
         id: "tab3"
     });
     __alloyId0.push($.__views.tab3);
-    $.__views.__alloyId3 = Alloy.createController("info", {
-        id: "__alloyId3"
+    $.__views.__alloyId5 = Alloy.createController("info", {
+        id: "__alloyId5"
     });
     $.__views.tab4 = Ti.UI.createTab({
-        window: $.__views.__alloyId3.getViewEx({
+        window: $.__views.__alloyId5.getViewEx({
             recurse: true
         }),
         id: "tab4"

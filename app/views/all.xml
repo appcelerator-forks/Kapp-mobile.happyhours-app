@@ -1,0 +1,5 @@
+<Alloy>
+	<Window title="Établissement" tabBarHidden="true">
+       <Label id="label1" color="#999">Moment</Label>
+    </Window>
+</Alloy>
