@@ -14,17 +14,17 @@ function Controller() {
         var xhr = Ti.Network.createHTTPClient({
             onload: function() {
                 json = JSON.parse(this.responseText);
+                Alloy.Globals.json = apiUrl;
                 for (var i = 0; i < json.etablishment.length; i++) {
                     var data = json.etablishment[i];
-                    Alloy.Globals.json = data;
-                    for (var j = 1; 7 >= j; j++) {
-                        var etablishment = Alloy.createModel("etablishment", {
-                            id: data.ID,
-                            name: data.name
-                        });
-                        etablishment.save();
-                    }
+                    Alloy.Globals.dataEtablishment[data.ID] = data;
+                    var etablishment = Alloy.createModel("etablishment", {
+                        id: data.ID,
+                        name: data.name
+                    });
+                    etablishment.save();
                 }
+                Alloy.Collections.etablishment.fetch();
             },
             onerror: function() {}
         });
@@ -46,49 +46,49 @@ function Controller() {
     }
     var $ = this;
     var exports = {};
-    var __alloyId12 = [];
-    $.__views.__alloyId13 = Alloy.createController("moment", {
-        id: "__alloyId13"
+    var __alloyId11 = [];
+    $.__views.__alloyId12 = Alloy.createController("moment", {
+        id: "__alloyId12"
     });
     $.__views.tab1 = Ti.UI.createTab({
-        window: $.__views.__alloyId13.getViewEx({
+        window: $.__views.__alloyId12.getViewEx({
             recurse: true
         }),
         id: "tab1"
     });
-    __alloyId12.push($.__views.tab1);
-    $.__views.__alloyId15 = Alloy.createController("all", {
-        id: "__alloyId15"
+    __alloyId11.push($.__views.tab1);
+    $.__views.__alloyId14 = Alloy.createController("all", {
+        id: "__alloyId14"
     });
     $.__views.tab2 = Ti.UI.createTab({
-        window: $.__views.__alloyId15.getViewEx({
+        window: $.__views.__alloyId14.getViewEx({
             recurse: true
         }),
         id: "tab2"
     });
-    __alloyId12.push($.__views.tab2);
-    $.__views.__alloyId18 = Alloy.createController("map", {
-        id: "__alloyId18"
+    __alloyId11.push($.__views.tab2);
+    $.__views.__alloyId17 = Alloy.createController("map", {
+        id: "__alloyId17"
     });
     $.__views.tab3 = Ti.UI.createTab({
-        window: $.__views.__alloyId18.getViewEx({
+        window: $.__views.__alloyId17.getViewEx({
             recurse: true
         }),
         id: "tab3"
     });
-    __alloyId12.push($.__views.tab3);
-    $.__views.__alloyId20 = Alloy.createController("info", {
-        id: "__alloyId20"
+    __alloyId11.push($.__views.tab3);
+    $.__views.__alloyId19 = Alloy.createController("info", {
+        id: "__alloyId19"
     });
     $.__views.tab4 = Ti.UI.createTab({
-        window: $.__views.__alloyId20.getViewEx({
+        window: $.__views.__alloyId19.getViewEx({
             recurse: true
         }),
         id: "tab4"
     });
-    __alloyId12.push($.__views.tab4);
+    __alloyId11.push($.__views.tab4);
     $.__views.tabgroup = Ti.UI.createTabGroup({
-        tabs: __alloyId12,
+        tabs: __alloyId11,
         id: "tabgroup",
         backgroundColor: "white"
     });
@@ -115,7 +115,15 @@ function Controller() {
             selected: "info_select.png"
         } ]
     });
-    getAllDatas();
+    var etablishment = Alloy.createCollection("etablishment");
+    if (Alloy.Globals.hasConnection()) {
+        etablishment.deleteAll();
+        getAllDatas();
+        Ti.API.info("INFO data : ");
+        Ti.API.info(Alloy.Globals.dataEtablishment);
+        Ti.API.info("INFO json : ");
+        Ti.API.info(Alloy.Globals.json);
+    } else Ti.API.info("INFO : sorry,we have no connection with the network");
     _.extend($, exports);
 }
 

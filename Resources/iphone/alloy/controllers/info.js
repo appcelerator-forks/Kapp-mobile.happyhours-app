@@ -25,7 +25,7 @@ function Controller() {
     var exports = {};
     $.__views.info = Ti.UI.createWindow({
         tabBarHidden: "true",
-        navBarHidden: "true",
+        title: "Informations",
         id: "info"
     });
     $.__views.info && $.addTopLevelView($.__views.info);

@@ -13,7 +13,19 @@ new Alloy.Globals.CustomTabBar({
     ]
 });
 
-getAllDatas();
+var etablishment = Alloy.createCollection('etablishment');
+
+if (Alloy.Globals.hasConnection()) {
+    etablishment.deleteAll();
+    getAllDatas();
+
+    Ti.API.info("INFO data : ");
+    Ti.API.info(Alloy.Globals.dataEtablishment);
+    Ti.API.info("INFO json : ");
+    Ti.API.info(Alloy.Globals.json);
+} else {
+    Ti.API.info("INFO : sorry,we have no connection with the network");
+}
 
 function getAllDatas() {
     var apiUrl = 'http://happyhours-app.fr/api/allEtablishment.php';
@@ -25,23 +37,22 @@ function getAllDatas() {
 
             json = JSON.parse(this.responseText);
 
+            Alloy.Globals.json = apiUrl;
+
             for (var i = 0; i < json.etablishment.length; i++) {
 
-                var data = json.etablishment[i];
-                Alloy.Globals.json = data;
+                var data    = json.etablishment[i];
 
-                for (var j = 1; j <= 7; j++) {
-                    //if have an offer at the day j
-                    var etablishment = Alloy.createModel('etablishment', {
-                        id          : data.ID, 
-                        name        : data.name,
-                    }); 
-                    etablishment.save();
-                };
+                Alloy.Globals.dataEtablishment[data.ID] = data;
 
+                var etablishment = Alloy.createModel('etablishment', {
+                    id          : data.ID, 
+                    name       : data.name
+                }); 
+                etablishment.save();
             }
 
-            //etablishment.fetch();
+            Alloy.Collections.etablishment.fetch();
 
         },
 
@@ -49,6 +60,7 @@ function getAllDatas() {
 
         }
     });
+
     xhr.open("GET", apiUrl);
     xhr.send();
 }

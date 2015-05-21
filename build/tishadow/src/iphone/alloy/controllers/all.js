@@ -8,34 +8,37 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
-    function __alloyId11(e) {
+    function __alloyId10(e) {
         if (e && e.fromAdapter) return;
-        __alloyId11.opts || {};
-        var models = __alloyId10.models;
+        __alloyId10.opts || {};
+        var models = __alloyId9.models;
         var len = models.length;
-        var children = $.__views.__alloyId2.children;
-        for (var d = children.length - 1; d >= 0; d--) $.__views.__alloyId2.remove(children[d]);
+        var children = $.__views.partnerscontent.children;
+        for (var d = children.length - 1; d >= 0; d--) $.__views.partnerscontent.remove(children[d]);
         for (var i = 0; len > i; i++) {
-            var __alloyId3 = models[i];
-            __alloyId3.__transform = {};
-            var __alloyId5 = Ti.UI.createView({
+            var __alloyId2 = models[i];
+            __alloyId2.__transform = {};
+            var __alloyId4 = Ti.UI.createView({
                 width: "100%",
                 height: "30%",
-                idPartner: "undefined" != typeof __alloyId3.__transform["id"] ? __alloyId3.__transform["id"] : __alloyId3.get("id"),
-                titlePartner: "undefined" != typeof __alloyId3.__transform["name"] ? __alloyId3.__transform["name"] : __alloyId3.get("name")
+                idEtablishment: "undefined" != typeof __alloyId2.__transform["id"] ? __alloyId2.__transform["id"] : __alloyId2.get("id"),
+                titleEtablishment: "undefined" != typeof __alloyId2.__transform["name"] ? __alloyId2.__transform["name"] : __alloyId2.get("name")
             });
-            $.__views.__alloyId2.add(__alloyId5);
-            var __alloyId7 = Ti.UI.createLabel({
-                text: "undefined" != typeof __alloyId3.__transform["name"] ? __alloyId3.__transform["name"] : __alloyId3.get("name")
+            $.__views.partnerscontent.add(__alloyId4);
+            var __alloyId6 = Ti.UI.createLabel({
+                text: "undefined" != typeof __alloyId2.__transform["name"] ? __alloyId2.__transform["name"] : __alloyId2.get("name")
             });
-            __alloyId5.add(__alloyId7);
-            var __alloyId9 = Ti.UI.createView({
+            __alloyId4.add(__alloyId6);
+            var __alloyId8 = Ti.UI.createView({
                 backgroundColor: "black",
                 width: "100%",
                 height: "1px"
             });
-            $.__views.__alloyId2.add(__alloyId9);
+            $.__views.partnerscontent.add(__alloyId8);
         }
+    }
+    function displayAllEtablishment() {
+        Alloy.Collections.etablishment.fetch();
     }
     __p.require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "all";
@@ -54,26 +57,28 @@ function Controller() {
     var exports = {};
     Alloy.Collections.instance("etablishment");
     $.__views.all = __ui.createWindow({
-        title: "Établissement",
         tabBarHidden: "true",
+        title: "Établissements",
         id: "all"
     });
     $.__views.all && $.addTopLevelView($.__views.all);
-    $.__views.__alloyId2 = Ti.UI.createScrollView({
+    $.__views.partnerscontent = Ti.UI.createScrollView({
         layout: "vertical",
         width: "100%",
-        id: "__alloyId2"
+        id: "partnerscontent"
     });
-    $.__views.all.add($.__views.__alloyId2);
-    var __alloyId10 = Alloy.Collections["etablishment"] || etablishment;
-    __alloyId10.on("fetch destroy change add remove reset", __alloyId11);
+    $.__views.all.add($.__views.partnerscontent);
+    var __alloyId9 = Alloy.Collections["etablishment"] || etablishment;
+    __alloyId9.on("fetch destroy change add remove reset", __alloyId10);
     exports.destroy = function() {
-        __alloyId10.off("fetch destroy change add remove reset", __alloyId11);
+        __alloyId9.off("fetch destroy change add remove reset", __alloyId10);
     };
     _.extend($, $.__views);
     var etablishment = Alloy.createCollection("etablishment");
-    etablishment.fetch();
-    Alloy.Collections.etablishment.fetch();
+    if (etablishment.count()) displayAllEtablishment(); else {
+        __log.info("INFO etablishment number : ");
+        __log.info(etablishment.count());
+    }
     _.extend($, exports);
 }
 

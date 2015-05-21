@@ -1,4 +1,6 @@
 Alloy.Globals.json="";
+Alloy.Globals.dataEtablishment  =  {};
+
 Alloy.Globals.CustomTabBar = function(settings) {
 	var tabBarItems = [];
 	var	tabCurrent = 0;
@@ -72,4 +74,16 @@ Alloy.Globals.CustomTabBar = function(settings) {
 		hide: function() { customTabBar.hide(); },
 		show: function() { customTabBar.show(); }
 	};
+};
+
+/**
+ * Check connection
+ *
+ * @return boolean
+ */
+Alloy.Globals.hasConnection = function hasConnection()
+{
+    if (Ti.Network.networkType === Ti.Network.NETWORK_NONE) return false;
+
+    return true;
 };

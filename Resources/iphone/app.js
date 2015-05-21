@@ -2,6 +2,8 @@ var Alloy = require("alloy"), _ = Alloy._, Backbone = Alloy.Backbone;
 
 Alloy.Globals.json = "";
 
+Alloy.Globals.dataEtablishment = {};
+
 Alloy.Globals.CustomTabBar = function(settings) {
     var tabBarItems = [];
     var tabCurrent = 0;
@@ -44,6 +46,11 @@ Alloy.Globals.CustomTabBar = function(settings) {
             customTabBar.show();
         }
     };
+};
+
+Alloy.Globals.hasConnection = function() {
+    if (Ti.Network.networkType === Ti.Network.NETWORK_NONE) return false;
+    return true;
 };
 
 Alloy.createController("index");
