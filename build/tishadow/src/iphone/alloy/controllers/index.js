@@ -8,6 +8,29 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
+    function getAllDatas() {
+        var apiUrl = "http://happyhours-app.fr/api/allEtablishment.php";
+        var json;
+        var xhr = Ti.Network.createHTTPClient({
+            onload: function() {
+                json = JSON.parse(this.responseText);
+                for (var i = 0; i < json.etablishment.length; i++) {
+                    var data = json.etablishment[i];
+                    Alloy.Globals.json = data;
+                    for (var j = 1; 7 >= j; j++) {
+                        var etablishment = Alloy.createModel("etablishment", {
+                            id: data.ID,
+                            name: data.name
+                        });
+                        etablishment.save();
+                    }
+                }
+            },
+            onerror: function() {}
+        });
+        xhr.open("GET", apiUrl);
+        xhr.send();
+    }
     __p.require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "index";
     if (arguments[0]) {
@@ -34,31 +57,31 @@ function Controller() {
         id: "tab1"
     });
     __alloyId12.push($.__views.tab1);
-    $.__views.__alloyId14 = Alloy.createController("all", {
-        id: "__alloyId14"
+    $.__views.__alloyId15 = Alloy.createController("all", {
+        id: "__alloyId15"
     });
     $.__views.tab2 = Ti.UI.createTab({
-        window: $.__views.__alloyId14.getViewEx({
+        window: $.__views.__alloyId15.getViewEx({
             recurse: true
         }),
         id: "tab2"
     });
     __alloyId12.push($.__views.tab2);
-    $.__views.__alloyId17 = Alloy.createController("map", {
-        id: "__alloyId17"
+    $.__views.__alloyId18 = Alloy.createController("map", {
+        id: "__alloyId18"
     });
     $.__views.tab3 = Ti.UI.createTab({
-        window: $.__views.__alloyId17.getViewEx({
+        window: $.__views.__alloyId18.getViewEx({
             recurse: true
         }),
         id: "tab3"
     });
     __alloyId12.push($.__views.tab3);
-    $.__views.__alloyId18 = Alloy.createController("info", {
-        id: "__alloyId18"
+    $.__views.__alloyId20 = Alloy.createController("info", {
+        id: "__alloyId20"
     });
     $.__views.tab4 = Ti.UI.createTab({
-        window: $.__views.__alloyId18.getViewEx({
+        window: $.__views.__alloyId20.getViewEx({
             recurse: true
         }),
         id: "tab4"
@@ -75,24 +98,24 @@ function Controller() {
     $.tabgroup.open();
     new Alloy.Globals.CustomTabBar({
         tabBar: $.tabgroup,
-        imagePath: "iphone/images/",
+        imagePath: "/tabbar/",
         width: 80,
         height: 40,
         items: [ {
-            image: __p.file("home.png"),
-            selected: "home_over.png"
+            image: __p.file("moment.png"),
+            selected: "moment_select.png"
         }, {
-            image: __p.file("cloud.png"),
-            selected: "cloud_over.png"
+            image: __p.file("search.png"),
+            selected: "search_select.png"
         }, {
-            image: __p.file("home.png"),
-            selected: "home_over.png"
+            image: __p.file("map.png"),
+            selected: "map_select.png"
         }, {
-            image: __p.file("cloud.png"),
-            selected: "cloud_over.png"
+            image: __p.file("info.png"),
+            selected: "info_select.png"
         } ]
     });
-    alert(Alloy.Globals.json);
+    getAllDatas();
     _.extend($, exports);
 }
 

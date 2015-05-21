@@ -6,8 +6,8 @@ new Alloy.Globals.CustomTabBar({
     width: 80,
     height: 40,
     items: [
-        { image: 'one.png', selected: 'map.png' },
-        { image: 'one.png', selected: 'map.png' },
+        { image: 'moment.png', selected: 'moment_select.png' },
+        { image: 'search.png', selected: 'search_select.png' },
         { image: 'map.png', selected: 'map_select.png' },
         { image: 'info.png', selected: 'info_select.png' }
     ]
@@ -41,7 +41,7 @@ function getAllDatas() {
 
             }
 
-            etablishment.fetch();
+            //etablishment.fetch();
 
         },
 
