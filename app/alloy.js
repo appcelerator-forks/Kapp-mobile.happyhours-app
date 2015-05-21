@@ -4,7 +4,7 @@ Alloy.Globals.CustomTabBar = function(settings) {
 	
 	var resetTabs = function() {
 		for(var i = 0; i < tabBarItems.length; i++) {
-			tabBarItems[i].image = tabBarItems[i].backgroundImage;
+			tabBarItems[i].image = settings.imagePath + settings.items[i].image;
 		}
 	};
 	
@@ -41,6 +41,8 @@ Alloy.Globals.CustomTabBar = function(settings) {
 	
 	for(var i = 0; i < settings.items.length; i++) {
 		// Go through each item and create an imageView
+
+
 		tabBarItems[i] = Titanium.UI.createImageView({
 			// background is the default image
 			backgroundImage: settings.imagePath + settings.items[i].image,

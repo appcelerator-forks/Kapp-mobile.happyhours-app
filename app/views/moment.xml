@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="win1" title="Tab 1" tabBarHidden="true">
+	<Window title="Happy Hours" tabBarHidden="true">
        <Label id="label1" color="#999">Moment</Label>
     </Window>
 </Alloy>

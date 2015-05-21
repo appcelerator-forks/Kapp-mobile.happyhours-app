@@ -52,21 +52,21 @@ function Controller() {
         id: "tab2"
     });
     __alloyId0.push($.__views.tab2);
-    $.__views.__alloyId2 = Alloy.createController("map", {
-        id: "__alloyId2"
+    $.__views.__alloyId3 = Alloy.createController("map", {
+        id: "__alloyId3"
     });
     $.__views.tab3 = Ti.UI.createTab({
-        window: $.__views.__alloyId2.getViewEx({
+        window: $.__views.__alloyId3.getViewEx({
             recurse: true
         }),
         id: "tab3"
     });
     __alloyId0.push($.__views.tab3);
-    $.__views.__alloyId3 = Alloy.createController("info", {
-        id: "__alloyId3"
+    $.__views.__alloyId5 = Alloy.createController("info", {
+        id: "__alloyId5"
     });
     $.__views.tab4 = Ti.UI.createTab({
-        window: $.__views.__alloyId3.getViewEx({
+        window: $.__views.__alloyId5.getViewEx({
             recurse: true
         }),
         id: "tab4"
@@ -83,21 +83,21 @@ function Controller() {
     $.tabgroup.open();
     new Alloy.Globals.CustomTabBar({
         tabBar: $.tabgroup,
-        imagePath: "iphone/images/",
+        imagePath: "/tabbar/",
         width: 80,
         height: 40,
         items: [ {
-            image: "home.png",
-            selected: "home_over.png"
+            image: "one.png",
+            selected: "map.png"
         }, {
-            image: "cloud.png",
-            selected: "cloud_over.png"
+            image: "one.png",
+            selected: "map.png"
         }, {
-            image: "home.png",
-            selected: "home_over.png"
+            image: "map.png",
+            selected: "map_select.png"
         }, {
-            image: "cloud.png",
-            selected: "cloud_over.png"
+            image: "info.png",
+            selected: "info_select.png"
         } ]
     });
     _.extend($, exports);

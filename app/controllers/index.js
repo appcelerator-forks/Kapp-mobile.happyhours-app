@@ -1,14 +1,14 @@
 $.tabgroup.open();
 
-var ctb = new Alloy.Globals.CustomTabBar({
+new Alloy.Globals.CustomTabBar({
     tabBar: $.tabgroup,
-    imagePath: 'iphone/images/',
+    imagePath: '/tabbar/',
     width: 80,
     height: 40,
     items: [
-        { image: 'home.png', selected: 'home_over.png' },
-        { image: 'cloud.png', selected: 'cloud_over.png' },
-        { image: 'home.png', selected: 'home_over.png' },
-        { image: 'cloud.png', selected: 'cloud_over.png' }
+        { image: 'one.png', selected: 'map.png' },
+        { image: 'one.png', selected: 'map.png' },
+        { image: 'map.png', selected: 'map_select.png' },
+        { image: 'info.png', selected: 'info_select.png' }
     ]
 });

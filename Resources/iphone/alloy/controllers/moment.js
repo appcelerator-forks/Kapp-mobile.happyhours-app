@@ -23,18 +23,18 @@ function Controller() {
     }
     var $ = this;
     var exports = {};
-    $.__views.win1 = Ti.UI.createWindow({
-        id: "win1",
-        title: "Tab 1",
-        tabBarHidden: "true"
+    $.__views.moment = Ti.UI.createWindow({
+        title: "Happy Hours",
+        tabBarHidden: "true",
+        id: "moment"
     });
-    $.__views.win1 && $.addTopLevelView($.__views.win1);
+    $.__views.moment && $.addTopLevelView($.__views.moment);
     $.__views.label1 = Ti.UI.createLabel({
         text: "Moment",
         id: "label1",
         color: "#999"
     });
-    $.__views.win1.add($.__views.label1);
+    $.__views.moment.add($.__views.label1);
     exports.destroy = function() {};
     _.extend($, $.__views);
     _.extend($, exports);

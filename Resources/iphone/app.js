@@ -4,7 +4,7 @@ Alloy.Globals.CustomTabBar = function(settings) {
     var tabBarItems = [];
     var tabCurrent = 0;
     var resetTabs = function() {
-        for (var i = 0; i < tabBarItems.length; i++) tabBarItems[i].image = tabBarItems[i].backgroundImage;
+        for (var i = 0; i < tabBarItems.length; i++) tabBarItems[i].image = settings.imagePath + settings.items[i].image;
     };
     var assignClick = function(tabItem) {
         tabItem.addEventListener("click", function(e) {
