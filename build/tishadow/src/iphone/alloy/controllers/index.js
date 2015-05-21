@@ -8,7 +8,7 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
-    require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
+    __p.require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "index";
     if (arguments[0]) {
         {
@@ -43,46 +43,28 @@ function Controller() {
         }),
         id: "tab2"
     });
-<<<<<<< HEAD
-    __alloyId0.push($.__views.tab2);
-    $.__views.__alloyId3 = Alloy.createController("map", {
-        id: "__alloyId3"
-    });
-    $.__views.tab3 = Ti.UI.createTab({
-        window: $.__views.__alloyId3.getViewEx({
-=======
     __alloyId12.push($.__views.tab2);
     $.__views.__alloyId17 = Alloy.createController("map", {
         id: "__alloyId17"
     });
     $.__views.tab3 = Ti.UI.createTab({
         window: $.__views.__alloyId17.getViewEx({
->>>>>>> 5ce733cb51add91acb4a41fd9c003a883210269b
             recurse: true
         }),
         id: "tab3"
     });
-<<<<<<< HEAD
-    __alloyId0.push($.__views.tab3);
-    $.__views.__alloyId5 = Alloy.createController("info", {
-        id: "__alloyId5"
-    });
-    $.__views.tab4 = Ti.UI.createTab({
-        window: $.__views.__alloyId5.getViewEx({
-=======
     __alloyId12.push($.__views.tab3);
     $.__views.__alloyId18 = Alloy.createController("info", {
         id: "__alloyId18"
     });
     $.__views.tab4 = Ti.UI.createTab({
         window: $.__views.__alloyId18.getViewEx({
->>>>>>> 5ce733cb51add91acb4a41fd9c003a883210269b
             recurse: true
         }),
         id: "tab4"
     });
     __alloyId12.push($.__views.tab4);
-    $.__views.tabgroup = Ti.UI.createTabGroup({
+    $.__views.tabgroup = __ui.createTabGroup({
         tabs: __alloyId12,
         id: "tabgroup",
         backgroundColor: "white"
@@ -93,27 +75,27 @@ function Controller() {
     $.tabgroup.open();
     new Alloy.Globals.CustomTabBar({
         tabBar: $.tabgroup,
-        imagePath: "/tabbar/",
+        imagePath: "iphone/images/",
         width: 80,
         height: 40,
         items: [ {
-            image: "one.png",
-            selected: "map.png"
+            image: __p.file("home.png"),
+            selected: "home_over.png"
         }, {
-            image: "one.png",
-            selected: "map.png"
+            image: __p.file("cloud.png"),
+            selected: "cloud_over.png"
         }, {
-            image: "map.png",
-            selected: "map_select.png"
+            image: __p.file("home.png"),
+            selected: "home_over.png"
         }, {
-            image: "info.png",
-            selected: "info_select.png"
+            image: __p.file("cloud.png"),
+            selected: "cloud_over.png"
         } ]
     });
     alert(Alloy.Globals.json);
     _.extend($, exports);
 }
 
-var Alloy = require("alloy"), Backbone = Alloy.Backbone, _ = Alloy._;
+var Alloy = __p.require("alloy"), Backbone = Alloy.Backbone, _ = Alloy._;
 
 module.exports = Controller;

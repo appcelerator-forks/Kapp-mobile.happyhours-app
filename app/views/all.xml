@@ -1,0 +1,11 @@
+<Alloy>
+	<Collection src="etablishment" />
+	<Window title="Établissement" tabBarHidden="true">
+      <ScrollView layout="vertical" width="100%" dataCollection="etablishment">
+            <View width="100%" height="30%" idPartner="{id}" titlePartner="{name}">
+                <Label text="{name}" class="title" />
+            </View>
+             <View backgroundColor="black" width="100%" height="1px"></View>
+        </ScrollView>
+    </Window>
+</Alloy>

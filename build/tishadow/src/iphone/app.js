@@ -1,4 +1,4 @@
-var Alloy = require("alloy"), _ = Alloy._, Backbone = Alloy.Backbone;
+var Alloy = __p.require("alloy"), _ = Alloy._, Backbone = Alloy.Backbone;
 
 Alloy.Globals.json = "";
 
@@ -6,7 +6,7 @@ Alloy.Globals.CustomTabBar = function(settings) {
     var tabBarItems = [];
     var tabCurrent = 0;
     var resetTabs = function() {
-        for (var i = 0; i < tabBarItems.length; i++) tabBarItems[i].image = settings.imagePath + settings.items[i].image;
+        for (var i = 0; i < tabBarItems.length; i++) tabBarItems[i].image = __p.file(tabBarItems[i].backgroundImage);
     };
     var assignClick = function(tabItem) {
         tabItem.addEventListener("click", function(e) {
@@ -15,16 +15,16 @@ Alloy.Globals.CustomTabBar = function(settings) {
             settings.tabBar.tabs[pos].active = true;
             tabCurrent = pos;
             resetTabs();
-            tabBarItems[pos].image = settings.imagePath + settings.items[pos].selected;
+            tabBarItems[pos].image = __p.file(settings.imagePath + settings.items[pos].selected);
         });
     };
-    var customTabBar = Ti.UI.createWindow({
+    var customTabBar = __ui.createWindow({
         height: settings.height,
         bottom: 0
     });
     for (var i = 0; i < settings.items.length; i++) {
         tabBarItems[i] = Titanium.UI.createImageView({
-            backgroundImage: settings.imagePath + settings.items[i].image,
+            backgroundImage: __p.file(settings.imagePath + settings.items[i].image),
             width: settings.width,
             height: settings.height,
             left: settings.width * i
@@ -35,7 +35,7 @@ Alloy.Globals.CustomTabBar = function(settings) {
     }
     customTabBar.open();
     resetTabs();
-    tabBarItems[0].image = settings.imagePath + settings.items[0].selected;
+    tabBarItems[0].image = __p.file(settings.imagePath + settings.items[0].selected);
     return {
         hide: function() {
             customTabBar.hide();

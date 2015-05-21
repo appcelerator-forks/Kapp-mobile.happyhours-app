@@ -8,3 +8,4 @@ build/android/*
 build.log
 .fastdev.lock
 .settings
+build/*
