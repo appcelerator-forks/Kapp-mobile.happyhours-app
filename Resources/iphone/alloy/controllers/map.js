@@ -29,14 +29,29 @@ function Controller() {
         id: "map"
     });
     $.__views.map && $.addTopLevelView($.__views.map);
-    $.__views.label1 = Ti.UI.createLabel({
-        text: "map",
-        id: "label1",
-        color: "#999"
+    var __alloyId23 = [];
+    $.__views.mapview = require("ti.map").createView({
+        annotations: __alloyId23,
+        id: "mapview",
+        mapType: "NORMAL_TYPE",
+        animate: "true",
+        regionFit: "true"
     });
-    $.__views.map.add($.__views.label1);
+    $.__views.map.add($.__views.mapview);
     exports.destroy = function() {};
     _.extend($, $.__views);
+    var Map = require("ti.map");
+    Map.createView({
+        mapType: Map.NORMAL_TYPE
+    });
+    var latitude = 43.604652;
+    var longitude = 1.4442090000000007;
+    $.mapview.setRegion({
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: .02,
+        longitudeDelta: .02
+    });
     _.extend($, exports);
 }
 

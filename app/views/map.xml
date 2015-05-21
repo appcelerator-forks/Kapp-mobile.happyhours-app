@@ -1,5 +1,6 @@
 <Alloy>
 	<Window tabBarHidden="true" navBarHidden="true">
-       <Label id="label1" color="#999">map</Label>
+    	<Module id="mapview" mapType="NORMAL_TYPE" animate="true" regionFit="true" module="ti.map" method="createView">
+        </Module>
     </Window>
 </Alloy>

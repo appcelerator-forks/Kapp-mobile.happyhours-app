@@ -1,9 +1,9 @@
 var etablishment = Alloy.createCollection('etablishment');
 
  if(!etablishment.count()){
- 	Ti.API.info("INFO etablishment number : ");
- 	Ti.API.info(etablishment.count());
+ 	Ti.API.info("INFO : we have no etablishment data ");
  } else {
+ 	
  	displayAllEtablishment();
  }
 

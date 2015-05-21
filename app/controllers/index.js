@@ -15,19 +15,24 @@ new Alloy.Globals.CustomTabBar({
 
 var etablishment = Alloy.createCollection('etablishment');
 
-if (Alloy.Globals.hasConnection()) {
-    etablishment.deleteAll();
-    getAllDatas();
+etablishment.deleteAll();// for tests
 
-    Ti.API.info("INFO data : ");
-    Ti.API.info(Alloy.Globals.dataEtablishment);
-    Ti.API.info("INFO json : ");
-    Ti.API.info(Alloy.Globals.json);
-} else {
-    Ti.API.info("INFO : sorry,we have no connection with the network");
+if (!etablishment.count()) {
+    if (Alloy.Globals.hasConnection()) {
+
+        getAllEtablishment();
+
+    } else {
+        Ti.API.info("INFO : sorry, we have no connection with the network :(");
+    }
 }
 
-function getAllDatas() {
+/**
+ * get all Etablishment from http://happyhours-app.fr/api/allEtablishment.php
+ *
+ * @return void
+ */
+function getAllEtablishment() {
     var apiUrl = 'http://happyhours-app.fr/api/allEtablishment.php';
 
     var json;
@@ -37,17 +42,18 @@ function getAllDatas() {
 
             json = JSON.parse(this.responseText);
 
-            Alloy.Globals.json = apiUrl;
-
             for (var i = 0; i < json.etablishment.length; i++) {
 
                 var data    = json.etablishment[i];
 
-                Alloy.Globals.dataEtablishment[data.ID] = data;
-
                 var etablishment = Alloy.createModel('etablishment', {
                     id          : data.ID, 
-                    name       : data.name
+                    name        : data.name,
+                    adress      : data.adress,
+                    gps         : data.gps,
+                    yelp_id     : data. yelp_id,
+                    city        : data.city
+
                 }); 
                 etablishment.save();
             }

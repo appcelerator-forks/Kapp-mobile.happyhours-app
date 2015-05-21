@@ -1,0 +1,10 @@
+".name": {
+	top: 		"20%",
+	textAlign: 	"center",
+	color: 		"black"
+}
+".adress": {
+	top: 		"40%",
+	textAlign: 	"center",
+	color: 		"black"
+}

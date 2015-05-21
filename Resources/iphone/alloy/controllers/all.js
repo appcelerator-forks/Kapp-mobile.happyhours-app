@@ -8,10 +8,10 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
-    function __alloyId10(e) {
+    function __alloyId12(e) {
         if (e && e.fromAdapter) return;
-        __alloyId10.opts || {};
-        var models = __alloyId9.models;
+        __alloyId12.opts || {};
+        var models = __alloyId11.models;
         var len = models.length;
         var children = $.__views.partnerscontent.children;
         for (var d = children.length - 1; d >= 0; d--) $.__views.partnerscontent.remove(children[d]);
@@ -20,21 +20,31 @@ function Controller() {
             __alloyId2.__transform = {};
             var __alloyId4 = Ti.UI.createView({
                 width: "100%",
-                height: "30%",
+                height: "20%",
                 idEtablishment: "undefined" != typeof __alloyId2.__transform["id"] ? __alloyId2.__transform["id"] : __alloyId2.get("id"),
                 titleEtablishment: "undefined" != typeof __alloyId2.__transform["name"] ? __alloyId2.__transform["name"] : __alloyId2.get("name")
             });
             $.__views.partnerscontent.add(__alloyId4);
             var __alloyId6 = Ti.UI.createLabel({
+                top: "20%",
+                textAlign: "center",
+                color: "black",
                 text: "undefined" != typeof __alloyId2.__transform["name"] ? __alloyId2.__transform["name"] : __alloyId2.get("name")
             });
             __alloyId4.add(__alloyId6);
-            var __alloyId8 = Ti.UI.createView({
+            var __alloyId8 = Ti.UI.createLabel({
+                top: "40%",
+                textAlign: "center",
+                color: "black",
+                text: "undefined" != typeof __alloyId2.__transform["adress"] ? __alloyId2.__transform["adress"] : __alloyId2.get("adress")
+            });
+            __alloyId4.add(__alloyId8);
+            var __alloyId10 = Ti.UI.createView({
                 backgroundColor: "black",
                 width: "100%",
                 height: "1px"
             });
-            $.__views.partnerscontent.add(__alloyId8);
+            $.__views.partnerscontent.add(__alloyId10);
         }
     }
     function displayAllEtablishment() {
@@ -68,17 +78,14 @@ function Controller() {
         id: "partnerscontent"
     });
     $.__views.all.add($.__views.partnerscontent);
-    var __alloyId9 = Alloy.Collections["etablishment"] || etablishment;
-    __alloyId9.on("fetch destroy change add remove reset", __alloyId10);
+    var __alloyId11 = Alloy.Collections["etablishment"] || etablishment;
+    __alloyId11.on("fetch destroy change add remove reset", __alloyId12);
     exports.destroy = function() {
-        __alloyId9.off("fetch destroy change add remove reset", __alloyId10);
+        __alloyId11.off("fetch destroy change add remove reset", __alloyId12);
     };
     _.extend($, $.__views);
     var etablishment = Alloy.createCollection("etablishment");
-    if (etablishment.count()) displayAllEtablishment(); else {
-        Ti.API.info("INFO etablishment number : ");
-        Ti.API.info(etablishment.count());
-    }
+    etablishment.count() ? displayAllEtablishment() : Ti.API.info("INFO : we have no etablishment data ");
     _.extend($, exports);
 }
 
