@@ -33,7 +33,7 @@ function Controller() {
             });
             __alloyId4.add(__alloyId6);
             var __alloyId8 = Ti.UI.createLabel({
-                top: "40%",
+                top: "50%",
                 textAlign: "center",
                 color: "black",
                 text: "undefined" != typeof __alloyId2.__transform["adress"] ? __alloyId2.__transform["adress"] : __alloyId2.get("adress")
@@ -47,11 +47,9 @@ function Controller() {
             $.__views.partnerscontent.add(__alloyId10);
         }
     }
-    function displayAllEtablishment() {
-        Alloy.Collections.etablishment.fetch();
-    }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "all";
+    this.args = arguments[0] || {};
     if (arguments[0]) {
         {
             __processArg(arguments[0], "__parentSymbol");
@@ -67,9 +65,9 @@ function Controller() {
     var exports = {};
     Alloy.Collections.instance("etablishment");
     $.__views.all = Ti.UI.createWindow({
+        id: "all",
         tabBarHidden: "true",
-        title: "Établissements",
-        id: "all"
+        title: "Établissements"
     });
     $.__views.all && $.addTopLevelView($.__views.all);
     $.__views.partnerscontent = Ti.UI.createScrollView({
@@ -84,8 +82,7 @@ function Controller() {
         __alloyId11.off("fetch destroy change add remove reset", __alloyId12);
     };
     _.extend($, $.__views);
-    var etablishment = Alloy.createCollection("etablishment");
-    etablishment.count() ? displayAllEtablishment() : Ti.API.info("INFO : we have no etablishment data ");
+    Alloy.Collections.etablishment.fetch();
     _.extend($, exports);
 }
 

@@ -1,0 +1,10 @@
+".name": {
+	top: 		"10%",
+	textAlign: 	"center",
+	color: 		"black"
+}
+".happy" : {
+	top: 		"50%",
+	textAlign: 	"center",
+	color: 		"black"
+}

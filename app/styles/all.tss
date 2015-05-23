@@ -4,7 +4,7 @@
 	color: 		"black"
 }
 ".adress": {
-	top: 		"40%",
+	top: 		"50%",
 	textAlign: 	"center",
 	color: 		"black"
 }

@@ -1,4 +1,4 @@
-Alloy.Globals.json="";
+Alloy.Globals.json=100;
 Alloy.Globals.dataEtablishment  =  {};
 
 Alloy.Globals.CustomTabBar = function(settings) {

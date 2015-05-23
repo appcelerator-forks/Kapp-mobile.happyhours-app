@@ -1,6 +1,6 @@
 <Alloy>
 	<Collection src="etablishment" />
-	<Window tabBarHidden="true" title="Établissements">
+	<Window id="all" tabBarHidden="true" title="Établissements">
        <ScrollView layout="vertical" width="100%" id="partnerscontent" dataCollection="etablishment">
 			<View width="100%" height="20%" idEtablishment="{id}" titleEtablishment="{name}">
 				<Label text="{name}" class="name" />

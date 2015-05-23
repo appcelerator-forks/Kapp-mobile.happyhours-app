@@ -10,6 +10,7 @@ function __processArg(obj, key) {
 function Controller() {
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "map";
+    this.args = arguments[0] || {};
     if (arguments[0]) {
         {
             __processArg(arguments[0], "__parentSymbol");
@@ -29,9 +30,9 @@ function Controller() {
         id: "map"
     });
     $.__views.map && $.addTopLevelView($.__views.map);
-    var __alloyId23 = [];
-    $.__views.mapview = require("ti.map").createView({
-        annotations: __alloyId23,
+    var __alloyId22 = [];
+    $.__views.mapview = (require("ti.map").createView || Ti.UI.createView)({
+        annotations: __alloyId22,
         id: "mapview",
         mapType: "NORMAL_TYPE",
         animate: "true",
