@@ -25,9 +25,8 @@ if (!etablishment.count()) {
        getAllEtablishment();
        getAllHappyHours();
 
-        Ti.API.info("on recupere tout");
     } else {
-        Ti.API.info("INFO : sorry, we have no connection with the network ");
+        alert("INFO : sorry, we have no connection with the network ");
     }
 }
 
@@ -45,7 +44,7 @@ function getAllEtablishment() {
         onload: function(e) {
 
             json = JSON.parse(this.responseText);
-            Ti.API.info(json);
+
             var d   = new Date();
             var day = d.getDay() == 0 ? 7 : d.getDay();
            

@@ -14,7 +14,6 @@ function Controller() {
         var xhr = Ti.Network.createHTTPClient({
             onload: function() {
                 json = JSON.parse(this.responseText);
-                Ti.API.info(json);
                 var d = new Date();
                 var day = 0 == d.getDay() ? 7 : d.getDay();
                 var havehappy;
@@ -157,8 +156,7 @@ function Controller() {
     if (!etablishment.count()) if (Alloy.Globals.hasConnection()) {
         getAllEtablishment();
         getAllHappyHours();
-        Ti.API.info("on recupere tout");
-    } else Ti.API.info("INFO : sorry, we have no connection with the network ");
+    } else alert("INFO : sorry, we have no connection with the network ");
     _.extend($, exports);
 }
 

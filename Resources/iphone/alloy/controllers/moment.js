@@ -62,7 +62,7 @@ function Controller() {
         var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " + transform.id);
         var hour = happyhourData.fieldByName("hours");
         db.close();
-        var pos = hour.lastIndexOf("/");
+        var pos = hour.indexOf("/");
         var begin = hour.substr(0, pos);
         var end = hour.substr(pos + 1, hour.length);
         var heure = begin.substr(0, 2);
@@ -109,18 +109,6 @@ function Controller() {
         __alloyId33.off("fetch destroy change add remove reset", __alloyId34);
     };
     _.extend($, $.__views);
-    Alloy.Collections.etablishment.fetch();
-    var childrens = $.happyhourcontents.children;
-    var idEtablishment;
-    var hour;
-    var db = Ti.Database.open("happyhourdb");
-    for (var i = 0; i < childrens.length; i++) {
-        if (!childrens[i].idEtablishment) continue;
-        idEtablishment = childrens[i].idEtablishment;
-        var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " + idEtablishment);
-        hour = happyhourData.fieldByName("hours");
-    }
-    db.close();
     _.extend($, exports);
 }
 
