@@ -14,21 +14,24 @@ function Controller() {
         var xhr = Ti.Network.createHTTPClient({
             onload: function() {
                 json = JSON.parse(this.responseText);
+                Ti.API.info(json);
                 var d = new Date();
                 var day = 0 == d.getDay() ? 7 : d.getDay();
+                var havehappy;
+                var data;
+                var etablishment;
                 for (var i = 0; i < json.etablishment.length; i++) {
-                    var data = json.etablishment[i];
+                    data = json.etablishment[i];
                     havehappy = false;
                     data.dayHappy.indexOf(day) > 0 && (havehappy = "true");
-                    var etablishment = Alloy.createModel("etablishment", {
+                    etablishment = Alloy.createModel("etablishment", {
                         id: data.ID,
                         name: data.name,
                         adress: data.adress,
                         gps: data.gps,
                         yelp_id: data.yelp_id,
                         city: data.city,
-                        haveHappy: havehappy,
-                        caption: data.caption
+                        haveHappy: havehappy
                     });
                     etablishment.save();
                     Alloy.Collections.etablishment.fetch();

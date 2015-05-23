@@ -56,9 +56,6 @@ function Controller() {
         date = new Date();
         h = date.getHours();
         m = date.getMinutes();
-        Ti.API.info(m);
-        var heure;
-        var minute;
         var now = "";
         var db = Ti.Database.open("happyhourdb");
         var transform = model.toJSON();
@@ -67,14 +64,12 @@ function Controller() {
         db.close();
         var pos = hour.lastIndexOf("/");
         var begin = hour.substr(0, pos);
-        if (3 == begin.length) {
-            heure = hour.substr(0, 2);
-            now = heure == h ? "maintenant !" : heure == h + 1 ? m > 30 ? "dans 30min" : "dans 1h" : "dans longtemps";
-        } else {
-            heure = hour.substr(0, 2);
-            minute = hour.substr(3, 2);
-            now = heure == h && m >= minute ? "maintenant" : heure == h && minute >= m ? "dans 30min" : heure == h + 1 ? minutes > m ? "dans longtemps" : "dans 1h" : "dans longtemps";
-        }
+        var end = hour.substr(pos + 1, hour.length);
+        var heure = begin.substr(0, 2);
+        if (3 == begin.length) var minute = 0; else var minute = begin.substr(3, 2);
+        var heureEnd = end.substr(0, 2);
+        if (3 == end.length) var minuteEnd = 0; else var minuteEnd = end.substr(3, 2);
+        now = (heure == h && m >= minute || h > heure) && (heureEnd > h || heureEnd == h && minuteEnd >= m) ? "En ce moment" : heure == h && 30 >= minute - m && minute - m > 0 ? "Dans 30 min" : heure == h + 1 && 60 > m - minute && m - minute >= 30 ? "Dans 30 min" : heure == h + 1 && m - minute >= 0 && 30 >= m - minute ? "Dans 1h" : heure > h ? "un peu de patience" : "Trop tard";
         transform.test = now;
         return transform;
     }
