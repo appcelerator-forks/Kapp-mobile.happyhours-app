@@ -57,20 +57,23 @@ function Controller() {
         h = date.getHours();
         m = date.getMinutes();
         var now = "";
-        var db = Ti.Database.open("happyhourdb");
-        var transform = model.toJSON();
-        var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " + transform.id);
-        var hour = happyhourData.fieldByName("hours");
-        db.close();
-        var pos = hour.indexOf("/");
-        var begin = hour.substr(0, pos);
-        var end = hour.substr(pos + 1, hour.length);
-        var heure = begin.substr(0, 2);
-        if (3 == begin.length) var minute = 0; else var minute = begin.substr(3, 2);
-        var heureEnd = end.substr(0, 2);
-        if (3 == end.length) var minuteEnd = 0; else var minuteEnd = end.substr(3, 2);
-        now = (heure == h && m >= minute || h > heure) && (heureEnd > h || heureEnd == h && minuteEnd >= m) ? "En ce moment" : heure == h && 30 >= minute - m && minute - m > 0 ? "Dans 30 min" : heure == h + 1 && 60 > m - minute && m - minute >= 30 ? "Dans 30 min" : heure == h + 1 && m - minute >= 0 && 30 >= m - minute ? "Dans 1h" : heure > h ? "un peu de patience" : "Trop tard";
-        transform.test = now;
+        var happyhour = Alloy.createCollection("happyhour");
+        if (happyhour.count()) {
+            var db = Ti.Database.open("happyhourdb");
+            var transform = model.toJSON();
+            var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " + transform.id);
+            var hour = happyhourData.fieldByName("hours");
+            db.close();
+            var pos = hour.indexOf("/");
+            var begin = hour.substr(0, pos);
+            var end = hour.substr(pos + 1, hour.length);
+            var heure = begin.substr(0, 2);
+            if (3 == begin.length) var minute = 0; else var minute = begin.substr(3, 2);
+            var heureEnd = end.substr(0, 2);
+            if (3 == end.length) var minuteEnd = 0; else var minuteEnd = end.substr(3, 2);
+            now = (heure == h && m >= minute || h > heure) && (heureEnd > h || heureEnd == h && minuteEnd >= m) ? "En ce moment" : heure == h && 30 >= minute - m && minute - m > 0 ? "Dans 30 min" : heure == h + 1 && 60 > m - minute && m - minute >= 30 ? "Dans 30 min" : heure == h + 1 && m - minute >= 0 && 30 >= m - minute ? "Dans 1h" : heure > h ? "un peu de patience" : "Trop tard";
+            transform.test = now;
+        }
         return transform;
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));

@@ -12,13 +12,17 @@ function test(model)
 
 	var now ="";
 
-	var db = Ti.Database.open('happyhourdb');
+	var happyhour = Alloy.createCollection('happyhour');
 
-	var transform = model.toJSON();
-	
-	var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " +  transform.id);
-	var hour = happyhourData.fieldByName('hours');
-	db.close();
+	if (happyhour.count()) {
+
+		var db = Ti.Database.open('happyhourdb');
+
+		var transform = model.toJSON();
+		
+		var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " +  transform.id);
+		var hour = happyhourData.fieldByName('hours');
+		db.close();
 
 		var pos = hour.indexOf('/');
 
@@ -55,6 +59,9 @@ function test(model)
 		}
 	
 		transform.test = now;
+
+	};
+	
 	
 
 	return transform;
