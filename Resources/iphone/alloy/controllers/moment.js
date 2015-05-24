@@ -58,9 +58,9 @@ function Controller() {
         m = date.getMinutes();
         var now = "";
         var happyhour = Alloy.createCollection("happyhour");
-        if (happyhour.count()) {
-            var db = Ti.Database.open("happyhourdb");
-            var transform = model.toJSON();
+        var db = Ti.Database.open("happyhourdb");
+        var transform = model.toJSON();
+        if (happyhour.count() && transform.id) {
             var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " + transform.id);
             var hour = happyhourData.fieldByName("hours");
             db.close();

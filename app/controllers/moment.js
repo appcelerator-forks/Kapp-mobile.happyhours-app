@@ -14,11 +14,11 @@ function test(model)
 
 	var happyhour = Alloy.createCollection('happyhour');
 
-	if (happyhour.count()) {
+	var db = Ti.Database.open('happyhourdb');
 
-		var db = Ti.Database.open('happyhourdb');
-
-		var transform = model.toJSON();
+	var transform = model.toJSON();
+		
+	if (happyhour.count() && transform.id) {
 		
 		var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " +  transform.id);
 		var hour = happyhourData.fieldByName('hours');
