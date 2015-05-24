@@ -82,7 +82,6 @@ function Controller() {
         __alloyId11.off("fetch destroy change add remove reset", __alloyId12);
     };
     _.extend($, $.__views);
-    Alloy.Collections.etablishment.fetch();
     _.extend($, exports);
 }
 

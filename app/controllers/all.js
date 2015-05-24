@@ -1,1 +1,0 @@
-Alloy.Collections.etablishment.fetch();

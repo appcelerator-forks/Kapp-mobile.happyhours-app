@@ -60,7 +60,9 @@ function test(model)
 	
 		transform.test = now;
 
-	};
+	} else {
+
+	}
 	
 	
 

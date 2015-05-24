@@ -13,21 +13,61 @@ new Alloy.Globals.CustomTabBar({
     ]
 });
 
+
 var etablishment = Alloy.createCollection('etablishment');
 var happyhour = Alloy.createCollection('happyhour');
 
-etablishment.deleteAll();// for tests
-happyhour.deleteAll();// for tests
+//etablishment.deleteAll();// for tests
+//happyhour.deleteAll();// for tests
 
 if (!etablishment.count()) {
     if (Alloy.Globals.hasConnection()) {
 
-       getAllEtablishment();
-       getAllHappyHours();
+        getAllHappyHours();
+        getAllEtablishment();
 
     } else {
         alert("INFO : sorry, we have no connection with the network ");
     }
+} else {
+    Alloy.Collections.etablishment.fetch();
+}
+
+
+function getAllHappyHours() {
+    var apiUrl = 'http://happyhours-app.fr/api/allHappyHours.php';
+
+    var json;
+    var xhr = Ti.Network.createHTTPClient({
+        
+        onload: function(e) {
+
+            json = JSON.parse(this.responseText);
+
+            for (var i = 0; i < json.happyhour.length; i++) {
+
+                var data    = json.happyhour[i];
+
+                var happyhour = Alloy.createModel('happyhour', {
+                    id              : data.ID, 
+                    id_etablishment : data.id_etablishment,
+                    day             : data.day,
+                    text            : data.text,
+                    hours           : data. hours
+
+                }); 
+                happyhour.save();
+            }
+
+        },
+
+        onerror: function(e) {
+
+        }
+    });
+
+    xhr.open("GET", apiUrl);
+    xhr.send();
 }
 
 /**
@@ -73,44 +113,9 @@ function getAllEtablishment() {
 
                 etablishment.save();
 
-                Alloy.Collections.etablishment.fetch();
             }
 
-        },
-
-        onerror: function(e) {
-
-        }
-    });
-
-    xhr.open("GET", apiUrl);
-    xhr.send();
-}
-
-function getAllHappyHours() {
-    var apiUrl = 'http://happyhours-app.fr/api/allHappyHours.php';
-
-    var json;
-    var xhr = Ti.Network.createHTTPClient({
-        
-        onload: function(e) {
-
-            json = JSON.parse(this.responseText);
-
-            for (var i = 0; i < json.happyhour.length; i++) {
-
-                var data    = json.happyhour[i];
-
-                var happyhour = Alloy.createModel('happyhour', {
-                    id              : data.ID, 
-                    id_etablishment : data.id_etablishment,
-                    day             : data.day,
-                    text            : data.text,
-                    hours           : data. hours
-
-                }); 
-                happyhour.save();
-            }
+            Alloy.Collections.etablishment.fetch();
 
         },
 

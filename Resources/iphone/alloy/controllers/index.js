@@ -8,6 +8,29 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
+    function getAllHappyHours() {
+        var apiUrl = "http://happyhours-app.fr/api/allHappyHours.php";
+        var json;
+        var xhr = Ti.Network.createHTTPClient({
+            onload: function() {
+                json = JSON.parse(this.responseText);
+                for (var i = 0; i < json.happyhour.length; i++) {
+                    var data = json.happyhour[i];
+                    var happyhour = Alloy.createModel("happyhour", {
+                        id: data.ID,
+                        id_etablishment: data.id_etablishment,
+                        day: data.day,
+                        text: data.text,
+                        hours: data.hours
+                    });
+                    happyhour.save();
+                }
+            },
+            onerror: function() {}
+        });
+        xhr.open("GET", apiUrl);
+        xhr.send();
+    }
     function getAllEtablishment() {
         var apiUrl = "http://happyhours-app.fr/api/allEtablishment.php";
         var json;
@@ -33,31 +56,8 @@ function Controller() {
                         haveHappy: havehappy
                     });
                     etablishment.save();
-                    Alloy.Collections.etablishment.fetch();
                 }
-            },
-            onerror: function() {}
-        });
-        xhr.open("GET", apiUrl);
-        xhr.send();
-    }
-    function getAllHappyHours() {
-        var apiUrl = "http://happyhours-app.fr/api/allHappyHours.php";
-        var json;
-        var xhr = Ti.Network.createHTTPClient({
-            onload: function() {
-                json = JSON.parse(this.responseText);
-                for (var i = 0; i < json.happyhour.length; i++) {
-                    var data = json.happyhour[i];
-                    var happyhour = Alloy.createModel("happyhour", {
-                        id: data.ID,
-                        id_etablishment: data.id_etablishment,
-                        day: data.day,
-                        text: data.text,
-                        hours: data.hours
-                    });
-                    happyhour.save();
-                }
+                Alloy.Collections.etablishment.fetch();
             },
             onerror: function() {}
         });
@@ -150,12 +150,10 @@ function Controller() {
         } ]
     });
     var etablishment = Alloy.createCollection("etablishment");
-    var happyhour = Alloy.createCollection("happyhour");
-    etablishment.deleteAll();
-    happyhour.deleteAll();
-    if (!etablishment.count()) if (Alloy.Globals.hasConnection()) {
-        getAllEtablishment();
+    Alloy.createCollection("happyhour");
+    if (etablishment.count()) Alloy.Collections.etablishment.fetch(); else if (Alloy.Globals.hasConnection()) {
         getAllHappyHours();
+        getAllEtablishment();
     } else alert("INFO : sorry, we have no connection with the network ");
     _.extend($, exports);
 }
