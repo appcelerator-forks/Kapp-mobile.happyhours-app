@@ -17,21 +17,21 @@ new Alloy.Globals.CustomTabBar({
 var etablishment = Alloy.createCollection('etablishment');
 var happyhour = Alloy.createCollection('happyhour');
 
-etablishment.deleteAll();// for tests
-happyhour.deleteAll();// for tests
-
 if (!etablishment.count()) {
     if (Alloy.Globals.hasConnection()) {
+        
+        etablishment.deleteAll();// for tests
+        happyhour.deleteAll();// for tests
 
         getAllHappyHours();
 
         getAllEtablishment();
 
     } else {
-        alert("INFO : sorry, we have no connection with the network");
+        alert("INFO : sorry, we have no connection with the network ");
+        Alloy.Collections.etablishment.fetch();
     }
 } else {
-
     Alloy.Collections.etablishment.fetch();
 }
 

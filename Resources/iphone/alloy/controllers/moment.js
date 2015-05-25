@@ -54,6 +54,14 @@ function Controller() {
         });
     }
     function test2() {
+        var etablishment = Alloy.createCollection("etablishment");
+        var happyhour = Alloy.createCollection("happyhour");
+        if (Alloy.Globals.hasConnection()) {
+            etablishment.deleteAll();
+            happyhour.deleteAll();
+            getAllHappyHours();
+            getAllEtablishment();
+        } else alert("INFO : sorry, we have no connection with the network ");
         Alloy.Collections.etablishment.fetch();
     }
     function test(model) {
@@ -61,25 +69,39 @@ function Controller() {
         h = date.getHours() - 6;
         m = date.getMinutes();
         0 > h && (h += 24);
+        var hourLast = 100;
+        var minuteLast = 100;
+        var hourEndLast = -1;
+        var minuteEndLast = -1;
         var now = "";
         var happyhour = Alloy.createCollection("happyhour");
         var db = Ti.Database.open("happyhourdb");
         var transform = model.toJSON();
-        Alloy.Globals.json = model;
         if (happyhour.count() && transform.id) {
             var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " + transform.id);
-            var hour = happyhourData.fieldByName("hours");
-            var pos = hour.indexOf("/");
-            var begin = hour.substr(0, pos);
-            var end = hour.substr(pos + 1, hour.length);
-            var heure = begin.substr(0, 2);
-            var heure = heure - 6;
-            if (3 == begin.length) var minute = 0; else var minute = begin.substr(3, 2);
-            var heureEnd = end.substr(0, 2);
-            var heureEnd = heureEnd - 6;
-            if (3 == end.length) var minuteEnd = 0; else var minuteEnd = end.substr(3, 2);
-            now = (heure == h && m >= minute || h > heure) && (heureEnd > h || heureEnd == h && minuteEnd >= m) ? "En ce moment" : heure == h && 30 >= minute - m && minute - m > 0 ? "Dans 30 min 1" : heure == h + 1 && 60 > m - minute && m - minute >= 30 ? "Dans 30 min 1" : heure == h + 1 && m - minute >= 0 && 30 >= m - minute ? "Dans 1h 1" : heure > h ? "un peu de patience" : "Trop tard";
+            while (happyhourData.isValidRow()) {
+                var hour = happyhourData.fieldByName("hours");
+                var pos = hour.indexOf("/");
+                var begin = hour.substr(0, pos);
+                var end = hour.substr(pos + 1, hour.length);
+                var heure = begin.substr(0, 2);
+                6 > heure && (heure += 18);
+                var heure = heure - 6;
+                if (3 == begin.length) var minute = 0; else var minute = begin.substr(3, 2);
+                var posH = end.lastIndexOf("H");
+                var heureEnd = end.substr(0, posH);
+                6 > heureEnd && (heureEnd = 18);
+                var heureEnd = heureEnd - 6;
+                if (3 == end.length) var minuteEnd = 0; else var minuteEnd = end.substr(3, 2);
+                hourLast > heure && (hourLast = heure);
+                minuteLast > minute && (minuteLast = minute);
+                heureEnd > hourEndLast && (hourEndLast = heureEnd);
+                minuteEnd > minuteEndLast && (minuteEndLast = minuteEnd);
+                happyhourData.next();
+            }
+            now = (hourLast == h && m >= minuteLast || h > hourLast) && (hourEndLast > h || hourEndLast == h && minuteEndLast >= m) ? "En ce moment " : hourLast == h && 30 >= minuteLast - m && minuteLast - m > 0 ? "Dans 30 min" : hourLast == h + 1 && 60 > m - minuteLast && m - minuteLast >= 30 ? "Dans 30 min" : hourLast == h + 1 && m - minuteLast >= 0 && 30 >= m - minuteLast ? "Dans 1h" : hourLast > h ? "un peu de patience " : "Trop tard ";
             transform.now = now;
+            happyhourData.close();
         }
         return transform;
     }
@@ -89,6 +111,64 @@ function Controller() {
             etablishmentTitle: this.titleEtablishment
         }).getView();
         etablishmentView.open();
+    }
+    function getAllEtablishment() {
+        var apiUrl = "http://happyhours-app.fr/api/allEtablishment.php";
+        var json;
+        var xhr = Ti.Network.createHTTPClient({
+            onload: function() {
+                json = JSON.parse(this.responseText);
+                var d = new Date();
+                var day = 0 == d.getDay() ? 7 : d.getDay();
+                var havehappy;
+                var data;
+                var etablishment;
+                var now = "not now";
+                for (var i = 0; i < json.etablishment.length; i++) {
+                    data = json.etablishment[i];
+                    havehappy = "false";
+                    data.dayHappy.indexOf(day) >= 0 && (havehappy = "true");
+                    etablishment = Alloy.createModel("etablishment", {
+                        id: data.ID,
+                        name: data.name,
+                        adress: data.adress,
+                        gps: data.gps,
+                        yelp_id: data.yelp_id,
+                        city: data.city,
+                        haveHappy: havehappy,
+                        now: now
+                    });
+                    etablishment.save();
+                }
+                Alloy.Collections.etablishment.fetch();
+            },
+            onerror: function() {}
+        });
+        xhr.open("GET", apiUrl);
+        xhr.send();
+    }
+    function getAllHappyHours() {
+        var apiUrl = "http://happyhours-app.fr/api/allHappyHours.php";
+        var json;
+        var xhr = Ti.Network.createHTTPClient({
+            onload: function() {
+                json = JSON.parse(this.responseText);
+                for (var i = 0; i < json.happyhour.length; i++) {
+                    var data = json.happyhour[i];
+                    var happyhour = Alloy.createModel("happyhour", {
+                        id: data.ID,
+                        id_etablishment: data.id_etablishment,
+                        day: data.day,
+                        text: data.text,
+                        hours: data.hours
+                    });
+                    happyhour.save();
+                }
+            },
+            onerror: function() {}
+        });
+        xhr.open("GET", apiUrl);
+        xhr.send();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "moment";

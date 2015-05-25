@@ -153,12 +153,15 @@ function Controller() {
     });
     var etablishment = Alloy.createCollection("etablishment");
     var happyhour = Alloy.createCollection("happyhour");
-    etablishment.deleteAll();
-    happyhour.deleteAll();
     if (etablishment.count()) Alloy.Collections.etablishment.fetch(); else if (Alloy.Globals.hasConnection()) {
+        etablishment.deleteAll();
+        happyhour.deleteAll();
         getAllHappyHours();
         getAllEtablishment();
-    } else alert("INFO : sorry, we have no connection with the network");
+    } else {
+        alert("INFO : sorry, we have no connection with the network ");
+        Alloy.Collections.etablishment.fetch();
+    }
     _.extend($, exports);
 }
 

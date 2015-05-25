@@ -168,7 +168,6 @@ function Controller() {
             $.etablishment.left = 320, $.etablishment.close(slideRight);
         }, 300);
     });
-    Ti.API.info(happy);
     controlView.add(btnBack);
     controlView.add(labelTitle);
     adressView.add(labeladress);
