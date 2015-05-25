@@ -130,6 +130,13 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     $.tabgroup.open();
+    $.tabgroup.addEventListener("close", function() {
+        $.tab1.destroy();
+        $.tab2.destroy();
+        $.tab3.destroy();
+        $.tab4.destroy();
+        $.destroy();
+    });
     new Alloy.Globals.CustomTabBar({
         tabBar: $.tabgroup,
         imagePath: "/tabbar/",
@@ -154,7 +161,7 @@ function Controller() {
     if (etablishment.count()) Alloy.Collections.etablishment.fetch(); else if (Alloy.Globals.hasConnection()) {
         getAllHappyHours();
         getAllEtablishment();
-    } else alert("INFO : sorry, we have no connection with the network ");
+    } else alert("INFO : sorry, we have no connection with the network");
     _.extend($, exports);
 }
 

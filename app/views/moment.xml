@@ -1,8 +1,8 @@
 <Alloy>
 	<Collection src="etablishment" />
 	<Window id="moment" title="Happy Hours" tabBarHidden="true">
-       <ScrollView layout="vertical" width="100%" id="happyhourcontents" dataCollection="etablishment" dataFilter="haveHappyFilter" dataTransform="test">
-			<View width="100%" height="20%" idEtablishment="{id}" titleEtablishment="{name}">
+       <ScrollView layout="vertical" width="100%" id="happyhourcontents" dataCollection="etablishment" dataFilter="haveHappyFilter" dataTransform="test" >
+			<View width="100%" height="20%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment">
 				<Label text="{name}" class="name" />
 				<Label text="{test}" class="happy" id="{id}"/>
 			</View>

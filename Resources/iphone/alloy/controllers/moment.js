@@ -25,6 +25,7 @@ function Controller() {
                 titleEtablishment: "undefined" != typeof __alloyId25.__transform["name"] ? __alloyId25.__transform["name"] : __alloyId25.get("name")
             });
             $.__views.happyhourcontents.add(__alloyId27);
+            goEtablishment ? __alloyId27.addEventListener("click", goEtablishment) : __defers["__alloyId27!click!goEtablishment"] = true;
             var __alloyId29 = Ti.UI.createLabel({
                 top: "10%",
                 textAlign: "center",
@@ -53,13 +54,16 @@ function Controller() {
         });
     }
     function test(model) {
+        Ti.API.info("on est dans la fonction datafliter");
         date = new Date();
-        h = date.getHours();
+        h = date.getHours() - 6;
         m = date.getMinutes();
+        0 > h && (h += 24);
         var now = "";
         var happyhour = Alloy.createCollection("happyhour");
         var db = Ti.Database.open("happyhourdb");
         var transform = model.toJSON();
+        Alloy.Globals.json = model;
         if (happyhour.count() && transform.id) {
             var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " + transform.id);
             var hour = happyhourData.fieldByName("hours");
@@ -68,13 +72,28 @@ function Controller() {
             var begin = hour.substr(0, pos);
             var end = hour.substr(pos + 1, hour.length);
             var heure = begin.substr(0, 2);
+            var heure = heure - 6;
             if (3 == begin.length) var minute = 0; else var minute = begin.substr(3, 2);
             var heureEnd = end.substr(0, 2);
+            var heureEnd = heureEnd - 6;
+            Ti.API.info(h + " === " + heure + ":" + minute + " -> " + heureEnd);
             if (3 == end.length) var minuteEnd = 0; else var minuteEnd = end.substr(3, 2);
-            now = (heure == h && m >= minute || h > heure) && (heureEnd > h || heureEnd == h && minuteEnd >= m) ? "En ce moment" : heure == h && 30 >= minute - m && minute - m > 0 ? "Dans 30 min" : heure == h + 1 && 60 > m - minute && m - minute >= 30 ? "Dans 30 min" : heure == h + 1 && m - minute >= 0 && 30 >= m - minute ? "Dans 1h" : heure > h ? "un peu de patience" : "Trop tard";
+            now = (heure == h && m >= minute || h > heure) && (heureEnd > h || heureEnd == h && minuteEnd >= m) ? "En ce moment" : heure == h && 30 >= minute - m && minute - m > 0 ? "Dans 30 min" : heure == h + 1 && 60 > m - minute && m - minute >= 30 ? "Dans 30 min" : heure == h + 1 && m - minute >= 0 && 30 >= m - minute ? "Dans 1h" : heure > h ? "un peu de patience " : "Trop tard ";
             transform.test = now;
         }
         return transform;
+    }
+    function goEtablishment() {
+        var etablishmentView = Alloy.createController("etablishment", {
+            etablishmentId: this.idEtablishment,
+            etablishmentTitle: this.titleEtablishment
+        }).getView();
+        etablishmentView.left = 250;
+        etablishmentView.open();
+        etablishmentView.animate({
+            left: 0,
+            duration: 200
+        }, function() {});
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "moment";
@@ -92,6 +111,7 @@ function Controller() {
     }
     var $ = this;
     var exports = {};
+    var __defers = {};
     Alloy.Collections.instance("etablishment");
     $.__views.moment = Ti.UI.createWindow({
         id: "moment",
@@ -112,6 +132,7 @@ function Controller() {
         __alloyId33.off("fetch destroy change add remove reset", __alloyId34);
     };
     _.extend($, $.__views);
+    __defers["__alloyId27!click!goEtablishment"] && __alloyId27.addEventListener("click", goEtablishment);
     _.extend($, exports);
 }
 

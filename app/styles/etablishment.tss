@@ -1,0 +1,11 @@
+"#etablishment": {
+	//backgroundColor:    "#e3004e",
+	barColor: 			"#e3004e",
+	titleAttributes:  {
+    	color: 			"white",
+    	fontWeight: "bold"
+    },
+    height: "100%",
+    width: "100%",
+    //navTintColor: "white"
+}

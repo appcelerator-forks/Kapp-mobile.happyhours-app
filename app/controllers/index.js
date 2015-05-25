@@ -1,4 +1,11 @@
 $.tabgroup.open();
+$.tabgroup.addEventListener("close", function(){
+    $.tab1.destroy();
+    $.tab2.destroy();
+    $.tab3.destroy();
+    $.tab4.destroy();
+    $.destroy();
+});
 
 new Alloy.Globals.CustomTabBar({
     tabBar: $.tabgroup,
@@ -27,7 +34,7 @@ if (!etablishment.count()) {
         getAllEtablishment();
 
     } else {
-        alert("INFO : sorry, we have no connection with the network ");
+        alert("INFO : sorry, we have no connection with the network");
     }
 } else {
     Alloy.Collections.etablishment.fetch();

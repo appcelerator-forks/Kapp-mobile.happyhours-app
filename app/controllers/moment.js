@@ -6,9 +6,14 @@ function haveHappyFilter(collection) {
 
 function test(model)
 {
+	Ti.API.info("on est dans la fonction datafliter");
+
 	date = new Date;
-	h = date.getHours();
+	h = date.getHours()-6;
 	m = date.getMinutes();
+
+	if(h <0)
+		h = h + 24;
 
 	var now ="";
 
@@ -17,6 +22,7 @@ function test(model)
 	var db = Ti.Database.open('happyhourdb');
 
 	var transform = model.toJSON();
+	Alloy.Globals.json = model;
 		
 	if (happyhour.count() && transform.id) {
 		
@@ -30,6 +36,7 @@ function test(model)
 		var end = hour.substr(pos+1, hour.length);
 	
 		var heure = begin.substr(0, 2);
+		var heure = heure - 6;
 	
 		if (begin.length == 3) {
 		 	var minute = 0;
@@ -38,6 +45,10 @@ function test(model)
 		};
 	
 		var heureEnd = end.substr(0, 2);
+		var heureEnd = heureEnd - 6;
+
+		Ti.API.info(h + " === " + heure + ":" + minute + " -> " + heureEnd);
+
 		if (end.length == 3) {
 		 	var minuteEnd = 0;
 		} else {
@@ -53,9 +64,9 @@ function test(model)
 		} else if (heure == (h + 1) &&  (((m - minute)  >= 0) && ((m - minute)  <= 30))){
 			now = "Dans 1h";
 		} else if (heure>h){
-			now = "un peu de patience";
+			now = "un peu de patience ";
 		} else {
-			now = "Trop tard";
+			now = "Trop tard ";
 		}
 	
 		transform.test = now;
@@ -67,4 +78,23 @@ function test(model)
 	
 
 	return transform;
+}
+
+/////////////////////////////////////////////////////////
+/////// GO TO PARTNER VIEW ////////
+/////////////////////////////////////////////////////////
+
+function goEtablishment(model) {
+
+	var etablishmentView = Alloy.createController('etablishment', {
+		'etablishmentId'	: this.idEtablishment,
+		'etablishmentTitle'	: this.titleEtablishment
+	}).getView();
+	
+	etablishmentView.left = 250;
+	etablishmentView.open();
+	etablishmentView.animate({
+	    left: 0,
+	    duration:200
+	}, function(){});
 }
