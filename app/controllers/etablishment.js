@@ -23,7 +23,7 @@ $.etablishment.left = 250;
 $.etablishment.open();
 $.etablishment.animate({
     left: 0,
-    duration:200
+    duration:600
 }, function(){});
 
 /////////////////////////////////////////////////////////
@@ -45,31 +45,31 @@ var blackView1 = Ti.UI.createView({
 	backgroundColor:'gray',
     height: "0.18%",
     width: "100%",
-    top : "28%"
+    top : "27%"
 });
 var vibesView = Ti.UI.createView({
 	backgroundColor:'white',
     height: "10%",
     width: "100%",
-    top : "28.18%"
+    top : "27.18%"
 });
 var blackView2 = Ti.UI.createView({
 	backgroundColor:'gray',
     height: "0.18%",
     width: "100%",
-    top : "38.18%"
+    top : "37.18%"
 });
 var happyView = Ti.UI.createView({
 	backgroundColor:'white',
     height: "20.70%",
     width: "100%",
-    top : "38.36%"
+    top : "37.36%"
 });
 var Cnull = Ti.UI.createView({
 	backgroundColor:'white',
     height: "42%",
     width: "100%",
-    top : "58%"
+    top : "57%"
 });
 
 /////////////////////////////////////////////////////////

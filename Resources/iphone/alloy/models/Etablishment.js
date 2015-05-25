@@ -9,7 +9,8 @@ exports.definition = {
             gps: "Text",
             yelp_id: "Text",
             city: "Text",
-            haveHappy: "Text"
+            haveHappy: "Text",
+            now: "Text"
         },
         defaults: {
             name: "",
@@ -18,7 +19,8 @@ exports.definition = {
             gps: "",
             yelp_id: 0,
             city: "",
-            haveHappy: ""
+            haveHappy: "",
+            now: ""
         },
         adapter: {
             type: "sql",

@@ -8,10 +8,10 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
-    function __alloyId34(e) {
+    function __alloyId35(e) {
         if (e && e.fromAdapter) return;
-        __alloyId34.opts || {};
-        var models = haveHappyFilter(__alloyId33);
+        __alloyId35.opts || {};
+        var models = haveHappyFilter(__alloyId34);
         var len = models.length;
         var children = $.__views.happyhourcontents.children;
         for (var d = children.length - 1; d >= 0; d--) $.__views.happyhourcontents.remove(children[d]);
@@ -33,19 +33,19 @@ function Controller() {
                 text: "undefined" != typeof __alloyId25.__transform["name"] ? __alloyId25.__transform["name"] : __alloyId25.get("name")
             });
             __alloyId27.add(__alloyId29);
-            var __alloyId30 = Ti.UI.createLabel({
+            var __alloyId31 = Ti.UI.createLabel({
                 top: "50%",
                 textAlign: "center",
                 color: "black",
-                text: "undefined" != typeof __alloyId25.__transform["test"] ? __alloyId25.__transform["test"] : __alloyId25.get("test")
+                text: "undefined" != typeof __alloyId25.__transform["now"] ? __alloyId25.__transform["now"] : __alloyId25.get("now")
             });
-            __alloyId27.add(__alloyId30);
-            var __alloyId32 = Ti.UI.createView({
+            __alloyId27.add(__alloyId31);
+            var __alloyId33 = Ti.UI.createView({
                 backgroundColor: "black",
                 width: "100%",
                 height: "1px"
             });
-            $.__views.happyhourcontents.add(__alloyId32);
+            $.__views.happyhourcontents.add(__alloyId33);
         }
     }
     function haveHappyFilter(collection) {
@@ -53,8 +53,10 @@ function Controller() {
             haveHappy: "true"
         });
     }
+    function test2() {
+        Alloy.Collections.etablishment.fetch();
+    }
     function test(model) {
-        Ti.API.info("on est dans la fonction datafliter");
         date = new Date();
         h = date.getHours() - 6;
         m = date.getMinutes();
@@ -67,7 +69,6 @@ function Controller() {
         if (happyhour.count() && transform.id) {
             var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " + transform.id);
             var hour = happyhourData.fieldByName("hours");
-            db.close();
             var pos = hour.indexOf("/");
             var begin = hour.substr(0, pos);
             var end = hour.substr(pos + 1, hour.length);
@@ -76,10 +77,9 @@ function Controller() {
             if (3 == begin.length) var minute = 0; else var minute = begin.substr(3, 2);
             var heureEnd = end.substr(0, 2);
             var heureEnd = heureEnd - 6;
-            Ti.API.info(h + " === " + heure + ":" + minute + " -> " + heureEnd);
             if (3 == end.length) var minuteEnd = 0; else var minuteEnd = end.substr(3, 2);
-            now = (heure == h && m >= minute || h > heure) && (heureEnd > h || heureEnd == h && minuteEnd >= m) ? "En ce moment" : heure == h && 30 >= minute - m && minute - m > 0 ? "Dans 30 min" : heure == h + 1 && 60 > m - minute && m - minute >= 30 ? "Dans 30 min" : heure == h + 1 && m - minute >= 0 && 30 >= m - minute ? "Dans 1h" : heure > h ? "un peu de patience " : "Trop tard ";
-            transform.test = now;
+            now = (heure == h && m >= minute || h > heure) && (heureEnd > h || heureEnd == h && minuteEnd >= m) ? "En ce moment" : heure == h && 30 >= minute - m && minute - m > 0 ? "Dans 30 min 1" : heure == h + 1 && 60 > m - minute && m - minute >= 30 ? "Dans 30 min 1" : heure == h + 1 && m - minute >= 0 && 30 >= m - minute ? "Dans 1h 1" : heure > h ? "un peu de patience" : "Trop tard";
+            transform.now = now;
         }
         return transform;
     }
@@ -88,12 +88,7 @@ function Controller() {
             etablishmentId: this.idEtablishment,
             etablishmentTitle: this.titleEtablishment
         }).getView();
-        etablishmentView.left = 250;
         etablishmentView.open();
-        etablishmentView.animate({
-            left: 0,
-            duration: 200
-        }, function() {});
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "moment";
@@ -122,16 +117,60 @@ function Controller() {
     $.__views.happyhourcontents = Ti.UI.createScrollView({
         layout: "vertical",
         width: "100%",
+        height: "90%",
         id: "happyhourcontents",
         dataTransform: "test"
     });
     $.__views.moment.add($.__views.happyhourcontents);
-    var __alloyId33 = Alloy.Collections["etablishment"] || etablishment;
-    __alloyId33.on("fetch destroy change add remove reset", __alloyId34);
+    var __alloyId34 = Alloy.Collections["etablishment"] || etablishment;
+    __alloyId34.on("fetch destroy change add remove reset", __alloyId35);
     exports.destroy = function() {
-        __alloyId33.off("fetch destroy change add remove reset", __alloyId34);
+        __alloyId34.off("fetch destroy change add remove reset", __alloyId35);
     };
     _.extend($, $.__views);
+    var beginTouch;
+    var move;
+    var moveLast = 0;
+    var testA = 0;
+    var style;
+    style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
+    var activityIndicator = Ti.UI.createActivityIndicator({
+        color: "green",
+        font: {
+            fontFamily: "Helvetica Neue",
+            fontSize: 26,
+            fontWeight: "bold"
+        },
+        style: style,
+        top: 10,
+        left: "45%",
+        height: 10,
+        width: Ti.UI.SIZE
+    });
+    $.moment.add(activityIndicator);
+    $.happyhourcontents.addEventListener("touchstart", function(e) {
+        beginTouch = e.y;
+        moveLast = beginTouch;
+        testA = 0;
+    });
+    $.happyhourcontents.addEventListener("touchmove", function(e) {
+        move = e.y - beginTouch;
+        testA += Math.abs(move);
+        if (move > 0 && (testA - beginTouch) / 100 > 0 && 40 > (testA - beginTouch) / 100) if ((testA - beginTouch) / 100 > 30) {
+            activityIndicator.show();
+            $.happyhourcontents.setTop((testA - beginTouch) / 100);
+        } else $.happyhourcontents.setTop((testA - beginTouch) / 100);
+    });
+    $.happyhourcontents.addEventListener("touchend", function() {
+        if ((testA - beginTouch) / 100 > 30) setTimeout(function() {
+            test2();
+            activityIndicator.hide();
+            $.happyhourcontents.setTop(0);
+        }, 1e3); else {
+            activityIndicator.hide();
+            $.happyhourcontents.setTop(0);
+        }
+    });
     __defers["__alloyId27!click!goEtablishment"] && __alloyId27.addEventListener("click", goEtablishment);
     _.extend($, exports);
 }

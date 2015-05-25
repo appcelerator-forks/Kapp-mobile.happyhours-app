@@ -42,10 +42,11 @@ function Controller() {
                 var havehappy;
                 var data;
                 var etablishment;
+                var now = "not now";
                 for (var i = 0; i < json.etablishment.length; i++) {
                     data = json.etablishment[i];
-                    havehappy = false;
-                    data.dayHappy.indexOf(day) > 0 && (havehappy = "true");
+                    havehappy = "false";
+                    data.dayHappy.indexOf(day) >= 0 && (havehappy = "true");
                     etablishment = Alloy.createModel("etablishment", {
                         id: data.ID,
                         name: data.name,
@@ -53,7 +54,8 @@ function Controller() {
                         gps: data.gps,
                         yelp_id: data.yelp_id,
                         city: data.city,
-                        haveHappy: havehappy
+                        haveHappy: havehappy,
+                        now: now
                     });
                     etablishment.save();
                 }
@@ -130,13 +132,6 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     $.tabgroup.open();
-    $.tabgroup.addEventListener("close", function() {
-        $.tab1.destroy();
-        $.tab2.destroy();
-        $.tab3.destroy();
-        $.tab4.destroy();
-        $.destroy();
-    });
     new Alloy.Globals.CustomTabBar({
         tabBar: $.tabgroup,
         imagePath: "/tabbar/",
@@ -157,7 +152,9 @@ function Controller() {
         } ]
     });
     var etablishment = Alloy.createCollection("etablishment");
-    Alloy.createCollection("happyhour");
+    var happyhour = Alloy.createCollection("happyhour");
+    etablishment.deleteAll();
+    happyhour.deleteAll();
     if (etablishment.count()) Alloy.Collections.etablishment.fetch(); else if (Alloy.Globals.hasConnection()) {
         getAllHappyHours();
         getAllEtablishment();

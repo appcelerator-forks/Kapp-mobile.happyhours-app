@@ -1,11 +1,4 @@
 $.tabgroup.open();
-$.tabgroup.addEventListener("close", function(){
-    $.tab1.destroy();
-    $.tab2.destroy();
-    $.tab3.destroy();
-    $.tab4.destroy();
-    $.destroy();
-});
 
 new Alloy.Globals.CustomTabBar({
     tabBar: $.tabgroup,
@@ -24,19 +17,21 @@ new Alloy.Globals.CustomTabBar({
 var etablishment = Alloy.createCollection('etablishment');
 var happyhour = Alloy.createCollection('happyhour');
 
-//etablishment.deleteAll();// for tests
-//happyhour.deleteAll();// for tests
+etablishment.deleteAll();// for tests
+happyhour.deleteAll();// for tests
 
 if (!etablishment.count()) {
     if (Alloy.Globals.hasConnection()) {
 
         getAllHappyHours();
+
         getAllEtablishment();
 
     } else {
         alert("INFO : sorry, we have no connection with the network");
     }
 } else {
+
     Alloy.Collections.etablishment.fetch();
 }
 
@@ -98,14 +93,16 @@ function getAllEtablishment() {
             var havehappy;
             var data;
             var etablishment;
+            var now = "not now";
 
             for (var i = 0; i < json.etablishment.length; i++) {
 
                 data = json.etablishment[i];
                 
-                havehappy = false;
+                havehappy = "false";
 
-                if (data.dayHappy.indexOf(day) > 0) 
+
+                if (data.dayHappy.indexOf(day) >= 0) 
                     havehappy = "true";
 
                 etablishment = Alloy.createModel('etablishment', {
@@ -115,7 +112,8 @@ function getAllEtablishment() {
                     gps         : data.gps,
                     yelp_id     : data. yelp_id,
                     city        : data.city,
-                    haveHappy   : havehappy
+                    haveHappy   : havehappy,
+                    now         : now
                 }); 
 
                 etablishment.save();
