@@ -6,11 +6,19 @@ var etablishmentTitle 	=  args.etablishmentTitle;
 ////////////////////SQL//////////////////////////////////
 /////////////////////////////////////////////////////////
 var db = Ti.Database.open('happyhourdb');
+var happy  = new Array();
+var hour  = new Array();
+var i =0;
 
 var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " +  etablishmentId);
-var happy = happyhourData.fieldByName('text');
-var hour = happyhourData.fieldByName('hours');
-var hour = hour.replace("/", " à ");
+while (happyhourData.isValidRow()){
+	happy.push(happyhourData.fieldByName('text'));
+	hour.push(happyhourData.fieldByName('hours'));
+	hour[i] = hour[i].replace("/", " à ");
+	Ti.API.info(i + " :  " +happy[i]);
+	happyhourData.next();
+	i++;
+}
 
 var db = Ti.Database.open('etablishmentdb');
 
@@ -27,7 +35,7 @@ $.etablishment.animate({
 }, function(){});
 
 /////////////////////////////////////////////////////////
-////////////////////VIEW/////////////////////////////////
+////////////MAIN VIEW AND SCROLL VIEW////////////////////
 /////////////////////////////////////////////////////////
 var controlView = Ti.UI.createView({
 	backgroundColor:'white',
@@ -59,17 +67,20 @@ var blackView2 = Ti.UI.createView({
     width: "100%",
     top : "37.18%"
 });
-var happyView = Ti.UI.createView({
-	backgroundColor:'white',
-    height: "20.70%",
+var happyView = Ti.UI.createScrollView({
+  showVerticalScrollIndicator: true,
+  showHorizontalScrollIndicator: true,
+  backgroundColor:'white',
+    height: "52.64%",
     width: "100%",
     top : "37.36%"
 });
+
 var Cnull = Ti.UI.createView({
 	backgroundColor:'white',
-    height: "42%",
+    height: "10%",
     width: "100%",
-    top : "57%"
+    top : "90%"
 });
 
 /////////////////////////////////////////////////////////
@@ -97,54 +108,96 @@ var labeladress = Ti.UI.createLabel({
 	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	color: "black"
 });
-var labelVibes = Ti.UI.createLabel({ 
-	text: "Happy Hour ", 
+var labelStar = Ti.UI.createLabel({ 
+	text: "3 etoiles ", 
+	color: "black", 
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+});
+var labelNumber = Ti.UI.createLabel({ 
+	text: "3 personnes", 
 	color: "black", 
 	top: "28%",
 	left : "2%"
 });
-var labelDay = Ti.UI.createLabel({   
-	top: "30%",
-	left : "1%",
-	width : "15%",
-});
-var labelTextDay = Ti.UI.createLabel({
-	text: "L   M   M   J   V   S  D ",
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-	color: "black",
-	font: {
-		fontSize: 11
-	}
-
-});
-labelDay.add(labelTextDay);
-
-var labelHour = Ti.UI.createLabel({ 
-	top: "35%",
-	right : "0%",
-	width : "16%",
-});
-var labeltextHour = Ti.UI.createLabel({ 
-	text: "De "+hour, 
+var labelVibes = Ti.UI.createLabel({ 
+	text: "sourire ", 
 	color: "black", 
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-	font: {
-		fontSize: 11
-	}
-});
-labelHour.add(labeltextHour);
-
-var labelHappy = Ti.UI.createLabel({ 
-	text: happy , 
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-	width : "60%",
-	color: "black",
-	font: {
-		fontSize: 14
-	},
-	borderRadius: 6
+	top: "28%",
+	right : "2%"
 });
 
+////////////////////////////////////////////////////////
+///////////////////VIEWS Happy Hours///////////////////
+//////////////////////////////////////////////////////
+var labelDay = new Array();
+var labelHour = new Array();
+var labelHappy = new Array();
+var oneHappy = new Array();
+
+var labelTextDay;
+var labeltextHour;
+
+Ti.API.info("ici");
+for (var j = 0; j<hour.length; j++) {
+	Ti.API.info("laaaaa");
+	oneHappy.push(Ti.UI.createView({
+		backgroundColor:'white',
+		height: "25%",
+	    top : (j+4)+(j*25)+"%"
+	}));
+
+	labelDay.push(Ti.UI.createLabel({   
+		top: "2%",
+		left : "1%",
+		width : "15%"
+	}));
+
+	labelTextDay = Ti.UI.createLabel({
+		text: "L   M   M   J   V   S  D ",
+		textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+		color: "black",
+		font: {
+			fontSize: 11
+		}
+
+	});
+	labelDay[j].add(labelTextDay);
+
+
+	labelHour.push(Ti.UI.createLabel({ 
+		top: "3%",
+		right : "0%",
+		width : "16%",
+	}));
+
+	labeltextHour = Ti.UI.createLabel({ 
+		text: "De "+hour[j], 
+		color: "black", 
+		textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+		font: {
+			fontSize: 11
+		}
+	});
+	labelHour[j].add(labeltextHour);
+
+
+	labelHappy.push(Ti.UI.createLabel({ 
+		text: happy[j] , 
+		textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+		top: "1%",
+		width : "60%",
+		color: "black",
+		font: {
+			fontSize: 14
+		},
+		borderRadius: 6
+	}));
+
+	oneHappy[j].add(labelDay[j]);
+	oneHappy[j].add(labelHour[j]);
+	oneHappy[j].add(labelHappy[j]);
+};
+Ti.API.info("la");
 /////////////////////////////////////////////////////////
 //////////////////ANIMATION//////////////////////////////
 /////////////////////////////////////////////////////////
@@ -173,17 +226,21 @@ controlView.add(labelTitle);
 
 adressView.add(labeladress);
 
+vibesView.add(labelNumber);
+vibesView.add(labelStar);
 vibesView.add(labelVibes);
 
-happyView.add(labelHappy);
-happyView.add(labelHour);
-happyView.add(labelDay);
+Ti.API.info("normalement c'est bon");
+for (var v = 0; v<hour.length; v++) {
+	happyView.add(oneHappy[v]);
+}
+Ti.API.info("yes!");
 
 $.etablishment.add(controlView);
 $.etablishment.add(adressView);
 $.etablishment.add(blackView1);
 $.etablishment.add(vibesView);
-$.etablishment.add(blackView2);
+
 $.etablishment.add(happyView);
 $.etablishment.add(Cnull);
 
