@@ -136,7 +136,7 @@ function Controller() {
         tabBar: $.tabgroup,
         imagePath: "/tabbar/",
         width: 80,
-        height: 40,
+        height: 60,
         items: [ {
             image: "moment.png",
             selected: "moment_select.png"

@@ -11,59 +11,10 @@ else {
   style = Ti.UI.ActivityIndicatorStyle.DARK;
 }
 
- var activityIndicator = Ti.UI.createActivityIndicator({
-  color: 'green',
-  font: {fontFamily:'Helvetica Neue', fontSize:26, fontWeight:'bold'},
-  style:style,
-  top:10,
-  left:"45%",
-  height:10,
-  width:Ti.UI.SIZE
-});
-$.moment.add(activityIndicator);
-
-$.happyhourcontents.addEventListener('touchstart', function(e) {
- 
-	//Ti.API.info("e.y begin : " + e.y);
-	beginTouch = e.y;
-	moveLast = beginTouch;
-	testA = 0;
-});
-$.happyhourcontents.addEventListener('touchmove', function(e) {
-  	
-  	move = (e.y- beginTouch);
-
-  	testA = testA + Math.abs(move);
-  	//Ti.API.info(move);
-
-  	if (move>0) {
-  		if (((testA - beginTouch)/100)>0 && ((testA - beginTouch)/100)<40) {
-	  		if (((testA - beginTouch)/100)>30) {
-	  			activityIndicator.show();
-				//Ti.API.info((testA - beginTouch)/100);
-	  			$.happyhourcontents.setTop((testA - beginTouch)/100);
-			} else {
-				//Ti.API.info((testA - beginTouch)/100);
-	  			$.happyhourcontents.setTop((testA - beginTouch)/100);
-			}
-
-  		};
-
-  	};
-});
- 
-$.happyhourcontents.addEventListener('touchend', function(e) {
-	if (((testA - beginTouch)/100)>30) {
-		setTimeout(function(){ 
-			test2();
-			activityIndicator.hide();
-			$.happyhourcontents.setTop(0);
-		}, 1000);
-	}else{
-		activityIndicator.hide();
-		$.happyhourcontents.setTop(0);
-	}
-});
+function myRefresher(e) {
+    Ti.API.info('ici');
+	e.hide();
+}
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////

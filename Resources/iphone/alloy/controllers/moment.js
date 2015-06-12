@@ -8,23 +8,22 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
-    function __alloyId35(e) {
+    function __alloyId33(e) {
         if (e && e.fromAdapter) return;
-        __alloyId35.opts || {};
-        var models = haveHappyFilter(__alloyId34);
+        __alloyId33.opts || {};
+        var models = haveHappyFilter(__alloyId32);
         var len = models.length;
-        var children = $.__views.happyhourcontents.children;
-        for (var d = children.length - 1; d >= 0; d--) $.__views.happyhourcontents.remove(children[d]);
+        var rows = [];
         for (var i = 0; len > i; i++) {
             var __alloyId25 = models[i];
             __alloyId25.__transform = test(__alloyId25);
-            var __alloyId27 = Ti.UI.createView({
+            var __alloyId27 = Ti.UI.createTableViewRow({
                 width: "100%",
                 height: "20%",
                 idEtablishment: "undefined" != typeof __alloyId25.__transform["id"] ? __alloyId25.__transform["id"] : __alloyId25.get("id"),
                 titleEtablishment: "undefined" != typeof __alloyId25.__transform["name"] ? __alloyId25.__transform["name"] : __alloyId25.get("name")
             });
-            $.__views.happyhourcontents.add(__alloyId27);
+            rows.push(__alloyId27);
             goEtablishment ? __alloyId27.addEventListener("click", goEtablishment) : __defers["__alloyId27!click!goEtablishment"] = true;
             var __alloyId29 = Ti.UI.createLabel({
                 top: "10%",
@@ -40,29 +39,17 @@ function Controller() {
                 text: "undefined" != typeof __alloyId25.__transform["now"] ? __alloyId25.__transform["now"] : __alloyId25.get("now")
             });
             __alloyId27.add(__alloyId31);
-            var __alloyId33 = Ti.UI.createView({
-                backgroundColor: "black",
-                width: "100%",
-                height: "1px"
-            });
-            $.__views.happyhourcontents.add(__alloyId33);
         }
+        $.__views.happyhourcontents.setData(rows);
+    }
+    function myRefresher(e) {
+        Ti.API.info("ici");
+        e.hide();
     }
     function haveHappyFilter(collection) {
         return collection.where({
             haveHappy: "true"
         });
-    }
-    function test2() {
-        var etablishment = Alloy.createCollection("etablishment");
-        var happyhour = Alloy.createCollection("happyhour");
-        if (Alloy.Globals.hasConnection()) {
-            etablishment.deleteAll();
-            happyhour.deleteAll();
-            getAllHappyHours();
-            getAllEtablishment();
-        } else alert("INFO : sorry, we have no connection with the network ");
-        Alloy.Collections.etablishment.fetch();
     }
     function test(model) {
         date = new Date();
@@ -112,64 +99,6 @@ function Controller() {
         }).getView();
         etablishmentView.open();
     }
-    function getAllEtablishment() {
-        var apiUrl = "http://happyhours-app.fr/api/allEtablishment.php";
-        var json;
-        var xhr = Ti.Network.createHTTPClient({
-            onload: function() {
-                json = JSON.parse(this.responseText);
-                var d = new Date();
-                var day = 0 == d.getDay() ? 7 : d.getDay();
-                var havehappy;
-                var data;
-                var etablishment;
-                var now = "not now";
-                for (var i = 0; i < json.etablishment.length; i++) {
-                    data = json.etablishment[i];
-                    havehappy = "false";
-                    data.dayHappy.indexOf(day) >= 0 && (havehappy = "true");
-                    etablishment = Alloy.createModel("etablishment", {
-                        id: data.ID,
-                        name: data.name,
-                        adress: data.adress,
-                        gps: data.gps,
-                        yelp_id: data.yelp_id,
-                        city: data.city,
-                        haveHappy: havehappy,
-                        now: now
-                    });
-                    etablishment.save();
-                }
-                Alloy.Collections.etablishment.fetch();
-            },
-            onerror: function() {}
-        });
-        xhr.open("GET", apiUrl);
-        xhr.send();
-    }
-    function getAllHappyHours() {
-        var apiUrl = "http://happyhours-app.fr/api/allHappyHours.php";
-        var json;
-        var xhr = Ti.Network.createHTTPClient({
-            onload: function() {
-                json = JSON.parse(this.responseText);
-                for (var i = 0; i < json.happyhour.length; i++) {
-                    var data = json.happyhour[i];
-                    var happyhour = Alloy.createModel("happyhour", {
-                        id: data.ID,
-                        id_etablishment: data.id_etablishment,
-                        day: data.day,
-                        text: data.text,
-                        hours: data.hours
-                    });
-                    happyhour.save();
-                }
-            },
-            onerror: function() {}
-        });
-        xhr.open("GET", apiUrl);
-        xhr.send();
-    }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "moment";
     this.args = arguments[0] || {};
@@ -194,64 +123,29 @@ function Controller() {
         tabBarHidden: "true"
     });
     $.__views.moment && $.addTopLevelView($.__views.moment);
-    $.__views.happyhourcontents = Ti.UI.createScrollView({
+    $.__views.happyhourcontents = Ti.UI.createTableView({
         layout: "vertical",
         width: "100%",
         height: "90%",
-        id: "happyhourcontents",
-        dataTransform: "test"
+        id: "happyhourcontents"
     });
-    $.__views.moment.add($.__views.happyhourcontents);
-    var __alloyId34 = Alloy.Collections["etablishment"] || etablishment;
-    __alloyId34.on("fetch destroy change add remove reset", __alloyId35);
+    var __alloyId32 = Alloy.Collections["etablishment"] || etablishment;
+    __alloyId32.on("fetch destroy change add remove reset", __alloyId33);
+    $.__views.ptr = Alloy.createWidget("nl.fokkezb.pullToRefresh", "widget", {
+        id: "ptr",
+        children: [ $.__views.happyhourcontents ],
+        __parentSymbol: $.__views.moment
+    });
+    $.__views.ptr.setParent($.__views.moment);
+    myRefresher ? $.__views.ptr.on("release", myRefresher) : __defers["$.__views.ptr!release!myRefresher"] = true;
     exports.destroy = function() {
-        __alloyId34.off("fetch destroy change add remove reset", __alloyId35);
+        __alloyId32.off("fetch destroy change add remove reset", __alloyId33);
     };
     _.extend($, $.__views);
-    var beginTouch;
-    var move;
-    var moveLast = 0;
-    var testA = 0;
     var style;
     style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
-    var activityIndicator = Ti.UI.createActivityIndicator({
-        color: "green",
-        font: {
-            fontFamily: "Helvetica Neue",
-            fontSize: 26,
-            fontWeight: "bold"
-        },
-        style: style,
-        top: 10,
-        left: "45%",
-        height: 10,
-        width: Ti.UI.SIZE
-    });
-    $.moment.add(activityIndicator);
-    $.happyhourcontents.addEventListener("touchstart", function(e) {
-        beginTouch = e.y;
-        moveLast = beginTouch;
-        testA = 0;
-    });
-    $.happyhourcontents.addEventListener("touchmove", function(e) {
-        move = e.y - beginTouch;
-        testA += Math.abs(move);
-        if (move > 0 && (testA - beginTouch) / 100 > 0 && 40 > (testA - beginTouch) / 100) if ((testA - beginTouch) / 100 > 30) {
-            activityIndicator.show();
-            $.happyhourcontents.setTop((testA - beginTouch) / 100);
-        } else $.happyhourcontents.setTop((testA - beginTouch) / 100);
-    });
-    $.happyhourcontents.addEventListener("touchend", function() {
-        if ((testA - beginTouch) / 100 > 30) setTimeout(function() {
-            test2();
-            activityIndicator.hide();
-            $.happyhourcontents.setTop(0);
-        }, 1e3); else {
-            activityIndicator.hide();
-            $.happyhourcontents.setTop(0);
-        }
-    });
     __defers["__alloyId27!click!goEtablishment"] && __alloyId27.addEventListener("click", goEtablishment);
+    __defers["$.__views.ptr!release!myRefresher"] && $.__views.ptr.on("release", myRefresher);
     _.extend($, exports);
 }
 
