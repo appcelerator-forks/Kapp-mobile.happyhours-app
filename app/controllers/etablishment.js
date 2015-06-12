@@ -15,7 +15,6 @@ while (happyhourData.isValidRow()){
 	happy.push(happyhourData.fieldByName('text'));
 	hour.push(happyhourData.fieldByName('hours'));
 	hour[i] = hour[i].replace("/", " à ");
-	Ti.API.info(i + " :  " +happy[i]);
 	happyhourData.next();
 	i++;
 }
@@ -137,9 +136,9 @@ var oneHappy = new Array();
 var labelTextDay;
 var labeltextHour;
 
-Ti.API.info("ici");
+
 for (var j = 0; j<hour.length; j++) {
-	Ti.API.info("laaaaa");
+	
 	oneHappy.push(Ti.UI.createView({
 		backgroundColor:'white',
 		height: "25%",
@@ -197,7 +196,6 @@ for (var j = 0; j<hour.length; j++) {
 	oneHappy[j].add(labelHour[j]);
 	oneHappy[j].add(labelHappy[j]);
 };
-Ti.API.info("la");
 /////////////////////////////////////////////////////////
 //////////////////ANIMATION//////////////////////////////
 /////////////////////////////////////////////////////////
@@ -230,11 +228,9 @@ vibesView.add(labelNumber);
 vibesView.add(labelStar);
 vibesView.add(labelVibes);
 
-Ti.API.info("normalement c'est bon");
 for (var v = 0; v<hour.length; v++) {
 	happyView.add(oneHappy[v]);
 }
-Ti.API.info("yes!");
 
 $.etablishment.add(controlView);
 $.etablishment.add(adressView);
