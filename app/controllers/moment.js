@@ -12,7 +12,7 @@ else {
 }
 
 function myRefresher(e) {
-    Ti.API.info('ici');
+   Alloy.Collections.etablishment.fetch();
 	e.hide();
 }
 
@@ -22,35 +22,13 @@ function myRefresher(e) {
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-
-
 function haveHappyFilter(collection) {
     return collection.where({
         haveHappy : "true"
     });
 }
 
-function test2() {
-	//Ti.API.info("on est dans la fonction test2");	
-	var etablishment = Alloy.createCollection('etablishment');
-	var happyhour = Alloy.createCollection('happyhour');
-
-	if (Alloy.Globals.hasConnection()) {
-		etablishment.deleteAll();// for tests
-		happyhour.deleteAll();// for tests
-
-    	getAllHappyHours();
-
-    	getAllEtablishment();
-	}else {
-		alert("INFO : sorry, we have no connection with the network ");
-	}
-
-	Alloy.Collections.etablishment.fetch();
-
-}
-
-function test(model) {
+function transform(model) {
 	//Ti.API.info("on est dans la fonction datafliter");
 
 	date = new Date;

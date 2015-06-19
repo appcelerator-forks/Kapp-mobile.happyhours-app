@@ -16,7 +16,7 @@ function Controller() {
         var rows = [];
         for (var i = 0; len > i; i++) {
             var __alloyId25 = models[i];
-            __alloyId25.__transform = test(__alloyId25);
+            __alloyId25.__transform = transform(__alloyId25);
             var __alloyId27 = Ti.UI.createTableViewRow({
                 width: "100%",
                 height: "20%",
@@ -43,7 +43,7 @@ function Controller() {
         $.__views.happyhourcontents.setData(rows);
     }
     function myRefresher(e) {
-        Ti.API.info("ici");
+        Alloy.Collections.etablishment.fetch();
         e.hide();
     }
     function haveHappyFilter(collection) {
@@ -51,7 +51,7 @@ function Controller() {
             haveHappy: "true"
         });
     }
-    function test(model) {
+    function transform(model) {
         date = new Date();
         h = date.getHours() - 6;
         m = date.getMinutes();

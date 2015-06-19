@@ -4,7 +4,7 @@ new Alloy.Globals.CustomTabBar({
     tabBar: $.tabgroup,
     imagePath: '/tabbar/',
     width: 80,
-    height: 60,
+    height: 49,
     items: [
         { image: 'moment.png', selected: 'moment_select.png' },
         { image: 'search.png', selected: 'search_select.png' },
