@@ -30,11 +30,11 @@ $.etablishment.left = 250;
 $.etablishment.open();
 $.etablishment.animate({
     left: 0,
-    duration:600
+    duration:30
 }, function(){});
 
 /////////////////////////////////////////////////////////
-////////////MAIN VIEW AND SCROLL VIEW////////////////////
+////////////MAIN VIEW ///////////////////////////////////
 /////////////////////////////////////////////////////////
 var controlView = Ti.UI.createView({
 	backgroundColor:'white',
@@ -52,7 +52,7 @@ var blackView1 = Ti.UI.createView({
 	backgroundColor:'gray',
     height: "0.18%",
     width: "100%",
-    top : "27%"
+    top : "26.9%"
 });
 var vibesView = Ti.UI.createView({
 	backgroundColor:'white',
@@ -65,21 +65,6 @@ var blackView2 = Ti.UI.createView({
     height: "0.18%",
     width: "100%",
     top : "37.18%"
-});
-var happyView = Ti.UI.createScrollView({
-  showVerticalScrollIndicator: true,
-  showHorizontalScrollIndicator: true,
-  backgroundColor:'white',
-    height: "52.64%",
-    width: "100%",
-    top : "37.36%"
-});
-
-var Cnull = Ti.UI.createView({
-	backgroundColor:'white',
-    height: "10%",
-    width: "100%",
-    top : "90%"
 });
 
 /////////////////////////////////////////////////////////
@@ -139,14 +124,14 @@ var labeltextHour;
 
 for (var j = 0; j<hour.length; j++) {
 	
-	oneHappy.push(Ti.UI.createView({
+	oneHappy.push(Ti.UI.createTableViewRow({
 		backgroundColor:'white',
-		height: "25%",
-	    top : (j+4)+(j*25)+"%"
+		className: 'row',
+		height: "30%",
 	}));
 
 	labelDay.push(Ti.UI.createLabel({   
-		top: "2%",
+		top: "22%",
 		left : "1%",
 		width : "15%"
 	}));
@@ -164,7 +149,7 @@ for (var j = 0; j<hour.length; j++) {
 
 
 	labelHour.push(Ti.UI.createLabel({ 
-		top: "3%",
+		top: "23%",
 		right : "0%",
 		width : "16%",
 	}));
@@ -183,7 +168,7 @@ for (var j = 0; j<hour.length; j++) {
 	labelHappy.push(Ti.UI.createLabel({ 
 		text: happy[j] , 
 		textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		top: "1%",
+		top: "21%",
 		width : "60%",
 		color: "black",
 		font: {
@@ -201,7 +186,7 @@ for (var j = 0; j<hour.length; j++) {
 /////////////////////////////////////////////////////////
 var slideRight = Ti.UI.createAnimation();
     slideRight.right = 320;
-    slideRight.duration = 300;
+    slideRight.duration = 30;
 
 /////////////////////////////////////////////////////////
 ////////////////////EVENT////////////////////////////////
@@ -211,7 +196,7 @@ btnBack.addEventListener('click', function(){
     setTimeout(function(e){
     	$.etablishment.left = 320,
         $.etablishment.close(slideRight);
-    }, 300);
+    }, 30);
 
 });
 
@@ -228,17 +213,25 @@ vibesView.add(labelNumber);
 vibesView.add(labelStar);
 vibesView.add(labelVibes);
 
-for (var v = 0; v<hour.length; v++) {
-	happyView.add(oneHappy[v]);
-}
+
+var happyViewScroll = Ti.UI.createTableView({
+  	backgroundColor:'white',
+  	height: "62.63%",
+    width: "100%",
+    top : "37.36%",
+    data: oneHappy
+
+});
+/*for (var v = 0; v<hour.length; v++) {
+	happyViewScroll.add(oneHappy[v]);
+}*/
 
 $.etablishment.add(controlView);
 $.etablishment.add(adressView);
 $.etablishment.add(blackView1);
 $.etablishment.add(vibesView);
-
-$.etablishment.add(happyView);
-$.etablishment.add(Cnull);
+$.etablishment.add(blackView2);
+$.etablishment.add(happyViewScroll);
 
 $.etablishment.open();
 

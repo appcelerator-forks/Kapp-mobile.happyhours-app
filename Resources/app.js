@@ -1,64 +1,31 @@
-// this sets the background color of the master UIView (when there are no windows/tab groups on it)
-Titanium.UI.setBackgroundColor('#000');
+/*
+ * Copyright (c) 2011-2014 YY Digital Pty Ltd. All Rights Reserved.
+ * Please see the LICENSE file included with this distribution for details.
+ */
 
-// create tab group
-var tabGroup = Titanium.UI.createTabGroup();
+var current_app = Ti.App.Properties.getString("tishadow::currentApp","");
+if (current_app !== "") { 
+  var TiShadow = require('/api/TiShadow');
+  TiShadow.connect({
+    host: Ti.App.Properties.getString("tishadow:address", "localhost"),
+    port: Ti.App.Properties.getString("tishadow:port", "3000"),
+    room: Ti.App.Properties.getString("tishadow:room", "default").trim() || "default",
+    name: Ti.Platform.osname + ", " + Ti.Platform.version + ", " + Ti.Platform.address
+  });
+  TiShadow.launchApp(current_app);
+} else {
+  var StartScreen = require("/ui/StartScreen").StartScreen;
+  new StartScreen().open();
+}
 
-
-//
-// create base UI tab and root window
-//
-var win1 = Titanium.UI.createWindow({  
-    title:'Tab 1',
-    backgroundColor:'#fff'
-});
-var tab1 = Titanium.UI.createTab({  
-    icon:'KS_nav_views.png',
-    title:'Tab 1',
-    window:win1
-});
-
-var label1 = Titanium.UI.createLabel({
-	color:'#999',
-	text:'I am Window 1',
-	font:{fontSize:20,fontFamily:'Helvetica Neue'},
-	textAlign:'center',
-	width:'auto'
-});
-
-win1.add(label1);
-
-//
-// create controls tab and root window
-//
-var win2 = Titanium.UI.createWindow({  
-    title:'Tab 2',
-    backgroundColor:'#fff'
-});
-var tab2 = Titanium.UI.createTab({  
-    icon:'KS_nav_ui.png',
-    title:'Tab 2',
-    window:win2
+var Logger = require("yy.logcatcher");
+Logger.addEventListener("error", function(e) {
+  var Log = require("/api/Log");
+  delete e.source;
+  delete e.type;
+  delete e.bubbles;
+  delete e.cancelBubble;
+  Log.error(JSON.stringify(e, null, "  "));
 });
 
-var label2 = Titanium.UI.createLabel({
-	color:'#999',
-	text:'I am Window 2',
-	font:{fontSize:20,fontFamily:'Helvetica Neue'},
-	textAlign:'center',
-	width:'auto'
-});
-
-win2.add(label2);
-
-
-
-//
-//  add tabs
-//
-tabGroup.addTab(tab1);  
-tabGroup.addTab(tab2);  
-
-
-// open tab group
-tabGroup.open();
+require("/lib/ti-mocha");

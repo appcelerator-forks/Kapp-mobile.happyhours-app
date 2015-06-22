@@ -8,25 +8,25 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
-    function __alloyId12(e) {
+    function __alloyId10(e) {
         if (e && e.fromAdapter) return;
-        __alloyId12.opts || {};
-        var models = __alloyId11.models;
+        __alloyId10.opts || {};
+        var models = __alloyId9.models;
         var len = models.length;
-        var children = $.__views.partnerscontent.children;
-        for (var d = children.length - 1; d >= 0; d--) $.__views.partnerscontent.remove(children[d]);
+        var rows = [];
         for (var i = 0; len > i; i++) {
             var __alloyId2 = models[i];
             __alloyId2.__transform = {};
-            var __alloyId4 = Ti.UI.createView({
+            var __alloyId4 = Ti.UI.createTableViewRow({
                 width: "100%",
                 height: "20%",
                 idEtablishment: "undefined" != typeof __alloyId2.__transform["id"] ? __alloyId2.__transform["id"] : __alloyId2.get("id"),
                 titleEtablishment: "undefined" != typeof __alloyId2.__transform["name"] ? __alloyId2.__transform["name"] : __alloyId2.get("name")
             });
-            $.__views.partnerscontent.add(__alloyId4);
+            rows.push(__alloyId4);
+            goEtablishment ? __alloyId4.addEventListener("click", goEtablishment) : __defers["__alloyId4!click!goEtablishment"] = true;
             var __alloyId6 = Ti.UI.createLabel({
-                top: "20%",
+                top: "10%",
                 textAlign: "center",
                 color: "black",
                 text: "undefined" != typeof __alloyId2.__transform["name"] ? __alloyId2.__transform["name"] : __alloyId2.get("name")
@@ -39,13 +39,15 @@ function Controller() {
                 text: "undefined" != typeof __alloyId2.__transform["adress"] ? __alloyId2.__transform["adress"] : __alloyId2.get("adress")
             });
             __alloyId4.add(__alloyId8);
-            var __alloyId10 = Ti.UI.createView({
-                backgroundColor: "black",
-                width: "100%",
-                height: "1px"
-            });
-            $.__views.partnerscontent.add(__alloyId10);
         }
+        $.__views.partnerscontent.setData(rows);
+    }
+    function goEtablishment() {
+        var etablishmentView = Alloy.createController("etablishment", {
+            etablishmentId: this.idEtablishment,
+            etablishmentTitle: this.titleEtablishment
+        }).getView();
+        etablishmentView.open();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "all";
@@ -63,6 +65,7 @@ function Controller() {
     }
     var $ = this;
     var exports = {};
+    var __defers = {};
     Alloy.Collections.instance("etablishment");
     $.__views.all = Ti.UI.createWindow({
         id: "all",
@@ -70,18 +73,20 @@ function Controller() {
         title: "Établissements"
     });
     $.__views.all && $.addTopLevelView($.__views.all);
-    $.__views.partnerscontent = Ti.UI.createScrollView({
+    $.__views.partnerscontent = Ti.UI.createTableView({
         layout: "vertical",
         width: "100%",
+        height: "90%",
         id: "partnerscontent"
     });
     $.__views.all.add($.__views.partnerscontent);
-    var __alloyId11 = Alloy.Collections["etablishment"] || etablishment;
-    __alloyId11.on("fetch destroy change add remove reset", __alloyId12);
+    var __alloyId9 = Alloy.Collections["etablishment"] || etablishment;
+    __alloyId9.on("fetch destroy change add remove reset", __alloyId10);
     exports.destroy = function() {
-        __alloyId11.off("fetch destroy change add remove reset", __alloyId12);
+        __alloyId9.off("fetch destroy change add remove reset", __alloyId10);
     };
     _.extend($, $.__views);
+    __defers["__alloyId4!click!goEtablishment"] && __alloyId4.addEventListener("click", goEtablishment);
     _.extend($, exports);
 }
 

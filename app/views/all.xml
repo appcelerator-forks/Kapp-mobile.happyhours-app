@@ -1,12 +1,11 @@
 <Alloy>
 	<Collection src="etablishment" />
 	<Window id="all" tabBarHidden="true" title="Établissements">
-       <ScrollView layout="vertical" width="100%" id="partnerscontent" dataCollection="etablishment">
-			<View width="100%" height="20%" idEtablishment="{id}" titleEtablishment="{name}">
+		<TableView  layout="vertical" width="100%" height="90%" id="partnerscontent" dataCollection="etablishment">
+			<TableViewRow width="100%" height="20%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment">
 				<Label text="{name}" class="name" />
 				<Label text="{adress}" class="adress" />
-			</View>
-			<View backgroundColor="black" width="100%" height="1px"></View>
-		</ScrollView>
+			</TableViewRow>
+		</TableView>
     </Window>
 </Alloy>

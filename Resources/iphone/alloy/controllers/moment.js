@@ -8,37 +8,37 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
-    function __alloyId33(e) {
+    function __alloyId31(e) {
         if (e && e.fromAdapter) return;
-        __alloyId33.opts || {};
-        var models = haveHappyFilter(__alloyId32);
+        __alloyId31.opts || {};
+        var models = haveHappyFilter(__alloyId30);
         var len = models.length;
         var rows = [];
         for (var i = 0; len > i; i++) {
-            var __alloyId25 = models[i];
-            __alloyId25.__transform = transform(__alloyId25);
-            var __alloyId27 = Ti.UI.createTableViewRow({
+            var __alloyId23 = models[i];
+            __alloyId23.__transform = transform(__alloyId23);
+            var __alloyId25 = Ti.UI.createTableViewRow({
                 width: "100%",
                 height: "20%",
-                idEtablishment: "undefined" != typeof __alloyId25.__transform["id"] ? __alloyId25.__transform["id"] : __alloyId25.get("id"),
-                titleEtablishment: "undefined" != typeof __alloyId25.__transform["name"] ? __alloyId25.__transform["name"] : __alloyId25.get("name")
+                idEtablishment: "undefined" != typeof __alloyId23.__transform["id"] ? __alloyId23.__transform["id"] : __alloyId23.get("id"),
+                titleEtablishment: "undefined" != typeof __alloyId23.__transform["name"] ? __alloyId23.__transform["name"] : __alloyId23.get("name")
             });
-            rows.push(__alloyId27);
-            goEtablishment ? __alloyId27.addEventListener("click", goEtablishment) : __defers["__alloyId27!click!goEtablishment"] = true;
-            var __alloyId29 = Ti.UI.createLabel({
+            rows.push(__alloyId25);
+            goEtablishment ? __alloyId25.addEventListener("click", goEtablishment) : __defers["__alloyId25!click!goEtablishment"] = true;
+            var __alloyId27 = Ti.UI.createLabel({
                 top: "10%",
                 textAlign: "center",
                 color: "black",
-                text: "undefined" != typeof __alloyId25.__transform["name"] ? __alloyId25.__transform["name"] : __alloyId25.get("name")
+                text: "undefined" != typeof __alloyId23.__transform["name"] ? __alloyId23.__transform["name"] : __alloyId23.get("name")
             });
-            __alloyId27.add(__alloyId29);
-            var __alloyId31 = Ti.UI.createLabel({
+            __alloyId25.add(__alloyId27);
+            var __alloyId29 = Ti.UI.createLabel({
                 top: "50%",
                 textAlign: "center",
                 color: "black",
-                text: "undefined" != typeof __alloyId25.__transform["now"] ? __alloyId25.__transform["now"] : __alloyId25.get("now")
+                text: "undefined" != typeof __alloyId23.__transform["now"] ? __alloyId23.__transform["now"] : __alloyId23.get("now")
             });
-            __alloyId27.add(__alloyId31);
+            __alloyId25.add(__alloyId29);
         }
         $.__views.happyhourcontents.setData(rows);
     }
@@ -129,8 +129,8 @@ function Controller() {
         height: "90%",
         id: "happyhourcontents"
     });
-    var __alloyId32 = Alloy.Collections["etablishment"] || etablishment;
-    __alloyId32.on("fetch destroy change add remove reset", __alloyId33);
+    var __alloyId30 = Alloy.Collections["etablishment"] || etablishment;
+    __alloyId30.on("fetch destroy change add remove reset", __alloyId31);
     $.__views.ptr = Alloy.createWidget("nl.fokkezb.pullToRefresh", "widget", {
         id: "ptr",
         children: [ $.__views.happyhourcontents ],
@@ -139,12 +139,12 @@ function Controller() {
     $.__views.ptr.setParent($.__views.moment);
     myRefresher ? $.__views.ptr.on("release", myRefresher) : __defers["$.__views.ptr!release!myRefresher"] = true;
     exports.destroy = function() {
-        __alloyId32.off("fetch destroy change add remove reset", __alloyId33);
+        __alloyId30.off("fetch destroy change add remove reset", __alloyId31);
     };
     _.extend($, $.__views);
     var style;
     style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
-    __defers["__alloyId27!click!goEtablishment"] && __alloyId27.addEventListener("click", goEtablishment);
+    __defers["__alloyId25!click!goEtablishment"] && __alloyId25.addEventListener("click", goEtablishment);
     __defers["$.__views.ptr!release!myRefresher"] && $.__views.ptr.on("release", myRefresher);
     _.extend($, exports);
 }

@@ -30,9 +30,9 @@ function Controller() {
         id: "map"
     });
     $.__views.map && $.addTopLevelView($.__views.map);
-    var __alloyId22 = [];
+    var __alloyId20 = [];
     $.__views.mapview = (require("ti.map").createView || Ti.UI.createView)({
-        annotations: __alloyId22,
+        annotations: __alloyId20,
         id: "mapview",
         mapType: "NORMAL_TYPE",
         animate: "true",
