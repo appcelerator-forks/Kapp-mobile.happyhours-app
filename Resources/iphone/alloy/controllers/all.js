@@ -24,7 +24,7 @@ function Controller() {
                 titleEtablishment: "undefined" != typeof __alloyId2.__transform["name"] ? __alloyId2.__transform["name"] : __alloyId2.get("name")
             });
             rows.push(__alloyId4);
-            goEtablishment ? __alloyId4.addEventListener("click", goEtablishment) : __defers["__alloyId4!click!goEtablishment"] = true;
+            goEtablishment ? $.addListener(__alloyId4, "click", goEtablishment) : __defers["__alloyId4!click!goEtablishment"] = true;
             var __alloyId6 = Ti.UI.createLabel({
                 top: "10%",
                 textAlign: "center",
@@ -44,8 +44,8 @@ function Controller() {
     }
     function goEtablishment() {
         var etablishmentView = Alloy.createController("etablishment", {
-            etablishmentId: this.idEtablishment,
-            etablishmentTitle: this.titleEtablishment
+            etablishmentId: 1,
+            etablishmentTitle: "test"
         }).getView();
         etablishmentView.open();
     }
@@ -86,7 +86,7 @@ function Controller() {
         __alloyId9.off("fetch destroy change add remove reset", __alloyId10);
     };
     _.extend($, $.__views);
-    __defers["__alloyId4!click!goEtablishment"] && __alloyId4.addEventListener("click", goEtablishment);
+    __defers["__alloyId4!click!goEtablishment"] && $.addListener(__alloyId4, "click", goEtablishment);
     _.extend($, exports);
 }
 

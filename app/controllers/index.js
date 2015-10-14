@@ -14,121 +14,91 @@ new Alloy.Globals.CustomTabBar({
 });
 
 
-var etablishment = Alloy.createCollection('etablishment');
-var happyhour = Alloy.createCollection('happyhour');
+var reste = require("reste");
+var api = new reste();
 
-if (!etablishment.count()) {
-    if (Alloy.Globals.hasConnection()) {
-        
-        etablishment.deleteAll();// for tests
-        happyhour.deleteAll();// for tests
-
-        getAllHappyHours();
-
-        getAllEtablishment();
-
-    } else {
-        alert("INFO : sorry, we have no connection with the network ");
-        Alloy.Collections.etablishment.fetch();
+api.config({
+    debug: true, // allows logging to console of ::REST:: messages
+    autoValidateParams: false, // set to true to throw errors if <param> url properties are not passed
+    timeout: 4000,
+    url: "http://happyhours-app.fr/api/",
+    requestHeaders: {
+        "X-Parse-Application-Id": "APPID",
+        "X-Parse-REST-API-Key": "RESTID",
+        "Content-Type": "application/json; charset=UTF-8"
+    },
+    methods: [{
+        name: "getEtablishments",
+        post: "allEtablishment.php",
+        onError: function(e, callback){
+            alert("There was an error getting the courses!");
+        }
+    },{
+    	name: "getHappyHours",
+        post: "allHappyHours.php",
+        onError: function(e, callback){
+            alert("There was an error getting the courses!");
+        }
+    }],
+    onError: function(e) {
+        alert("There was an error accessing the API");
+    },
+    onLoad: function(e, callback) {
+        callback(e);
     }
-} else {
-    Alloy.Collections.etablishment.fetch();
-}
+});
 
+api.getEtablishments(function(json){
+	
+	Ti.API.info("on récupère les établissement");
+	var d   = new Date();
+    var day = d.getDay() == 0 ? 7 : d.getDay();//day
+   
+    var havehappy;
+    var data;
+    var etablishment;
+    
+    var now = "not now";
+            
+	 for (var i = 0; i < json.etablishment.length; i++) {
+	 	data = json.etablishment[i];
+	 	
+	 	 havehappy = "false";
 
-function getAllHappyHours() {
-    var apiUrl = 'http://happyhours-app.fr/api/allHappyHours.php';
+        if (data.dayHappy.indexOf(day) >= 0) //Happy is today?
+            havehappy = "true";
 
-    var json;
-    var xhr = Ti.Network.createHTTPClient({
-        
-        onload: function(e) {
+        etablishment = Alloy.createModel('etablishment', {
+            id          : data.id, 
+            name        : data.name,
+            adress      : data.adress,
+            gps         : data.gps,
+            yelp_id     : data. yelp_id,
+            city        : data.city,
+            haveHappy   : havehappy,
+            now         : now
+        }); 
 
-            json = JSON.parse(this.responseText);
+        etablishment.save();
+	 }
+});
 
-            for (var i = 0; i < json.happyhour.length; i++) {
+api.getHappyHours(function(json){
+	
+	Ti.API.info("on récupère les Happys");
+	
+	for (var i = 0; i < json.happyhour.length; i++) {
+	
+        var data    = json.happyhour[i];
 
-                var data    = json.happyhour[i];
+        var happyhour = Alloy.createModel('happyhour', {
+            id              : data.id, 
+            id_etablishment : data.id_etablishment,
+            day             : data.day,
+            text            : data.text,
+            hours           : data. hours
 
-                var happyhour = Alloy.createModel('happyhour', {
-                    id              : data.ID, 
-                    id_etablishment : data.id_etablishment,
-                    day             : data.day,
-                    text            : data.text,
-                    hours           : data. hours
-
-                }); 
-                happyhour.save();
-            }
-
-        },
-
-        onerror: function(e) {
-
-        }
-    });
-
-    xhr.open("GET", apiUrl);
-    xhr.send();
-}
-
-/**
- * get all Etablishment from http://happyhours-app.fr/api/allEtablishment.php
- *
- * @return void
- */
-function getAllEtablishment() {
-    var apiUrl = 'http://happyhours-app.fr/api/allEtablishment.php';
-
-    var json;
-    var xhr = Ti.Network.createHTTPClient({
-        
-        onload: function(e) {
-
-            json = JSON.parse(this.responseText);
-
-            var d   = new Date();
-            var day = d.getDay() == 0 ? 7 : d.getDay();
-           
-            var havehappy;
-            var data;
-            var etablishment;
-            var now = "not now";
-
-            for (var i = 0; i < json.etablishment.length; i++) {
-
-                data = json.etablishment[i];
-                
-                havehappy = "false";
-
-
-                if (data.dayHappy.indexOf(day) >= 0) 
-                    havehappy = "true";
-
-                etablishment = Alloy.createModel('etablishment', {
-                    id          : data.ID, 
-                    name        : data.name,
-                    adress      : data.adress,
-                    gps         : data.gps,
-                    yelp_id     : data. yelp_id,
-                    city        : data.city,
-                    haveHappy   : havehappy,
-                    now         : now
-                }); 
-
-                etablishment.save();
-
-            }
-
-            Alloy.Collections.etablishment.fetch();
-
-        },
-
-        onerror: function(e) {
-
-        }
-    });
-
-    xhr.open("GET", apiUrl);
-    xhr.send();
-}
+        }); 
+        happyhour.save();
+    }
+});

@@ -1,9 +1,3 @@
-var beginTouch;
-var move;
-var moveLast = 0;
-
-var testA = 0;
-var style;
 if (Ti.Platform.name === 'iPhone OS'){
   style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
 }
@@ -11,25 +5,19 @@ else {
   style = Ti.UI.ActivityIndicatorStyle.DARK;
 }
 
-function myRefresher(e) {
-   Alloy.Collections.etablishment.fetch();
-	e.hide();
-}
+Alloy.Collections.etablishment.fetch();
 
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
 
 function haveHappyFilter(collection) {
+	Ti.API.info("on est dans la fonction haveHappyFilter");
+
     return collection.where({
         haveHappy : "true"
     });
 }
 
 function transform(model) {
-	//Ti.API.info("on est dans la fonction datafliter");
+	Ti.API.info("on est dans la fonction transform");
 
 	date = new Date;
 	h = date.getHours()-6;
@@ -140,113 +128,18 @@ function transform(model) {
 	return transform;
 }
 
-/////////////////////////////////////////////////////////
-/////// GO TO PARTNER VIEW ////////
-/////////////////////////////////////////////////////////
+function myRefresher(e) {
+   Alloy.Collections.etablishment.fetch();
+	e.hide();
+}
 
 function goEtablishment() {
 
+	Ti.API.info("on ouvre la fentre etablishment");
 	var etablishmentView = Alloy.createController('etablishment', {
 		'etablishmentId'	: this.idEtablishment,
 		'etablishmentTitle'	: this.titleEtablishment
 	}).getView();
 	
-	//etablishmentView.left = 250;
 	etablishmentView.open();
-	/*etablishmentView.animate({
-	    left: 0,
-	    duration:600
-	}, function(){});*/
-}
-
-function getAllEtablishment() {
-    var apiUrl = 'http://happyhours-app.fr/api/allEtablishment.php';
-
-    var json;
-    var xhr = Ti.Network.createHTTPClient({
-        
-        onload: function(e) {
-
-            json = JSON.parse(this.responseText);
-
-            var d   = new Date();
-            var day = d.getDay() == 0 ? 7 : d.getDay();
-           
-            var havehappy;
-            var data;
-            var etablishment;
-            var now = "not now";
-
-            for (var i = 0; i < json.etablishment.length; i++) {
-
-                data = json.etablishment[i];
-                
-                havehappy = "false";
-
-
-                if (data.dayHappy.indexOf(day) >= 0) 
-                    havehappy = "true";
-
-                etablishment = Alloy.createModel('etablishment', {
-                    id          : data.ID, 
-                    name        : data.name,
-                    adress      : data.adress,
-                    gps         : data.gps,
-                    yelp_id     : data. yelp_id,
-                    city        : data.city,
-                    haveHappy   : havehappy,
-                    now         : now
-                }); 
-
-                etablishment.save();
-
-            }
-
-            Alloy.Collections.etablishment.fetch();
-
-        },
-
-        onerror: function(e) {
-
-        }
-    });
-
-    xhr.open("GET", apiUrl);
-    xhr.send();
-}
-
-function getAllHappyHours() {
-    var apiUrl = 'http://happyhours-app.fr/api/allHappyHours.php';
-
-    var json;
-    var xhr = Ti.Network.createHTTPClient({
-        
-        onload: function(e) {
-
-            json = JSON.parse(this.responseText);
-
-            for (var i = 0; i < json.happyhour.length; i++) {
-
-                var data    = json.happyhour[i];
-
-                var happyhour = Alloy.createModel('happyhour', {
-                    id              : data.ID, 
-                    id_etablishment : data.id_etablishment,
-                    day             : data.day,
-                    text            : data.text,
-                    hours           : data. hours
-
-                }); 
-                happyhour.save();
-            }
-
-        },
-
-        onerror: function(e) {
-
-        }
-    });
-
-    xhr.open("GET", apiUrl);
-    xhr.send();
 }

@@ -33,7 +33,7 @@ function Controller() {
         height: "100%",
         width: "100%",
         id: "etablishment",
-        title: "Blue Window"
+        title: "Etablishment"
     });
     $.__views.etablishment && $.addTopLevelView($.__views.etablishment);
     exports.destroy = function() {};
