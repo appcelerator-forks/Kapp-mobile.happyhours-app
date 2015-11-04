@@ -8,12 +8,14 @@ var etablishmentTitle 	=  args.etablishmentTitle;
 var db = Ti.Database.open('happyhourdb');
 var happy  = new Array();
 var hour  = new Array();
+var day = new Array();
 var i =0;
 
 var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " +  etablishmentId);
 while (happyhourData.isValidRow()){
 	happy.push(happyhourData.fieldByName('text'));
 	hour.push(happyhourData.fieldByName('hours'));
+	day.push(happyhourData.fieldByName('day'));
 	hour[i] = hour[i].replace("/", " à ");
 	happyhourData.next();
 	i++;
@@ -122,6 +124,10 @@ var labelTextDay;
 var labeltextHour;
 
 
+var StyledLabel = require('ti.styledlabel');
+
+
+
 for (var j = 0; j<hour.length; j++) {
 	
 	oneHappy.push(Ti.UI.createTableViewRow({
@@ -136,15 +142,53 @@ for (var j = 0; j<hour.length; j++) {
 		width : "15%"
 	}));
 
-	labelTextDay = Ti.UI.createLabel({
-		text: "L   M   M   J   V   S  D ",
-		textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		color: "black",
-		font: {
-			fontSize: 11
-		}
 
+	var happyText = '<p style="text-align: center; font-size: 11px;">';
+
+	day[j]= day[j].toString();
+
+	if(day[j].match(/1/)){
+		happyText+='<span style= "color: orange;">L</span>';
+	}else{
+		happyText+='<span>L</span>';
+	}
+	if(day[j].match(/2/)){
+		happyText+='<span style= "color: orange;">M</span>';
+	}else{
+		happyText+='<span>M</span>';
+	}
+	if(day[j].match(/3/)){
+		happyText+='<span style= "color: orange;">M</span><br/>';
+	}else{
+		happyText+='<span>M</span><br/>';
+	}
+	if(day[j].match(/4/)){
+		happyText+='<span style= "color: orange;">J</span>';
+	}else{
+		happyText+='<span>J</span>';
+	}
+	if(day[j].match(/5/)){
+		happyText+='<span style= "color: orange;">V</span>';
+	}else{
+		happyText+='<span>V</span>';
+	}
+	if(day[j].match(/6/)){
+		happyText+='<span style= "color: orange;">S</span><br/>';
+	}else{
+		happyText+='<span>S</span><br/>';
+	}
+	if(day[j].match(/7/)){
+		happyText+='<span style= "color: orange;">D</span>';
+	}else{
+		happyText+='<span>D</span>';
+	}
+
+	happyText+='</p>';	
+
+	labelTextDay = StyledLabel.createLabel({
+		html: happyText
 	});
+
 	labelDay[j].add(labelTextDay);
 
 

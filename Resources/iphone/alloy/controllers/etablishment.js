@@ -44,11 +44,13 @@ function Controller() {
     var db = Ti.Database.open("happyhourdb");
     var happy = new Array();
     var hour = new Array();
+    var day = new Array();
     var i = 0;
     var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " + etablishmentId);
     while (happyhourData.isValidRow()) {
         happy.push(happyhourData.fieldByName("text"));
         hour.push(happyhourData.fieldByName("hours"));
+        day.push(happyhourData.fieldByName("day"));
         hour[i] = hour[i].replace("/", " à ");
         happyhourData.next();
         i++;
@@ -134,6 +136,7 @@ function Controller() {
     var oneHappy = new Array();
     var labelTextDay;
     var labeltextHour;
+    var StyledLabel = require("ti.styledlabel");
     for (var j = 0; j < hour.length; j++) {
         oneHappy.push(Ti.UI.createTableViewRow({
             backgroundColor: "white",
@@ -145,13 +148,18 @@ function Controller() {
             left: "1%",
             width: "15%"
         }));
-        labelTextDay = Ti.UI.createLabel({
-            text: "L   M   M   J   V   S  D ",
-            textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-            color: "black",
-            font: {
-                fontSize: 11
-            }
+        var happyText = '<p style="text-align: center; font-size: 11px;">';
+        day[j] = day[j].toString();
+        happyText += day[j].match(/1/) ? '<span style= "color: orange;">L</span>' : "<span>L</span>";
+        happyText += day[j].match(/2/) ? '<span style= "color: orange;">M</span>' : "<span>M</span>";
+        happyText += day[j].match(/3/) ? '<span style= "color: orange;">M</span><br/>' : "<span>M</span><br/>";
+        happyText += day[j].match(/4/) ? '<span style= "color: orange;">J</span>' : "<span>J</span>";
+        happyText += day[j].match(/5/) ? '<span style= "color: orange;">V</span>' : "<span>V</span>";
+        happyText += day[j].match(/6/) ? '<span style= "color: orange;">S</span><br/>' : "<span>S</span><br/>";
+        happyText += day[j].match(/7/) ? '<span style= "color: orange;">D</span>' : "<span>D</span>";
+        happyText += "</p>";
+        labelTextDay = StyledLabel.createLabel({
+            html: happyText
         });
         labelDay[j].add(labelTextDay);
         labelHour.push(Ti.UI.createLabel({

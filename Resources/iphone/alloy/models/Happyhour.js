@@ -17,7 +17,7 @@ exports.definition = {
         },
         adapter: {
             type: "sql",
-            collection_name: "happyhours",
+            collection_name: "happyhour",
             idAttribute: "id",
             db_name: "happyhourdb"
         }

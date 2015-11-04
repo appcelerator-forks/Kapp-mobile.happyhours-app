@@ -61,10 +61,12 @@
     <module platform="android" version="2.0.3">ti.compression</module>
     <module platform="android">bencoding.android.tools</module>
     <module platform="commonjs" version="1.1.8">reste</module>
+    <module platform="android" version="2.0.2">ti.styledlabel</module>
+    <module platform="iphone" version="1.6.1">ti.styledlabel</module>
   </modules>
-  <property name="tishadow:version" type="string">2.8.2</property>
-  <property name="ti.android.bug2373.skipAlert" type="bool">true</property>
-  <property name="ti.android.bug2373.finishfalseroot" type="bool">true</property>
+    <property name="tishadow:version" type="string">2.8.2</property>
+    <property name="ti.android.bug2373.skipAlert" type="bool">true</property>
+    <property name="ti.android.bug2373.finishfalseroot" type="bool">true</property>
     <deployment-targets>
         <target device="android">true</target>
         <target device="blackberry">false</target>
@@ -72,7 +74,7 @@
         <target device="iphone">true</target>
         <target device="mobileweb">false</target>
     </deployment-targets>
-    <sdk-version>5.0.2.GA</sdk-version>
+    <sdk-version>5.0.0.GA</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>
