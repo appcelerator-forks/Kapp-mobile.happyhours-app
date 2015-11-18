@@ -12,5 +12,6 @@
             <Tab id="tab4">
                 <Require src="info" />
             </Tab>
+        
         </TabGroup>
 </Alloy>

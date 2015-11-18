@@ -55,11 +55,11 @@ function Controller() {
         id: "tab3"
     });
     __alloyId11.push($.__views.tab3);
-    $.__views.__alloyId18 = Alloy.createController("info", {
-        id: "__alloyId18"
+    $.__views.__alloyId17 = Alloy.createController("info", {
+        id: "__alloyId17"
     });
     $.__views.tab4 = Ti.UI.createTab({
-        window: $.__views.__alloyId18.getViewEx({
+        window: $.__views.__alloyId17.getViewEx({
             recurse: true
         }),
         id: "tab4"
@@ -93,8 +93,6 @@ function Controller() {
             selected: "info_select.png"
         } ]
     });
-    Alloy.Collections.etablishment.fetch();
-    Alloy.Collections.happyhour.fetch();
     var reste = require("reste");
     var api = new reste();
     api.config({
@@ -105,7 +103,7 @@ function Controller() {
         requestHeaders: {
             "X-Parse-Application-Id": "APPID",
             "X-Parse-REST-API-Key": "RESTID",
-            "Content-Type": "application/json; charset=UTF-8"
+            "Content-Type": "application/json"
         },
         methods: [ {
             name: "getEtablishments",
@@ -129,11 +127,11 @@ function Controller() {
     });
     var happyhour = Alloy.createCollection("happyhour");
     var etablishment = Alloy.createCollection("etablishment");
-    if (Alloy.Globals.hasConnection && 0 == happyhour.count() && 0 == etablishment.count()) {
+    if (Alloy.Globals.hasConnection && 0 === happyhour.count() && 0 === etablishment.count()) {
         api.getEtablishments(function(json) {
             Ti.API.info("on récupère les établissement");
             var d = new Date();
-            var day = 0 == d.getDay() ? 7 : d.getDay();
+            var day = 0 === d.getDay() ? 7 : d.getDay();
             var havehappy;
             var data;
             var etablishment;
@@ -159,6 +157,7 @@ function Controller() {
             Ti.API.info("on récupère les Happys");
             for (var i = 0; i < json.happyhour.length; i++) {
                 var data = json.happyhour[i];
+                Ti.API.info(data.text);
                 var happyhour = Alloy.createModel("happyhour", {
                     id: data.id,
                     id_etablishment: data.id_etablishment,
@@ -169,7 +168,15 @@ function Controller() {
                 happyhour.save();
             }
         });
+    } else if (0 === happyhour.count() && 0 === etablishment.count()) {
+        var dialog = Ti.UI.createAlertDialog({
+            message: "Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.",
+            ok: "Je comprends",
+            title: "Attention"
+        });
+        dialog.show();
     }
+    Alloy.Collections.etablishment.fetch();
     _.extend($, exports);
 }
 

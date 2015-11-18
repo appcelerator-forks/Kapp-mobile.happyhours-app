@@ -1,6 +1,10 @@
 <Alloy>
-	<Window tabBarHidden="true" navBarHidden="true">
-    	<Module id="mapview" mapType="NORMAL_TYPE" animate="true" regionFit="true" module="ti.map" method="createView">
-        </Module>
-    </Window>
+
+
+	<Window id="map" title="Map" statusBarStyle="Ti.UI.iPhone.StatusBar.LIGHT_CONTENT">
+		<Module id="mapview" mapType="NORMAL_TYPE" animate="true" userLocation="true" regionFit="true" module="ti.map" method="createView"></Module>
+
+		<Button id="backToMe" width="60" height="60" />
+	</Window>
+	
 </Alloy>

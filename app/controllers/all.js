@@ -6,11 +6,8 @@
 function goEtablishment() {
 
 	var etablishmentView = Alloy.createController('etablishment', {
-		'etablishmentId'	: 1,
-		'etablishmentTitle'	: "test"
+		'etablishmentId'	: this.idEtablishment,
+		'etablishmentTitle'	: this.titleEtablishment
 	}).getView();
-	
-	//etablishmentView.left = 250;
-	etablishmentView.open();
 
 }

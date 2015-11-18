@@ -11,7 +11,7 @@ var hour  = new Array();
 var day = new Array();
 var i =0;
 
-var happyhourData = db.execute("SELECT * FROM happyhours WHERE id_etablishment = " +  etablishmentId);
+var happyhourData = db.execute("SELECT * FROM happyhour WHERE id_etablishment = " +  etablishmentId);
 while (happyhourData.isValidRow()){
 	happy.push(happyhourData.fieldByName('text'));
 	hour.push(happyhourData.fieldByName('hours'));
@@ -56,12 +56,12 @@ var blackView1 = Ti.UI.createView({
     width: "100%",
     top : "26.9%"
 });
-var vibesView = Ti.UI.createView({
+/*var vibesView = Ti.UI.createView({
 	backgroundColor:'white',
     height: "10%",
     width: "100%",
     top : "27.18%"
-});
+});*/
 var blackView2 = Ti.UI.createView({
 	backgroundColor:'gray',
     height: "0.18%",
@@ -79,6 +79,13 @@ var btnBack = Ti.UI.createButton({
 	top: "53%",
 	left : "5%"
 });
+var btnGoToMap = Ti.UI.createButton({ 
+	title: 'Map>', 
+	color: "black", 
+	backgroundImage: "none",
+	top: "53%",
+	right : "5%"
+});
 
 /////////////////////////////////////////////////////////
 ////////////////////LABEL////////////////////////////////
@@ -93,23 +100,6 @@ var labeladress = Ti.UI.createLabel({
 	text: adress, 
 	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	color: "black"
-});
-var labelStar = Ti.UI.createLabel({ 
-	text: "3 etoiles ", 
-	color: "black", 
-	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
-});
-var labelNumber = Ti.UI.createLabel({ 
-	text: "3 personnes", 
-	color: "black", 
-	top: "28%",
-	left : "2%"
-});
-var labelVibes = Ti.UI.createLabel({ 
-	text: "sourire ", 
-	color: "black", 
-	top: "28%",
-	right : "2%"
 });
 
 ////////////////////////////////////////////////////////
@@ -134,6 +124,7 @@ for (var j = 0; j<hour.length; j++) {
 		backgroundColor:'white',
 		className: 'row',
 		height: "30%",
+		selectedBackgroundColor: "Transparent"
 	}));
 
 	labelDay.push(Ti.UI.createLabel({   
@@ -224,7 +215,7 @@ for (var j = 0; j<hour.length; j++) {
 	oneHappy[j].add(labelDay[j]);
 	oneHappy[j].add(labelHour[j]);
 	oneHappy[j].add(labelHappy[j]);
-};
+}
 /////////////////////////////////////////////////////////
 //////////////////ANIMATION//////////////////////////////
 /////////////////////////////////////////////////////////
@@ -244,25 +235,36 @@ btnBack.addEventListener('click', function(){
 
 });
 
+btnGoToMap.addEventListener('click', function(){
+	
+	Ti.API.info('hey');
+	var mapView = Alloy.createController('mapEtablishment', {
+		'etablishmentId' : etablishmentId
+	}).getView();
+
+
+});
+
 /////////////////////////////////////////////////////////
 //////////////////////ADD////////////////////////////////
 /////////////////////////////////////////////////////////
 
 controlView.add(btnBack);
 controlView.add(labelTitle);
+controlView.add(btnGoToMap);
 
 adressView.add(labeladress);
 
-vibesView.add(labelNumber);
+/*vibesView.add(labelNumber);
 vibesView.add(labelStar);
-vibesView.add(labelVibes);
+vibesView.add(labelVibes);*/
 
 
 var happyViewScroll = Ti.UI.createTableView({
   	backgroundColor:'white',
-  	height: "62.63%",
+  	height: "72.63%",
     width: "100%",
-    top : "37.36%",
+    top : "27.18%",
     data: oneHappy
 
 });
@@ -273,8 +275,8 @@ var happyViewScroll = Ti.UI.createTableView({
 $.etablishment.add(controlView);
 $.etablishment.add(adressView);
 $.etablishment.add(blackView1);
-$.etablishment.add(vibesView);
-$.etablishment.add(blackView2);
+//$.etablishment.add(vibesView);
+//$.etablishment.add(blackView2);
 $.etablishment.add(happyViewScroll);
 
 $.etablishment.open();

@@ -1,5 +1,6 @@
 $.tabgroup.open();
 
+//We create our TabBar (see alloy.js for more informations about our TabBar)
 new Alloy.Globals.CustomTabBar({
     tabBar: $.tabgroup,
     imagePath: '/tabbar/',
@@ -11,11 +12,10 @@ new Alloy.Globals.CustomTabBar({
         { image: 'map.png', selected: 'map_select.png' },
         { image: 'info.png', selected: 'info_select.png' }
     ]
+    // TODO : Change images
 });
 
-Alloy.Collections.etablishment.fetch();
-Alloy.Collections.happyhour.fetch();
-
+//we use RESTe to take data from API
 var reste = require("reste");
 var api = new reste();
 
@@ -27,7 +27,7 @@ api.config({
     requestHeaders: {
         "X-Parse-Application-Id": "APPID",
         "X-Parse-REST-API-Key": "RESTID",
-        "Content-Type": "application/json; charset=UTF-8"
+        "Content-Type": "application/json"
     },
     methods: [{
         name: "getEtablishments",
@@ -53,20 +53,25 @@ api.config({
 var happyhour = Alloy.createCollection('happyhour');
 var etablishment = Alloy.createCollection('etablishment');
 
+/*for test */
+//happyhour.deleteAll();   
+//etablishment.deleteAll();
 
-if(Alloy.Globals.hasConnection  && happyhour.count() == 0 && etablishment.count() == 0){
+//If have a connection and no data
+if(Alloy.Globals.hasConnection  && happyhour.count() === 0 && etablishment.count() === 0){ 
 
 
     api.getEtablishments(function(json){
     
         Ti.API.info("on récupère les établissement");
         var d   = new Date();
-        var day = d.getDay() == 0 ? 7 : d.getDay();//day
+        var day = d.getDay() === 0 ? 7 : d.getDay();//day
        
         var havehappy;
         var data;
         var etablishment;
         
+        //we use now in moment.js to display moment's information of the happy hours 
         var now = "not now";
                 
          for (var i = 0; i < json.etablishment.length; i++) {
@@ -100,6 +105,8 @@ if(Alloy.Globals.hasConnection  && happyhour.count() == 0 && etablishment.count(
         
             var data    = json.happyhour[i];
 
+            Ti.API.info(data.text);
+
             var happyhour = Alloy.createModel('happyhour', {
                 id              : data.id, 
                 id_etablishment : data.id_etablishment,
@@ -111,4 +118,15 @@ if(Alloy.Globals.hasConnection  && happyhour.count() == 0 && etablishment.count(
             happyhour.save();
         }
     });
+
+}else if(happyhour.count() === 0 && etablishment.count() === 0) { // s'il n'est pas connecté et n'a pas déjà importer la base de donnée
+    var dialog = Ti.UI.createAlertDialog({
+    message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.',
+    ok: 'Je comprends',
+    title: 'Attention'
+  });
+  dialog.show();
 }
+
+
+Alloy.Collections.etablishment.fetch();

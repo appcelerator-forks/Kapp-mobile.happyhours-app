@@ -1,0 +1,99 @@
+"#mapview" : {
+	width: "100%",
+	height: "100%"
+},
+"Label": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	color: "#000"
+},
+"#menu": {
+	backgroundImage: 'pics/menu-bg.png'
+}
+
+"#menuRight": {
+	backgroundImage: 'pics/menu-bg.png'
+}
+
+"#leftButton": {
+	width: "44px",
+	height: "44px",
+	backgroundImage: 'pics/btn-menu.png'
+},
+"#win": {
+	backgroundColor: "white",
+	titleAttributes:  {
+        color:'black'
+    }
+},
+".partner": {
+	width: "100%",
+	height: "16%"
+},
+".offers": {
+	top: "60%",
+	left: "40%"
+},
+".localiz": {
+	top: "60%",
+	left: "73%"
+},
+".border": {
+	width: "100%",
+	height: "1px",
+	backgroundColor: "black"	
+},
+
+".accueil": {
+	top: "25%"
+},
+"Button": {
+	color: "white",
+	top: '25px',
+	left: "10%",
+	font: {
+        fontSize: 20,
+        fontWeight: 'bold'
+   },
+   shadowColor: '#000000',
+   shadowRadius: 3
+}
+
+"#backToMe": {
+	backgroundImage: "pics/btn-card.png",
+	left: "75%",
+	top: "80%",
+	width: 60,
+	height: 60
+}
+
+"#back": {
+	left: "0%",
+	top: "5%",
+	width: 120,
+	height: 60,
+	font: {
+        fontSize: 20,
+        fontWeight: 'bold'
+   },
+	color: "black"
+
+}
+
+"#rightButton": {
+	width: 				"44px",
+	height: 			"44px",
+	backgroundImage: 	"pics/btn-info.png"
+}
+
+".credit": {
+	font: {
+		fontWeight: "bold"
+	},
+	color: "white"
+}
+
+"#findUs": {
+	color: "#e3004e",
+	shadowColor: '#ffffff'
+}

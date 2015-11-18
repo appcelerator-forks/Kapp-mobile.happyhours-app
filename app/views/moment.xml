@@ -2,8 +2,8 @@
 	<Collection src="etablishment" />
 	<Window id="moment" title="Happy Hours" tabBarHidden="true">
 		<Widget id="ptr" src="nl.fokkezb.pullToRefresh" onRelease="myRefresher">
-			<TableView  layout="vertical" width="100%" height="90%" id="happyhourcontents" dataCollection="etablishment">
-				<TableViewRow width="100%" height="20%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment">
+			<TableView  layout="vertical" width="100%" height="90%" id="happyhourcontents" dataCollection="etablishment" dataTransform="transform" dataFilter="haveHappyFilter">
+				<TableViewRow width="100%" height="20%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment" selectedBackgroundColor="##E8E8E8">
 					<Label text="{name}" class="name" />
 					<Label text="{now}" class="happy"/>
 				</TableViewRow>

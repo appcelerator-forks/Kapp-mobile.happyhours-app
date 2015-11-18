@@ -21,7 +21,8 @@ function Controller() {
                 width: "100%",
                 height: "20%",
                 idEtablishment: "undefined" != typeof __alloyId2.__transform["id"] ? __alloyId2.__transform["id"] : __alloyId2.get("id"),
-                titleEtablishment: "undefined" != typeof __alloyId2.__transform["name"] ? __alloyId2.__transform["name"] : __alloyId2.get("name")
+                titleEtablishment: "undefined" != typeof __alloyId2.__transform["name"] ? __alloyId2.__transform["name"] : __alloyId2.get("name"),
+                selectedBackgroundColor: "##E8E8E8"
             });
             rows.push(__alloyId4);
             goEtablishment ? $.addListener(__alloyId4, "click", goEtablishment) : __defers["__alloyId4!click!goEtablishment"] = true;
@@ -43,11 +44,10 @@ function Controller() {
         $.__views.partnerscontent.setData(rows);
     }
     function goEtablishment() {
-        var etablishmentView = Alloy.createController("etablishment", {
-            etablishmentId: 1,
-            etablishmentTitle: "test"
+        Alloy.createController("etablishment", {
+            etablishmentId: this.idEtablishment,
+            etablishmentTitle: this.titleEtablishment
         }).getView();
-        etablishmentView.open();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "all";
