@@ -1,6 +1,144 @@
 Alloy.Globals.json;
 Alloy.Globals.dataEtablishment  =  {};
 
+
+//////////////////////GET DATA////////////////////////////
+
+//we use RESTe to take data from API
+var reste = require("reste");
+var api = new reste();
+
+var dialogNoConnection = Ti.UI.createAlertDialog({
+    message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une première fois.',
+    ok: 'Je comprends',
+    title: 'Attention'
+  });
+
+api.config({
+    debug: true, // allows logging to console of ::REST:: messages
+    autoValidateParams: false, // set to true to throw errors if <param> url properties are not passed
+    timeout: 4000,
+    url: "http://happyhours-app.fr/api/",
+    requestHeaders: {
+        "X-Parse-Application-Id": "APPID",
+        "X-Parse-REST-API-Key": "RESTID",
+        "Content-Type": "application/json"
+    },
+    methods: [{
+        name: "getEtablishments",
+        post: "allEtablishment.php",
+        onError: function(e, callback){
+            dialogNoConnection.show();
+
+            /* for test */
+            var etablishment = Alloy.createCollection('etablishment');
+
+             etablishment = Alloy.createModel('etablishment', {
+                id          : 1, 
+                name        : "TestBar",
+                adress      : "07 rue de la rocalve",
+                gps         : "",
+                yelp_id     : "",
+                city        : "Toulouse",
+                haveHappy   : "true",
+                now         : "not now"
+            }); 
+
+            etablishment.save();
+
+        }
+    },{
+    	name: "getHappyHours",
+        post: "allHappyHours.php",
+        onError: function(e, callback){
+            //dialogNoConnection.show();
+        }
+    }],
+    onError: function(e) {
+        dialogNoConnection.show();
+    },
+    onLoad: function(e, callback) {
+        callback(e);
+    }
+});
+
+function getAllData(){
+
+var happyhour = Alloy.createCollection('happyhour');
+var etablishment = Alloy.createCollection('etablishment');
+
+
+if(!happyhour.count() && !etablishment.count()){
+    api.getEtablishments(function(json){
+    
+	        Ti.API.info("on récupère les établissement ");
+	        var d   = new Date();
+	        var day = d.getDay() === 0 ? 7 : d.getDay();//day
+	       
+	        var havehappy;
+	        var data;
+	        var etablishment;
+	        
+	        //we use now in moment.js to display moment's information of the happy hours 
+	        var now = "not now";
+	                
+	         for (var i = 0; i < json.etablishment.length; i++) {
+	            data = json.etablishment[i];
+	            
+	             havehappy = "false";
+
+	            if (data.dayHappy.indexOf(day) >= 0) //Happy is today?
+	                havehappy = "true";
+
+	            etablishment = Alloy.createModel('etablishment', {
+	                id          : data.id, 
+	                name        : data.name,
+	                adress      : data.adress,
+	                gps         : data.gps,
+	                yelp_id     : data. yelp_id,
+	                city        : data.city,
+	                haveHappy   : havehappy,
+	                now         : now
+	            }); 
+
+	            etablishment.save();
+	           
+	         }
+	    
+	    });
+
+	    api.getHappyHours(function(json){
+	        
+	        Ti.API.info("on récupère les Happys");
+	        
+	        for (var i = 0; i < json.happyhour.length; i++) {
+	        
+	            var data    = json.happyhour[i];
+
+	            var happyhour = Alloy.createModel('happyhour', {
+	                id              : data.id, 
+	                id_etablishment : data.id_etablishment,
+	                day             : data.day,
+	                text            : data.text,
+	                hours           : data. hours
+
+	            }); 
+	            happyhour.save();
+	           //Alloy.Collections.happyhour.fetch();
+	        }
+	    });
+
+	    Ti.API.info(Alloy.Collections);
+	   
+	}
+}
+
+
+
+
+
+//////////////////////////TabBar/////////////////////////////////////////
+
 Alloy.Globals.CustomTabBar = function(settings) {
 	var tabBarItems = [];
 	var	tabCurrent = 0;

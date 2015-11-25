@@ -30,10 +30,11 @@ function Controller() {
             color: "white",
             fontWeight: "bold"
         },
-        height: "100%",
+        height: "90%",
         width: "100%",
         id: "etablishment",
-        title: "Etablishment"
+        title: "Etablishment",
+        top: "0"
     });
     $.__views.etablishment && $.addTopLevelView($.__views.etablishment);
     exports.destroy = function() {};

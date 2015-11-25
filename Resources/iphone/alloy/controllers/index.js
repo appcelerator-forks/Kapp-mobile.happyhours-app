@@ -73,6 +73,7 @@ function Controller() {
     $.__views.tabgroup && $.addTopLevelView($.__views.tabgroup);
     exports.destroy = function() {};
     _.extend($, $.__views);
+    getAllData();
     $.tabgroup.open();
     new Alloy.Globals.CustomTabBar({
         tabBar: $.tabgroup,
@@ -93,90 +94,6 @@ function Controller() {
             selected: "info_select.png"
         } ]
     });
-    var reste = require("reste");
-    var api = new reste();
-    api.config({
-        debug: true,
-        autoValidateParams: false,
-        timeout: 4e3,
-        url: "http://happyhours-app.fr/api/",
-        requestHeaders: {
-            "X-Parse-Application-Id": "APPID",
-            "X-Parse-REST-API-Key": "RESTID",
-            "Content-Type": "application/json"
-        },
-        methods: [ {
-            name: "getEtablishments",
-            post: "allEtablishment.php",
-            onError: function() {
-                alert("There was an error getting the courses!");
-            }
-        }, {
-            name: "getHappyHours",
-            post: "allHappyHours.php",
-            onError: function() {
-                alert("There was an error getting the courses!");
-            }
-        } ],
-        onError: function() {
-            alert("There was an error accessing the API");
-        },
-        onLoad: function(e, callback) {
-            callback(e);
-        }
-    });
-    var happyhour = Alloy.createCollection("happyhour");
-    var etablishment = Alloy.createCollection("etablishment");
-    if (Alloy.Globals.hasConnection && 0 === happyhour.count() && 0 === etablishment.count()) {
-        api.getEtablishments(function(json) {
-            Ti.API.info("on récupère les établissement");
-            var d = new Date();
-            var day = 0 === d.getDay() ? 7 : d.getDay();
-            var havehappy;
-            var data;
-            var etablishment;
-            var now = "not now";
-            for (var i = 0; i < json.etablishment.length; i++) {
-                data = json.etablishment[i];
-                havehappy = "false";
-                data.dayHappy.indexOf(day) >= 0 && (havehappy = "true");
-                etablishment = Alloy.createModel("etablishment", {
-                    id: data.id,
-                    name: data.name,
-                    adress: data.adress,
-                    gps: data.gps,
-                    yelp_id: data.yelp_id,
-                    city: data.city,
-                    haveHappy: havehappy,
-                    now: now
-                });
-                etablishment.save();
-            }
-        });
-        api.getHappyHours(function(json) {
-            Ti.API.info("on récupère les Happys");
-            for (var i = 0; i < json.happyhour.length; i++) {
-                var data = json.happyhour[i];
-                Ti.API.info(data.text);
-                var happyhour = Alloy.createModel("happyhour", {
-                    id: data.id,
-                    id_etablishment: data.id_etablishment,
-                    day: data.day,
-                    text: data.text,
-                    hours: data.hours
-                });
-                happyhour.save();
-            }
-        });
-    } else if (0 === happyhour.count() && 0 === etablishment.count()) {
-        var dialog = Ti.UI.createAlertDialog({
-            message: "Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.",
-            ok: "Je comprends",
-            title: "Attention"
-        });
-        dialog.show();
-    }
-    Alloy.Collections.etablishment.fetch();
     _.extend($, exports);
 }
 

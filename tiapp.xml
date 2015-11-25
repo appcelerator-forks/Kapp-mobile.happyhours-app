@@ -61,8 +61,8 @@
         <module platform="android" version="2.0.3">ti.compression</module>
         <module platform="android">bencoding.android.tools</module>
         <module platform="commonjs">reste</module>
-        <module platform="android" version="2.0.2">ti.styledlabel</module>
-        <module platform="iphone" version="1.6.1">ti.styledlabel</module>
+        <module platform="android">ti.styledlabel</module>
+        <module platform="iphone">ti.styledlabel</module>
     </modules>
     <property name="tishadow:version" type="string">2.8.2</property>
     <property name="ti.android.bug2373.skipAlert" type="bool">true</property>

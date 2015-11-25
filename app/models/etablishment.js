@@ -13,7 +13,6 @@ exports.definition = {
 		"defaults": {
 			"name"			:  "",
 			"adress"		:  "",
-			"adress"		:  "",
 			"gps"			:  "",
 			"yelp_id"		:  0,
 			"city"			:  "",
@@ -63,4 +62,4 @@ exports.definition = {
 		});
 		return Collection;
 	}
-}
+};

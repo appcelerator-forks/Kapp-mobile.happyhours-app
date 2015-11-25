@@ -86,6 +86,7 @@ function Controller() {
         __alloyId9.off("fetch destroy change add remove reset", __alloyId10);
     };
     _.extend($, $.__views);
+    Alloy.Collections.etablishment.fetch();
     __defers["__alloyId4!click!goEtablishment"] && $.addListener(__alloyId4, "click", goEtablishment);
     _.extend($, exports);
 }

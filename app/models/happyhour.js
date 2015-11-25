@@ -54,4 +54,4 @@ exports.definition = {
 		});
 		return Collection;
 	}
-}
+};
