@@ -2,6 +2,9 @@ var Map 	= require('ti.map');
 var mapview = Map.createView({mapType:Map.NORMAL_TYPE});
 
 
+/////////////////////////////////////////////////////////
+/////////////////////INITIALIZATION/////////////////////
+///////////////////////////////////////////////////////
 // Toulouse center
 var latitude  = 43.604652;
 var longitude = 1.4442090000000007;
@@ -38,6 +41,10 @@ Ti.Geolocation.addEventListener('location',function(e){
 
 });
 
+
+/////////////////////////////////////////////////////////
+//////////////////EVENT LISTENER////////////////////////
+///////////////////////////////////////////////////////
 $.backToMe.addEventListener('click', function(e) {
 	$.mapview.setRegion({
 		latitude: latitude, longitude: longitude,
@@ -50,7 +57,7 @@ $.backToMe.addEventListener('click', function(e) {
 var etablishment = Alloy.createCollection('etablishment');
 etablishment.fetch();
 
-
+// for each etablishment we build an annotation
 etablishment.each(function(etablishment) {
 
 
@@ -89,9 +96,10 @@ etablishment.each(function(etablishment) {
 	
 });
 
+
+
 function clickAnnotation(evt) {
 
-	Ti.API.info("on a cliquer dessus");
  	if (evt.clicksource == 'leftButton') {
  		goEtablishment(evt.annotation.myId, evt.title);
  	}

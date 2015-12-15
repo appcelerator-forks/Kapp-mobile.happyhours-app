@@ -1,7 +1,11 @@
 <Alloy>
 
 	<Window id="etablishment" title="Etablishment" >
+		<TabbedBar>
+			 <Label title="Etalishment"/>
+			  <Label title="Map"/>
 
+		</TabbedBar>
 	</Window>
 	
 </Alloy>

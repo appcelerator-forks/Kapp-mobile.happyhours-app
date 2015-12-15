@@ -30,11 +30,11 @@ function Controller() {
         statusBarStyle: Ti.UI.iPhone.StatusBar.LIGHT_CONTENT
     });
     $.__views.MapEtablishment && $.addTopLevelView($.__views.MapEtablishment);
-    var __alloyId20 = [];
+    var __alloyId23 = [];
     $.__views.mapview = (require("ti.map").createView || Ti.UI.createView)({
         width: "100%",
         height: "100%",
-        annotations: __alloyId20,
+        annotations: __alloyId23,
         id: "mapview",
         mapType: "NORMAL_TYPE",
         animate: "true",
@@ -42,22 +42,6 @@ function Controller() {
         regionFit: "true"
     });
     $.__views.MapEtablishment.add($.__views.mapview);
-    $.__views.back = Ti.UI.createButton({
-        color: "black",
-        top: "5%",
-        left: "0%",
-        font: {
-            fontSize: 20,
-            fontWeight: "bold"
-        },
-        shadowColor: "#000000",
-        shadowRadius: 3,
-        width: 120,
-        height: 60,
-        id: "back",
-        title: "<Retour"
-    });
-    $.__views.MapEtablishment.add($.__views.back);
     $.__views.backToMe = Ti.UI.createButton({
         color: "white",
         top: "80%",
@@ -82,6 +66,7 @@ function Controller() {
     });
     var args = arguments[0] || {};
     var etablishmentId = args.etablishmentId;
+    var etablishmentTitle = args.etablishmentTitle;
     var latitude = 43.604652;
     var longitude = 1.4442090000000007;
     Ti.Geolocation.distanceFilter = 10;
@@ -95,6 +80,12 @@ function Controller() {
         longitude = e.coords.longitude;
         latitude = e.coords.latitude;
     });
+    $.mapview.setRegion({
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: .02,
+        longitudeDelta: .02
+    });
     $.backToMe.addEventListener("click", function() {
         $.mapview.setRegion({
             latitude: latitude,
@@ -102,15 +93,6 @@ function Controller() {
             latitudeDelta: .02,
             longitudeDelta: .02
         });
-    });
-    $.back.addEventListener("click", function() {
-        $.MapEtablishment.close();
-    });
-    $.mapview.setRegion({
-        latitude: latitude,
-        longitude: longitude,
-        latitudeDelta: .02,
-        longitudeDelta: .02
     });
     var etablishment = Alloy.createCollection("etablishment");
     etablishment.fetch();
@@ -139,7 +121,25 @@ function Controller() {
             $.mapview.addAnnotation(annotation);
         }
     });
+    var tabbedBar = Ti.UI.createTabbedBar({
+        labels: [ "Etablishment", "Map" ],
+        style: Titanium.UI.iPhone.SystemButtonStyle.BAR,
+        top: "9%"
+    });
+    tabbedBar.index = 1;
+    $.MapEtablishment.add(tabbedBar);
     $.MapEtablishment.open();
+    tabbedBar.addEventListener("click", function(e) {
+        if (0 === e.index) {
+            $.MapEtablishment.close();
+            {
+                Alloy.createController("etablishment", {
+                    etablishmentId: etablishmentId,
+                    etablishmentTitle: etablishmentTitle
+                });
+            }
+        }
+    });
     _.extend($, exports);
 }
 

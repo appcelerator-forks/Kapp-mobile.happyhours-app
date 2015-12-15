@@ -12,10 +12,13 @@ new Alloy.Globals.CustomTabBar({
         { image: 'map.png', selected: 'map_select.png' },
         { image: 'info.png', selected: 'info_select.png' }
     ]
-    // TODO : Change images
+    // TODO : Change images !
 });
 
 //we use RESTe to take data from API
+/////////////////////////////////////////////////////////
+/////////////Reste initilization////////////////////////
+///////////////////////////////////////////////////////
 var reste = require("reste");
 var api = new reste();
 
@@ -54,10 +57,16 @@ var happyhour = Alloy.createCollection('happyhour');
 var etablishment = Alloy.createCollection('etablishment');
 
 /*for test */
+//////////////////////////////////////
 //happyhour.deleteAll();   
 //etablishment.deleteAll();
+//////////////////////////////////////
 
 //If have a connection and no data
+
+/////////////////////////////////////////////////////////
+////////////////////Get DATA////////////////////////////
+///////////////////////////////////////////////////////
 if(Alloy.Globals.hasConnection  && happyhour.count() === 0 && etablishment.count() === 0){ 
 
 
@@ -119,7 +128,7 @@ if(Alloy.Globals.hasConnection  && happyhour.count() === 0 && etablishment.count
         }
     });
 
-}else if(happyhour.count() === 0 && etablishment.count() === 0) { // s'il n'est pas connecté et n'a pas déjà importer la base de donnée
+}else if(happyhour.count() === 0 && etablishment.count() === 0) { // If client are not connected, and if he have no data
     var dialog = Ti.UI.createAlertDialog({
     message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.',
     ok: 'Je comprends',
@@ -129,4 +138,7 @@ if(Alloy.Globals.hasConnection  && happyhour.count() === 0 && etablishment.count
 }
 
 
+/////////////////////////////////////////////////////////
+///////////////FETCH DATA///////////////////////////////
+///////////////////////////////////////////////////////
 Alloy.Collections.etablishment.fetch();

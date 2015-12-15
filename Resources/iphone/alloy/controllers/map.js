@@ -9,7 +9,6 @@ function __processArg(obj, key) {
 
 function Controller() {
     function clickAnnotation(evt) {
-        Ti.API.info("on a cliquer dessus");
         "leftButton" == evt.clicksource && goEtablishment(evt.annotation.myId, evt.title);
     }
     function goEtablishment(etablishmentId, etablishmentTitle) {
@@ -41,11 +40,11 @@ function Controller() {
         statusBarStyle: Ti.UI.iPhone.StatusBar.LIGHT_CONTENT
     });
     $.__views.map && $.addTopLevelView($.__views.map);
-    var __alloyId19 = [];
+    var __alloyId22 = [];
     $.__views.mapview = (require("ti.map").createView || Ti.UI.createView)({
         width: "100%",
         height: "100%",
-        annotations: __alloyId19,
+        annotations: __alloyId22,
         id: "mapview",
         mapType: "NORMAL_TYPE",
         animate: "true",
