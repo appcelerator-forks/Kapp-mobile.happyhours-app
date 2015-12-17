@@ -73,7 +73,6 @@ function Controller() {
     $.__views.tabgroup && $.addTopLevelView($.__views.tabgroup);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    $.tabgroup.open();
     new Alloy.Globals.CustomTabBar({
         tabBar: $.tabgroup,
         imagePath: "/tabbar/",
@@ -121,8 +120,13 @@ function Controller() {
         onError: function() {
             alert("There was an error accessing the API");
         },
-        onLoad: function(e, callback) {
-            callback(e);
+        onLoad: function() {
+            var dialog = Ti.UI.createAlertDialog({
+                message: "Chargement des donnée",
+                ok: "Je comprends",
+                title: "Attention"
+            });
+            dialog.show();
         }
     });
     var happyhour = Alloy.createCollection("happyhour");
@@ -151,10 +155,11 @@ function Controller() {
                     now: now
                 });
                 etablishment.save();
+                etablishment.fetch();
             }
         });
         api.getHappyHours(function(json) {
-            Ti.API.info("on récupère les Happys");
+            Ti.API.info("on récupère les Happys ");
             for (var i = 0; i < json.happyhour.length; i++) {
                 var data = json.happyhour[i];
                 Ti.API.info(data.text);
@@ -166,6 +171,7 @@ function Controller() {
                     hours: data.hours
                 });
                 happyhour.save();
+                happyhour.fetch();
             }
         });
     } else if (0 === happyhour.count() && 0 === etablishment.count()) {
@@ -176,6 +182,7 @@ function Controller() {
         });
         dialog.show();
     }
+    $.tabgroup.open();
     Alloy.Collections.etablishment.fetch();
     _.extend($, exports);
 }

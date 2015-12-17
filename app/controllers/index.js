@@ -1,5 +1,3 @@
-$.tabgroup.open();
-
 //We create our TabBar (see alloy.js for more informations about our TabBar)
 new Alloy.Globals.CustomTabBar({
     tabBar: $.tabgroup,
@@ -49,7 +47,12 @@ api.config({
         alert("There was an error accessing the API");
     },
     onLoad: function(e, callback) {
-        callback(e);
+        var dialog = Ti.UI.createAlertDialog({
+            message: 'Chargement des donnée',
+            ok: 'Je comprends',
+            title: 'Attention'
+          });
+          dialog.show();
     }
 });
 
@@ -103,12 +106,13 @@ if(Alloy.Globals.hasConnection  && happyhour.count() === 0 && etablishment.count
             }); 
 
             etablishment.save();
+            etablishment.fetch();
          }
     });
 
     api.getHappyHours(function(json){
         
-        Ti.API.info("on récupère les Happys");
+        Ti.API.info("on récupère les Happys ");
         
         for (var i = 0; i < json.happyhour.length; i++) {
         
@@ -125,6 +129,9 @@ if(Alloy.Globals.hasConnection  && happyhour.count() === 0 && etablishment.count
 
             }); 
             happyhour.save();
+            happyhour.fetch();
+
+            
         }
     });
 
@@ -136,6 +143,8 @@ if(Alloy.Globals.hasConnection  && happyhour.count() === 0 && etablishment.count
   });
   dialog.show();
 }
+
+ $.tabgroup.open(); 
 
 
 /////////////////////////////////////////////////////////
