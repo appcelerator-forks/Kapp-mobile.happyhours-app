@@ -1,4 +1,6 @@
 //We create our TabBar (see alloy.js for more informations about our TabBar)
+ $.tabgroup.open(); 
+
 new Alloy.Globals.CustomTabBar({
     tabBar: $.tabgroup,
     imagePath: '/tabbar/',
@@ -47,12 +49,7 @@ api.config({
         alert("There was an error accessing the API");
     },
     onLoad: function(e, callback) {
-        var dialog = Ti.UI.createAlertDialog({
-            message: 'Chargement des donnée',
-            ok: 'Je comprends',
-            title: 'Attention'
-          });
-          dialog.show();
+       callback(e);
     }
 });
 
@@ -70,9 +67,42 @@ var etablishment = Alloy.createCollection('etablishment');
 /////////////////////////////////////////////////////////
 ////////////////////Get DATA////////////////////////////
 ///////////////////////////////////////////////////////
-if(Alloy.Globals.hasConnection  && happyhour.count() === 0 && etablishment.count() === 0){ 
+if(Alloy.Globals.firstOpening){ 
+
+    // si pas d'ahhpyhour et d'établissement existants
+    if (!happyhour.count() && !etablishment.count()) {
+
+        if (!Alloy.Globals.hasConnection()) {
+            var dialog = Ti.UI.createAlertDialog({
+                message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.',
+                ok: 'Je comprends',
+                title: 'Attention'
+            });
+            dialog.show();
+        }else{
+            getAllData();
+        }
+
+    }else {
+        if (!Alloy.Globals.hasConnection()) {
+            var dialog = Ti.UI.createAlertDialog({
+                message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.',
+                ok: 'Je comprends',
+                title: 'Attention'
+            });
+            dialog.show();
+        }else {
+            // TODO : Update data after 24h
+        }
+    }
 
 
+    
+
+}else {
+}
+
+function getAllData(){
     api.getEtablishments(function(json){
     
         Ti.API.info("on récupère les établissement");
@@ -134,17 +164,7 @@ if(Alloy.Globals.hasConnection  && happyhour.count() === 0 && etablishment.count
             
         }
     });
-
-}else if(happyhour.count() === 0 && etablishment.count() === 0) { // If client are not connected, and if he have no data
-    var dialog = Ti.UI.createAlertDialog({
-    message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.',
-    ok: 'Je comprends',
-    title: 'Attention'
-  });
-  dialog.show();
 }
-
- $.tabgroup.open(); 
 
 
 /////////////////////////////////////////////////////////
