@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <id>fr.rkueny.happyhours</id>
+    <id>fr.gkueny.happyhours</id>
     <name>Happy Hours</name>
     <version>1.0</version>
     <publisher>rkueny</publisher>
     <url>http://happyhours-app.fr</url>
     <description>undefined</description>
-    <copyright>2015 by rkueny</copyright>
+    <copyright>2015 by gkueny</copyright>
     <icon>appicon.png</icon>
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
@@ -73,7 +73,7 @@
         <target device="iphone">true</target>
         <target device="mobileweb">false</target>
     </deployment-targets>
-    <sdk-version>5.0.0.GA</sdk-version>
+    <sdk-version>5.2.0.GA</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>

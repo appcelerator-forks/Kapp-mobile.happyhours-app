@@ -3,7 +3,11 @@ var mapview = Map.createView({mapType:Map.NORMAL_TYPE});
 
 var args 			=  arguments[0] || {};
 var etablishmentId 	=  args.etablishmentId;
+var etablishmentTitle 	=  args.etablishmentTitle;
 
+/////////////////////////////////////////////////////////
+/////////////////////INITIALIZATION/////////////////////
+///////////////////////////////////////////////////////
 
 // Toulouse center
 var latitude  = 43.604652;
@@ -28,28 +32,27 @@ Ti.Geolocation.addEventListener('location',function(e){
 
 });
 
-$.backToMe.addEventListener('click', function(e) {
-	$.mapview.setRegion({
-		latitude: latitude, longitude: longitude,
-        latitudeDelta:0.02, longitudeDelta:0.02
-	});
-});
-$.back.addEventListener('click', function(e) {
-	$.MapEtablishment.close();
-});
-
-
-
 $.mapview.setRegion({
 	latitude: latitude, longitude: longitude,
     latitudeDelta:0.02, longitudeDelta:0.02
 
 });
 
+/////////////////////////////////////////////////////////
+//////////////////EVENT LISTENER////////////////////////
+///////////////////////////////////////////////////////
+$.backToMe.addEventListener('click', function(e) {
+	$.mapview.setRegion({
+		latitude: latitude, longitude: longitude,
+        latitudeDelta:0.02, longitudeDelta:0.02
+	});
+});
+
 var etablishment = Alloy.createCollection('etablishment');
 etablishment.fetch();
 
 
+// for each etablishment we build an annotation
 etablishment.each(function(etablishment) {
 
 
@@ -91,6 +94,17 @@ etablishment.each(function(etablishment) {
 });
 
 
+var tabbedBar = Ti.UI.createTabbedBar({
+	labels:['Etablishment', 'Map'],
+	style:Titanium.UI.iPhone.SystemButtonStyle.BAR,
+	top : "9%"
+
+});
+
+tabbedBar.index = 1; 
+
+$.MapEtablishment.add(tabbedBar);
+
 $.MapEtablishment.open();
 
 function clickAnnotation(evt) {
@@ -102,17 +116,18 @@ function clickAnnotation(evt) {
 
 }
 
-/////////////////////////////////////////////////////////
-/////// GO TO etablishment VIEW ////////
-/////////////////////////////////////////////////////////
 
-function goEtablishment(etablishmentId, etablishmentTitle) {
+tabbedBar.addEventListener('click', function(e){
+	
+	if(e.index === 0){
 
-	var etablishmentView = Alloy.createController('etablishment', {
-		'etablishmentId': 	etablishmentId,
-		'etablishmentTitle': etablishmentTitle
-	}).getView();
-
-	etablishmentView.open();
-}
+		$.MapEtablishment.close();
+		var etablishmentView = Alloy.createController('etablishment', {
+			'etablishmentId'	: etablishmentId,
+			'etablishmentTitle'	: etablishmentTitle
+		});
+	}else{
+		
+	}
+});
 

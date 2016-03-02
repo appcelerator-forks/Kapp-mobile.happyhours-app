@@ -6,9 +6,9 @@ var etablishmentTitle 	=  args.etablishmentTitle;
 ////////////////////SQL//////////////////////////////////
 /////////////////////////////////////////////////////////
 var db = Ti.Database.open('happyhourdb');
-var happy  = new Array();
-var hour  = new Array();
-var day = new Array();
+var happy  = [];
+var hour  = [];
+var day = [];
 var i =0;
 
 var happyhourData = db.execute("SELECT * FROM happyhour WHERE id_etablishment = " +  etablishmentId);
@@ -38,6 +38,16 @@ $.etablishment.animate({
 /////////////////////////////////////////////////////////
 ////////////MAIN VIEW ///////////////////////////////////
 /////////////////////////////////////////////////////////
+
+var tabbedBar = Ti.UI.createTabbedBar({
+	labels:['Etablishment', 'Map'],
+	style:Titanium.UI.iPhone.SystemButtonStyle.BAR,
+	top : "60%"
+
+});
+
+tabbedBar.index = 0; 
+
 var controlView = Ti.UI.createView({
 	backgroundColor:'white',
     height: "14%",
@@ -56,12 +66,6 @@ var blackView1 = Ti.UI.createView({
     width: "100%",
     top : "26.9%"
 });
-/*var vibesView = Ti.UI.createView({
-	backgroundColor:'white',
-    height: "10%",
-    width: "100%",
-    top : "27.18%"
-});*/
 var blackView2 = Ti.UI.createView({
 	backgroundColor:'gray',
     height: "0.18%",
@@ -73,18 +77,11 @@ var blackView2 = Ti.UI.createView({
 ////////////////////BUTTON///////////////////////////////
 /////////////////////////////////////////////////////////
 var btnBack = Ti.UI.createButton({ 
-	title: '<Retour', 
+	title: ' < ', 
 	color: "black", 
 	backgroundImage: "none",
 	top: "53%",
 	left : "5%"
-});
-var btnGoToMap = Ti.UI.createButton({ 
-	title: 'Map>', 
-	color: "black", 
-	backgroundImage: "none",
-	top: "53%",
-	right : "5%"
 });
 
 /////////////////////////////////////////////////////////
@@ -93,7 +90,7 @@ var btnGoToMap = Ti.UI.createButton({
 var labelTitle = Ti.UI.createLabel({ 
 	text: etablishmentTitle,
 	color: "black", 
-	top: "60%",
+	top: "30%",
 	left : "37%"
 });
 var labeladress = Ti.UI.createLabel({ 
@@ -105,10 +102,10 @@ var labeladress = Ti.UI.createLabel({
 ////////////////////////////////////////////////////////
 ///////////////////VIEWS Happy Hours///////////////////
 //////////////////////////////////////////////////////
-var labelDay = new Array();
-var labelHour = new Array();
-var labelHappy = new Array();
-var oneHappy = new Array();
+var labelDay = [];
+var labelHour = [];
+var labelHappy = [];
+var oneHappy = [];
 
 var labelTextDay;
 var labeltextHour;
@@ -133,6 +130,9 @@ for (var j = 0; j<hour.length; j++) {
 		width : "15%"
 	}));
 
+	////////////////////////////////////////////////////////
+	///////////////////Happy Hour Day /////////////////////
+	//////////////////////////////////////////////////////
 
 	var happyText = '<p style="text-align: center; font-size: 11px;">';
 
@@ -216,6 +216,7 @@ for (var j = 0; j<hour.length; j++) {
 	oneHappy[j].add(labelHour[j]);
 	oneHappy[j].add(labelHappy[j]);
 }
+
 /////////////////////////////////////////////////////////
 //////////////////ANIMATION//////////////////////////////
 /////////////////////////////////////////////////////////
@@ -228,6 +229,7 @@ var slideRight = Ti.UI.createAnimation();
 /////////////////////////////////////////////////////////
 btnBack.addEventListener('click', function(){ 
 
+	$.etablishment.close();	
     setTimeout(function(e){
     	$.etablishment.left = 320,
         $.etablishment.close(slideRight);
@@ -235,14 +237,18 @@ btnBack.addEventListener('click', function(){
 
 });
 
-btnGoToMap.addEventListener('click', function(){
+tabbedBar.addEventListener('click', function(e){
 	
-	Ti.API.info('hey');
-	var mapView = Alloy.createController('mapEtablishment', {
-		'etablishmentId' : etablishmentId
-	}).getView();
+	if(e.index === 0){
 
+	}else{
+		var mapView = Alloy.createController('mapEtablishment', {
+			'etablishmentId'	: etablishmentId,
+			'etablishmentTitle' : etablishmentTitle
+		});
 
+		$.etablishment.close();
+	}
 });
 
 /////////////////////////////////////////////////////////
@@ -250,8 +256,8 @@ btnGoToMap.addEventListener('click', function(){
 /////////////////////////////////////////////////////////
 
 controlView.add(btnBack);
+controlView.add(tabbedBar);
 controlView.add(labelTitle);
-controlView.add(btnGoToMap);
 
 adressView.add(labeladress);
 

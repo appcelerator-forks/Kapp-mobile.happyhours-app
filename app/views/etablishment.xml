@@ -1,7 +1,15 @@
 <Alloy>
 
+<<<<<<< HEAD
 	<Window id="etablishment" title="Etablishment" height="90%" top="0" >
+=======
+	<Window id="etablishment" title="Etablishment" >
+		<TabbedBar>
+			 <Label title="Etalishment"/>
+			  <Label title="Map"/>
+>>>>>>> master
 
+		</TabbedBar>
 	</Window>
 	
 </Alloy>

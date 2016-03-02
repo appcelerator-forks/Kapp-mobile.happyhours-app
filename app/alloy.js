@@ -1,6 +1,7 @@
 Alloy.Globals.json;
 Alloy.Globals.dataEtablishment  =  {};
 
+<<<<<<< HEAD
 
 //////////////////////GET DATA////////////////////////////
 
@@ -138,6 +139,9 @@ if(!happyhour.count() && !etablishment.count()){
 
 
 //////////////////////////TabBar/////////////////////////////////////////
+=======
+Alloy.Globals.firstOpening  =   true;
+>>>>>>> master
 
 Alloy.Globals.CustomTabBar = function(settings) {
 	var tabBarItems = [];

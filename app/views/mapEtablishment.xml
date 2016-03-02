@@ -2,11 +2,12 @@
 
 
 	<Window id="MapEtablishment" title="map" statusBarStyle="Ti.UI.iPhone.StatusBar.LIGHT_CONTENT">
+
 		<Module id="mapview" mapType="NORMAL_TYPE" animate="true" userLocation="true" regionFit="true" module="ti.map" method="createView"></Module>
 
-
-		<Button id="back" title="<Retour"/>
 		<Button id="backToMe" width="60" height="60" />
+
+
 	</Window>
 	
 </Alloy>

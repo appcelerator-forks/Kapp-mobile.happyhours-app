@@ -1,1 +1,1 @@
-module.exports = [{"isId":true,"priority":100000.0003,"key":"etablishment","style":{barColor:"#e3004e",titleAttributes:{color:"white",fontWeight:"bold",},height:"100%",width:"100%",}},{"isId":true,"priority":100000.0004,"key":"textDay","style":{textAlign:"center",}}];
+module.exports = [{"isId":true,"priority":100000.0004,"key":"etablishment","style":{barColor:"#e3004e",titleAttributes:{color:"white",fontWeight:"bold",},height:"100%",width:"100%",}},{"isId":true,"priority":100000.0005,"key":"textDay","style":{textAlign:"center",}}];

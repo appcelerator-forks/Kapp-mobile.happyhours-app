@@ -37,15 +37,19 @@ function Controller() {
         top: "0"
     });
     $.__views.etablishment && $.addTopLevelView($.__views.etablishment);
+    $.__views.__alloyId11 = Ti.UI.iOS.createTabbedBar({
+        id: "__alloyId11"
+    });
+    $.__views.etablishment.add($.__views.__alloyId11);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};
     var etablishmentId = args.etablishmentId;
     var etablishmentTitle = args.etablishmentTitle;
     var db = Ti.Database.open("happyhourdb");
-    var happy = new Array();
-    var hour = new Array();
-    var day = new Array();
+    var happy = [];
+    var hour = [];
+    var day = [];
     var i = 0;
     var happyhourData = db.execute("SELECT * FROM happyhour WHERE id_etablishment = " + etablishmentId);
     while (happyhourData.isValidRow()) {
@@ -66,6 +70,12 @@ function Controller() {
         left: 0,
         duration: 30
     }, function() {});
+    var tabbedBar = Ti.UI.createTabbedBar({
+        labels: [ "Etablishment", "Map" ],
+        style: Titanium.UI.iPhone.SystemButtonStyle.BAR,
+        top: "60%"
+    });
+    tabbedBar.index = 0;
     var controlView = Ti.UI.createView({
         backgroundColor: "white",
         height: "14%",
@@ -91,23 +101,16 @@ function Controller() {
         top: "37.18%"
     });
     var btnBack = Ti.UI.createButton({
-        title: "<Retour",
+        title: " < ",
         color: "black",
         backgroundImage: "none",
         top: "53%",
         left: "5%"
     });
-    var btnGoToMap = Ti.UI.createButton({
-        title: "Map>",
-        color: "black",
-        backgroundImage: "none",
-        top: "53%",
-        right: "5%"
-    });
     var labelTitle = Ti.UI.createLabel({
         text: etablishmentTitle,
         color: "black",
-        top: "60%",
+        top: "30%",
         left: "37%"
     });
     var labeladress = Ti.UI.createLabel({
@@ -115,10 +118,10 @@ function Controller() {
         textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
         color: "black"
     });
-    var labelDay = new Array();
-    var labelHour = new Array();
-    var labelHappy = new Array();
-    var oneHappy = new Array();
+    var labelDay = [];
+    var labelHour = [];
+    var labelHappy = [];
+    var oneHappy = [];
     var labelTextDay;
     var labeltextHour;
     var StyledLabel = require("ti.styledlabel");
@@ -181,19 +184,25 @@ function Controller() {
     slideRight.right = 320;
     slideRight.duration = 30;
     btnBack.addEventListener("click", function() {
+        $.etablishment.close();
         setTimeout(function() {
             $.etablishment.left = 320, $.etablishment.close(slideRight);
         }, 30);
     });
-    btnGoToMap.addEventListener("click", function() {
-        Ti.API.info("hey");
-        Alloy.createController("mapEtablishment", {
-            etablishmentId: etablishmentId
-        }).getView();
+    tabbedBar.addEventListener("click", function(e) {
+        if (0 === e.index) ; else {
+            {
+                Alloy.createController("mapEtablishment", {
+                    etablishmentId: etablishmentId,
+                    etablishmentTitle: etablishmentTitle
+                });
+            }
+            $.etablishment.close();
+        }
     });
     controlView.add(btnBack);
+    controlView.add(tabbedBar);
     controlView.add(labelTitle);
-    controlView.add(btnGoToMap);
     adressView.add(labeladress);
     var happyViewScroll = Ti.UI.createTableView({
         backgroundColor: "white",

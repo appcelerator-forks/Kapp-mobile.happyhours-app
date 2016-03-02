@@ -51,6 +51,7 @@ Alloy.Globals.json;
 
 Alloy.Globals.dataEtablishment = {};
 
+<<<<<<< HEAD
 var reste = require("reste");
 
 var api = new reste();
@@ -101,6 +102,9 @@ api.config({
         callback(e);
     }
 });
+=======
+Alloy.Globals.firstOpening = true;
+>>>>>>> master
 
 Alloy.Globals.CustomTabBar = function(settings) {
     var tabBarItems = [];
