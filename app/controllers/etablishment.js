@@ -121,7 +121,7 @@ for (var j = 0; j<hour.length; j++) {
 		backgroundColor:'white',
 		className: 'row',
 		height: "30%",
-		selectedBackgroundColor: "Transparent"
+		selectedBackgroundColor: "#fff"
 	}));
 
 	labelDay.push(Ti.UI.createLabel({   

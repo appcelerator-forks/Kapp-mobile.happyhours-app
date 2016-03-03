@@ -30,11 +30,10 @@ function Controller() {
             color: "white",
             fontWeight: "bold"
         },
-        height: "90%",
+        height: "100%",
         width: "100%",
         id: "etablishment",
-        title: "Etablishment",
-        top: "0"
+        title: "Etablishment"
     });
     $.__views.etablishment && $.addTopLevelView($.__views.etablishment);
     $.__views.__alloyId11 = Ti.UI.iOS.createTabbedBar({
@@ -130,7 +129,7 @@ function Controller() {
             backgroundColor: "white",
             className: "row",
             height: "30%",
-            selectedBackgroundColor: "Transparent"
+            selectedBackgroundColor: "#fff"
         }));
         labelDay.push(Ti.UI.createLabel({
             top: "22%",

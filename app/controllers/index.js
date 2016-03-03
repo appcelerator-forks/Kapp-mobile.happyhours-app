@@ -1,76 +1,38 @@
-<<<<<<< HEAD
-getAllData();
-
-$.tabgroup.open();
-
-=======
->>>>>>> master
-//We create our TabBar (see alloy.js for more informations about our TabBar)
- $.tabgroup.open(); 
-
-new Alloy.Globals.CustomTabBar({
-    tabBar: $.tabgroup,
-    imagePath: '/tabbar/',
-    width: 80,
-    height: 49,
-    items: [
-        { image: 'moment.png', selected: 'moment_select.png' },
-        { image: 'search.png', selected: 'search_select.png' },
-        { image: 'map.png', selected: 'map_select.png' },
-        { image: 'info.png', selected: 'info_select.png' }
-    ]
-<<<<<<< HEAD
-    // TODO : Change images
-});
-=======
-    // TODO : Change images !
-});
-
-//we use RESTe to take data from API
-/////////////////////////////////////////////////////////
-/////////////Reste initilization////////////////////////
-///////////////////////////////////////////////////////
-var reste = require("reste");
-var api = new reste();
-
-api.config({
-    debug: true, // allows logging to console of ::REST:: messages
-    autoValidateParams: false, // set to true to throw errors if <param> url properties are not passed
-    timeout: 4000,
-    url: "http://happyhours-app.fr/api/",
-    requestHeaders: {
-        "X-Parse-Application-Id": "APPID",
-        "X-Parse-REST-API-Key": "RESTID",
-        "Content-Type": "application/json"
-    },
-    methods: [{
-        name: "getEtablishments",
-        post: "allEtablishment.php",
-        onError: function(e, callback){
-            alert("There was an error getting the courses!");
-        }
-    },{
-    	name: "getHappyHours",
-        post: "allHappyHours.php",
-        onError: function(e, callback){
-            alert("There was an error getting the courses!");
-        }
-    }],
-    onError: function(e) {
-        alert("There was an error accessing the API");
-    },
-    onLoad: function(e, callback) {
-       callback(e);
-    }
-});
-
 var happyhour = Alloy.createCollection('happyhour');
 var etablishment = Alloy.createCollection('etablishment');
 
+
+var activityIndicator = Ti.UI.createActivityIndicator({
+    color: 'gray',
+    message: 'Chargement...',
+    style: Ti.UI.ActivityIndicatorStyle.DARK,
+    top: '45%',
+    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+    height:Ti.UI.SIZE,
+    width:Ti.UI.SIZE
+});
+
+var chargement = Ti.UI.createWindow({
+    backgroundColor: 'white',
+    fullscreen: true
+});
+
+chargement.add(activityIndicator);
+
+
+
+$.tabgroup.add(chargement);
+
+
+chargement.open();
+
+activityIndicator.show();
+
 /*for test */
 //////////////////////////////////////
-//happyhour.deleteAll();   
-//etablishment.deleteAll();
+happyhour.deleteAll();   
+etablishment.deleteAll();
+
 //////////////////////////////////////
 
 //If have a connection and no data
@@ -79,7 +41,8 @@ var etablishment = Alloy.createCollection('etablishment');
 ////////////////////Get DATA////////////////////////////
 ///////////////////////////////////////////////////////
 if(Alloy.Globals.firstOpening){ 
-
+    //if(true){ 
+        
     // si pas d'ahhpyhour et d'établissement existants
     if (!happyhour.count() && !etablishment.count()) {
 
@@ -91,6 +54,9 @@ if(Alloy.Globals.firstOpening){
             });
             dialog.show();
         }else{
+
+            Ti.API.info("Get All data");
+
             getAllData();
         }
 
@@ -107,79 +73,74 @@ if(Alloy.Globals.firstOpening){
         }
     }
 
+    //sleep(3000);
 
+    setTimeout(function(){ 
+
+        Ti.API.info("End download / end pub ");
+
+        Alloy.Globals.endDownload = false;
+
+        activityIndicator.hide();
+        chargement.close();
+       
+
+        openTab();
+
+        Alloy.Globals.firstOpening = false;
+
+    }, 3000);
+
+    
     
 
 }else {
-}
 
-function getAllData(){
-    api.getEtablishments(function(json){
+    sleep(1000);
+    activityIndicator.hide();
+    chargement.close();
     
-        Ti.API.info("on récupère les établissement");
-        var d   = new Date();
-        var day = d.getDay() === 0 ? 7 : d.getDay();//day
-       
-        var havehappy;
-        var data;
-        var etablishment;
-        
-        //we use now in moment.js to display moment's information of the happy hours 
-        var now = "not now";
-                
-         for (var i = 0; i < json.etablishment.length; i++) {
-            data = json.etablishment[i];
-            
-             havehappy = "false";
+    openTab();
+   
+}
 
-            if (data.dayHappy.indexOf(day) >= 0) //Happy is today?
-                havehappy = "true";
+function openTab(){
 
-            etablishment = Alloy.createModel('etablishment', {
-                id          : data.id, 
-                name        : data.name,
-                adress      : data.adress,
-                gps         : data.gps,
-                yelp_id     : data. yelp_id,
-                city        : data.city,
-                haveHappy   : havehappy,
-                now         : now
-            }); 
+    /////////////////////////////////////////////////////////
+    ///////////////FETCH DATA///////////////////////////////
+    ///////////////////////////////////////////////////////
+    Alloy.Collections.etablishment.fetch();
 
-            etablishment.save();
-            etablishment.fetch();
-         }
-    });
+    $.tabgroup.open(); 
+    $.tabgroup.close(); 
 
-    api.getHappyHours(function(json){
-        
-        Ti.API.info("on récupère les Happys ");
-        
-        for (var i = 0; i < json.happyhour.length; i++) {
-        
-            var data    = json.happyhour[i];
+    $.tabgroup.open(); 
 
-            Ti.API.info(data.text);
+    //We create our TabBar (see alloy.js for more informations about our TabBar)
+    new Alloy.Globals.CustomTabBar({
+        tabBar: $.tabgroup,
+        imagePath: '/tabbar/',
+        width: 80,
+        height: 49,
+        items: [
+            { image: 'moment.png', selected: 'moment_select.png' },
+            { image: 'search.png', selected: 'search_select.png' },
+            { image: 'map.png', selected: 'map_select.png' },
+            { image: 'info.png', selected: 'info_select.png' }
+        ]
 
-            var happyhour = Alloy.createModel('happyhour', {
-                id              : data.id, 
-                id_etablishment : data.id_etablishment,
-                day             : data.day,
-                text            : data.text,
-                hours           : data. hours
-
-            }); 
-            happyhour.save();
-            happyhour.fetch();
-
-            
-        }
+        // TODO : Change images !
     });
 }
 
 
-/////////////////////////////////////////////////////////
-///////////////FETCH DATA///////////////////////////////
-///////////////////////////////////////////////////////
-Alloy.Collections.etablishment.fetch();
->>>>>>> master
+function sleep(miliseconds) {
+   var currentTime = new Date().getTime();
+
+   while (currentTime + miliseconds >= new Date().getTime()) {
+   }
+}
+
+
+
+

@@ -87,24 +87,24 @@ function Controller() {
             latitudeDelta: .02,
             longitudeDelta: .02
         });
-        Ti.Geolocation.addEventListener("location", function(e) {
-            if (e.error) return;
-            longitude = e.coords.longitude;
-            latitude = e.coords.latitude;
-            $.mapview.setRegion({
-                latitude: latitude,
-                longitude: longitude,
-                latitudeDelta: .02,
-                longitudeDelta: .02
-            });
+    });
+    Ti.Geolocation.addEventListener("location", function(e) {
+        if (e.error) return;
+        longitude = e.coords.longitude;
+        latitude = e.coords.latitude;
+        $.mapview.setRegion({
+            latitude: latitude,
+            longitude: longitude,
+            latitudeDelta: .02,
+            longitudeDelta: .02
         });
-        $.backToMe.addEventListener("click", function() {
-            $.mapview.setRegion({
-                latitude: latitude,
-                longitude: longitude,
-                latitudeDelta: .02,
-                longitudeDelta: .02
-            });
+    });
+    $.backToMe.addEventListener("click", function() {
+        $.mapview.setRegion({
+            latitude: latitude,
+            longitude: longitude,
+            latitudeDelta: .02,
+            longitudeDelta: .02
         });
     });
     var etablishment = Alloy.createCollection("etablishment");

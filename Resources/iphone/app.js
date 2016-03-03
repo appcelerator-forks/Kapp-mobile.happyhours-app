@@ -1,48 +1,44 @@
 function getAllData() {
-    var happyhour = Alloy.createCollection("happyhour");
-    var etablishment = Alloy.createCollection("etablishment");
-    if (!happyhour.count() && !etablishment.count()) {
-        api.getEtablishments(function(json) {
-            Ti.API.info("on récupère les établissement ");
-            var d = new Date();
-            var day = 0 === d.getDay() ? 7 : d.getDay();
-            var havehappy;
-            var data;
-            var etablishment;
-            var now = "not now";
-            for (var i = 0; i < json.etablishment.length; i++) {
-                data = json.etablishment[i];
-                havehappy = "false";
-                data.dayHappy.indexOf(day) >= 0 && (havehappy = "true");
-                etablishment = Alloy.createModel("etablishment", {
-                    id: data.id,
-                    name: data.name,
-                    adress: data.adress,
-                    gps: data.gps,
-                    yelp_id: data.yelp_id,
-                    city: data.city,
-                    haveHappy: havehappy,
-                    now: now
-                });
-                etablishment.save();
-            }
-        });
-        api.getHappyHours(function(json) {
-            Ti.API.info("on récupère les Happys");
-            for (var i = 0; i < json.happyhour.length; i++) {
-                var data = json.happyhour[i];
-                var happyhour = Alloy.createModel("happyhour", {
-                    id: data.id,
-                    id_etablishment: data.id_etablishment,
-                    day: data.day,
-                    text: data.text,
-                    hours: data.hours
-                });
-                happyhour.save();
-            }
-        });
-        Ti.API.info(Alloy.Collections);
-    }
+    api.getEtablishments(function(json) {
+        Ti.API.info("Get All Etablishment");
+        var d = new Date();
+        var day = 0 === d.getDay() ? 7 : d.getDay();
+        var havehappy;
+        var data;
+        var etablishment;
+        var now = "not now";
+        for (var i = 0; i < json.etablishment.length; i++) {
+            data = json.etablishment[i];
+            havehappy = "false";
+            data.dayHappy.indexOf(day) >= 0 && (havehappy = "true");
+            etablishment = Alloy.createModel("etablishment", {
+                id: data.id,
+                name: data.name,
+                adress: data.adress,
+                gps: data.gps,
+                yelp_id: data.yelp_id,
+                city: data.city,
+                haveHappy: havehappy,
+                now: now
+            });
+            etablishment.save();
+        }
+    });
+    api.getHappyHours(function(json) {
+        Ti.API.info("Get All Happy");
+        for (var i = 0; i < json.happyhour.length; i++) {
+            var data = json.happyhour[i];
+            var happyhour = Alloy.createModel("happyhour", {
+                id: data.id,
+                id_etablishment: data.id_etablishment,
+                day: data.day,
+                text: data.text,
+                hours: data.hours
+            });
+            happyhour.save();
+        }
+    });
+    Alloy.Globals.endDownload = true;
 }
 
 var Alloy = require("alloy"), _ = Alloy._, Backbone = Alloy.Backbone;
@@ -51,60 +47,9 @@ Alloy.Globals.json;
 
 Alloy.Globals.dataEtablishment = {};
 
-<<<<<<< HEAD
-var reste = require("reste");
-
-var api = new reste();
-
-var dialogNoConnection = Ti.UI.createAlertDialog({
-    message: "Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une première fois.",
-    ok: "Je comprends",
-    title: "Attention"
-});
-
-api.config({
-    debug: true,
-    autoValidateParams: false,
-    timeout: 4e3,
-    url: "http://happyhours-app.fr/api/",
-    requestHeaders: {
-        "X-Parse-Application-Id": "APPID",
-        "X-Parse-REST-API-Key": "RESTID",
-        "Content-Type": "application/json"
-    },
-    methods: [ {
-        name: "getEtablishments",
-        post: "allEtablishment.php",
-        onError: function() {
-            dialogNoConnection.show();
-            var etablishment = Alloy.createCollection("etablishment");
-            etablishment = Alloy.createModel("etablishment", {
-                id: 1,
-                name: "TestBar",
-                adress: "07 rue de la rocalve",
-                gps: "",
-                yelp_id: "",
-                city: "Toulouse",
-                haveHappy: "true",
-                now: "not now"
-            });
-            etablishment.save();
-        }
-    }, {
-        name: "getHappyHours",
-        post: "allHappyHours.php",
-        onError: function() {}
-    } ],
-    onError: function() {
-        dialogNoConnection.show();
-    },
-    onLoad: function(e, callback) {
-        callback(e);
-    }
-});
-=======
 Alloy.Globals.firstOpening = true;
->>>>>>> master
+
+Alloy.Globals.endDownload = false;
 
 Alloy.Globals.CustomTabBar = function(settings) {
     var tabBarItems = [];
@@ -149,6 +94,41 @@ Alloy.Globals.CustomTabBar = function(settings) {
         }
     };
 };
+
+var reste = require("reste");
+
+var api = new reste();
+
+api.config({
+    debug: true,
+    autoValidateParams: false,
+    timeout: 4e3,
+    url: "http://happyhours-app.fr/api/",
+    requestHeaders: {
+        "X-Parse-Application-Id": "APPID",
+        "X-Parse-REST-API-Key": "RESTID",
+        "Content-Type": "application/json"
+    },
+    methods: [ {
+        name: "getEtablishments",
+        post: "allEtablishment.php",
+        onError: function() {
+            alert("There was an error getting the courses!");
+        }
+    }, {
+        name: "getHappyHours",
+        post: "allHappyHours.php",
+        onError: function() {
+            alert("There was an error getting the courses!");
+        }
+    } ],
+    onError: function() {
+        alert("There was an error accessing the API");
+    },
+    onLoad: function(e, callback) {
+        callback(e);
+    }
+});
 
 Alloy.Globals.hasConnection = function() {
     if (Ti.Network.networkType === Ti.Network.NETWORK_NONE) return false;

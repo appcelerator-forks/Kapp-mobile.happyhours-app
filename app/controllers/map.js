@@ -22,7 +22,7 @@ Ti.Geolocation.getCurrentPosition(function(e) {
 		$.mapview.setRegion({
 			latitude: latitude, longitude: longitude,
 	        latitudeDelta:0.02, longitudeDelta:0.02
-	
+		});
 
 });
 
@@ -50,8 +50,6 @@ $.backToMe.addEventListener('click', function(e) {
 		latitude: latitude, longitude: longitude,
         latitudeDelta:0.02, longitudeDelta:0.02
 	});
-});
-
 });
 
 var etablishment = Alloy.createCollection('etablishment');

@@ -74,9 +74,9 @@ function Controller() {
         var minuteEndLast = -1;
         Alloy.createCollection("happyhour");
         var db = Ti.Database.open("happyhourdb");
-        var transform = model.toJSON();
-        if (transform.id) {
-            var happyhourData = db.execute("SELECT * FROM happyhour WHERE id_etablishment = " + transform.id);
+        var myTransform = model.toJSON();
+        if (myTransform.id) {
+            var happyhourData = db.execute("SELECT * FROM happyhour WHERE id_etablishment = " + myTransform.id);
             while (happyhourData.isValidRow()) {
                 var hour = happyhourData.fieldByName("hours");
                 var pos = hour.indexOf("/");
@@ -100,17 +100,27 @@ function Controller() {
                 happyhourData.next();
             }
             var now = "";
-            now = (hourLast == h && m >= minuteLast || h > hourLast) && (hourEndLast > h || hourEndLast == h && minuteEndLast >= m) ? "En ce moment" : hourLast == h && 30 >= minuteLast - m && minuteLast - m > 0 ? "Dans 30 min" : hourLast == h + 1 && 60 > m - minuteLast && m - minuteLast >= 30 ? "Dans 30 min" : hourLast == h + 1 && m - minuteLast >= 0 && 30 >= m - minuteLast ? "Dans 1h" : hourLast > h ? "Pas en ce moment" : "Pas en ce moment ";
+            (hourLast == h && m >= minuteLast || h > hourLast) && (hourEndLast > h || hourEndLast == h && minuteEndLast >= m) ? now = "En ce moment" : hourLast == h && 30 >= minuteLast - m && minuteLast - m > 0 || hourLast == h + 1 && 60 > m - minuteLast && m - minuteLast >= 30 ? now = "Dans 30 min" : hourLast == h + 1 && m - minuteLast >= 0 && 30 >= m - minuteLast ? now = "Dans 1h" : hourLast > h + 1 && (now = "Dans la soirée");
             {
                 Alloy.createCollection("etablishment");
             }
             var db2 = Ti.Database.open("etablishmentdb");
-            transform.now = now;
+            var sql = "";
+            if ("" === now) {
+                if ("false" != transform.haveHappy) {
+                    sql = "UPDATE etablishment SET haveHappy='false' WHERE id=" + myTransform.id;
+                    db2.execute(sql);
+                }
+            } else if ("true" != transform.haveHappy) {
+                sql = "UPDATE etablishment SET haveHappy='true' WHERE id=" + myTransform.id;
+                db2.execute(sql);
+            }
+            myTransform.now = now;
             happyhourData.close();
             db.close();
             db2.close();
         }
-        return transform;
+        return myTransform;
     }
     function myRefresher(e) {
         Ti.API.info("on refresh ");
@@ -119,10 +129,10 @@ function Controller() {
         e.hide();
     }
     function goEtablishment() {
-        Ti.UI.createWindow({
-            title: "test"
-        });
-        Ti.API.info(Alloy.Globals.CustomTabBar.tabBar);
+        Alloy.createController("etablishment", {
+            etablishmentId: this.idEtablishment,
+            etablishmentTitle: this.titleEtablishment
+        }).getView();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "moment";
@@ -169,13 +179,8 @@ function Controller() {
     };
     _.extend($, $.__views);
     style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
-<<<<<<< HEAD
     __defers["$.__views.moment!open!setNow"] && $.addListener($.__views.moment, "open", setNow);
-    __defers["__alloyId25!click!goEtablishment"] && $.addListener(__alloyId25, "click", goEtablishment);
-=======
-    Alloy.Collections.etablishment.fetch();
     __defers["__alloyId28!click!goEtablishment"] && $.addListener(__alloyId28, "click", goEtablishment);
->>>>>>> master
     __defers["$.__views.ptr!release!myRefresher"] && $.__views.ptr.on("release", myRefresher);
     _.extend($, exports);
 }

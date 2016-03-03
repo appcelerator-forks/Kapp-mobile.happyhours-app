@@ -5,10 +5,6 @@ else {
   style = Ti.UI.ActivityIndicatorStyle.DARK;
 }
 
-//Ti.API.info("fetch");
-//Alloy.Collections.etablishment.fetch();
-
-
 function setNow(model){
 
 	var etablishment = Alloy.createCollection('etablishment');
@@ -57,13 +53,13 @@ function transform(model) {
 
 	var db = Ti.Database.open('happyhourdb');
 
-	var transform = model.toJSON();
+	var myTransform = model.toJSON();
 		
-	if (transform.id) {
+	if (myTransform.id) {
 
 
 		
-		var happyhourData = db.execute("SELECT * FROM happyhour WHERE id_etablishment = " +  transform.id);
+		var happyhourData = db.execute("SELECT * FROM happyhour WHERE id_etablishment = " +  myTransform.id);
 		
 
 		while (happyhourData.isValidRow()){
@@ -132,17 +128,12 @@ function transform(model) {
 
 		if (((hourLast == h &&  minuteLast <= m ) || (hourLast < h)) && ((hourEndLast > h  )||(hourEndLast == h && minuteEndLast >= m))) {
 			now = "En ce moment";
-		} else if((hourLast == h &&  (minuteLast - m)  <= 30 && (minuteLast - m) > 0)) {
-			now = "Dans 30 min";
-		} else if (hourLast == (h + 1) &&  (((m - minuteLast)  < 60) && ((m - minuteLast)  >= 30))){
+		} else if (((hourLast == h &&  (minuteLast - m)  <= 30 && (minuteLast - m) > 0)) || (hourLast == (h + 1) &&  (((m - minuteLast)  < 60) && ((m - minuteLast)  >= 30))) ) {
 			now = "Dans 30 min";
 		} else if (hourLast == (h + 1) &&  (((m - minuteLast)  >= 0) && ((m - minuteLast)  <= 30))){
 			now = "Dans 1h";
-		} else if (hourLast>h){
-			now = "Pas en ce moment";
-		} else {
-			now = "Pas en ce moment ";
-
+		} else if (hourLast > (h+1)){
+			now ="Dans la soirée";
 		}
 
 		var etablishment = Alloy.createCollection('etablishment');
@@ -150,19 +141,19 @@ function transform(model) {
 		var db2 = Ti.Database.open('etablishmentdb');
 		var sql = '';
 
-		/*if(now == "Pas en ce moment"){
+		if(now === ""){
 			if(transform.haveHappy != 'false'){
-				sql = "UPDATE etablishment SET haveHappy='false' WHERE id=" + transform.id;
+				sql = "UPDATE etablishment SET haveHappy='false' WHERE id=" + myTransform.id;
 				db2.execute(sql);
 			}	
-
 		}else {
 			if(transform.haveHappy != 'true'){
-				sql = "UPDATE etablishment SET haveHappy='true' WHERE id=" + transform.id;
+				sql = "UPDATE etablishment SET haveHappy='true' WHERE id=" + myTransform.id;
 				db2.execute(sql);
 			}
-		}*/
-		transform.now = now;
+		}
+
+		myTransform.now = now;
 
 		happyhourData.close();
 		db.close();
@@ -171,33 +162,24 @@ function transform(model) {
 	} else {
 
 	}
-	return transform;
+	return myTransform;
 }
+    
 
 function myRefresher(e) {
 	Ti.API.info("on refresh ");
 	getAllData();
-   Alloy.Collections.etablishment.fetch();
+   	Alloy.Collections.etablishment.fetch();
    
 	e.hide();
 }
 
 function goEtablishment() {
 
-	//Ti.API.info($.moment);
 
-	var etablishmentView = Ti.UI.createWindow({
-		title: "test"
-	});
-
-
-	Ti.API.info(Alloy.Globals.CustomTabBar.tabBar);
-
-	//test.open();
-
-	/*var etablishmentView = Alloy.createController('etablishment', {
+	var etablishmentView = Alloy.createController('etablishment', {
 		'etablishmentId'	: this.idEtablishment,
 		'etablishmentTitle'	: this.titleEtablishment
-	});*/
+	}).getView();
 
 }
