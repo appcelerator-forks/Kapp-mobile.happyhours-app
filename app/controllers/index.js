@@ -18,14 +18,11 @@ var chargement = Ti.UI.createWindow({
 });
 
 chargement.add(activityIndicator);
-
-
-
 $.tabgroup.add(chargement);
 
-
+//loading
+ Ti.API.info("Begin download / end pub ");
 chargement.open();
-
 activityIndicator.show();
 
 /*for test */
@@ -33,17 +30,13 @@ activityIndicator.show();
 happyhour.deleteAll();   
 etablishment.deleteAll();
 
-//////////////////////////////////////
-
-//If have a connection and no data
 
 /////////////////////////////////////////////////////////
 ////////////////////Get DATA////////////////////////////
 ///////////////////////////////////////////////////////
 if(Alloy.Globals.firstOpening){ 
-    //if(true){ 
         
-    // si pas d'ahhpyhour et d'établissement existants
+    // si pas d'happyhour et d'établissement existants
     if (!happyhour.count() && !etablishment.count()) {
 
         if (!Alloy.Globals.hasConnection()) {
@@ -77,22 +70,19 @@ if(Alloy.Globals.firstOpening){
 
     setTimeout(function(){ 
 
-        Ti.API.info("End download / end pub ");
+        Ti.API.info("End download/end pub ");
 
         Alloy.Globals.endDownload = false;
 
         activityIndicator.hide();
         chargement.close();
        
-
         openTab();
 
         Alloy.Globals.firstOpening = false;
 
     }, 3000);
-
-    
-    
+ 
 
 }else {
 
@@ -110,9 +100,6 @@ function openTab(){
     ///////////////FETCH DATA///////////////////////////////
     ///////////////////////////////////////////////////////
     Alloy.Collections.etablishment.fetch();
-
-    $.tabgroup.open(); 
-    $.tabgroup.close(); 
 
     $.tabgroup.open(); 
 

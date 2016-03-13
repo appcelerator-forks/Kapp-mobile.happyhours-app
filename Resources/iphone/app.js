@@ -2,15 +2,16 @@ function getAllData() {
     api.getEtablishments(function(json) {
         Ti.API.info("Get All Etablishment");
         var d = new Date();
-        var day = 0 === d.getDay() ? 7 : d.getDay();
+        0 === d.getDay() ? 7 : d.getDay();
         var havehappy;
         var data;
         var etablishment;
-        var now = "not now";
         for (var i = 0; i < json.etablishment.length; i++) {
             data = json.etablishment[i];
             havehappy = "false";
-            data.dayHappy.indexOf(day) >= 0 && (havehappy = "true");
+            "Passer" !== data.now && (havehappy = "true");
+            Ti.API.info(havehappy);
+            Ti.API.info(data.now);
             etablishment = Alloy.createModel("etablishment", {
                 id: data.id,
                 name: data.name,
@@ -19,14 +20,16 @@ function getAllData() {
                 yelp_id: data.yelp_id,
                 city: data.city,
                 haveHappy: havehappy,
-                now: now
+                now: data.now
             });
             etablishment.save();
         }
+        Alloy.Collections.etablishment.fetch();
     });
     api.getHappyHours(function(json) {
-        Ti.API.info("Get All Happy");
+        Ti.API.info("Get AHappy");
         for (var i = 0; i < json.happyhour.length; i++) {
+            Ti.API.info("happy");
             var data = json.happyhour[i];
             var happyhour = Alloy.createModel("happyhour", {
                 id: data.id,

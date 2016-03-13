@@ -138,32 +138,36 @@ function getAllData(){
             
              havehappy = "false";
 
-            if (data.dayHappy.indexOf(day) >= 0) //Happy is today?
+            if (data.now !== "Passer") //Happy is today?
                 havehappy = "true";
 
+            Ti.API.info(havehappy);
+            Ti.API.info(data.now);
             etablishment = Alloy.createModel('etablishment', {
                 id          : data.id, 
                 name        : data.name,
                 adress      : data.adress,
                 gps         : data.gps,
-                yelp_id     : data. yelp_id,
+                yelp_id     : data.yelp_id,
                 city        : data.city,
                 haveHappy   : havehappy,
-                now         : now
+                now         : data.now
             }); 
 
             etablishment.save();
 
 
         }
+
+        Alloy.Collections.etablishment.fetch();
     });
 
     api.getHappyHours(function(json){
         
-        Ti.API.info("Get All Happy");
+        Ti.API.info("Get AHappy");
         
         for (var i = 0; i < json.happyhour.length; i++) {
-        
+            Ti.API.info("happy");
             var data    = json.happyhour[i];
 
             var happyhour = Alloy.createModel('happyhour', {
@@ -171,7 +175,7 @@ function getAllData(){
                 id_etablishment : data.id_etablishment,
                 day             : data.day,
                 text            : data.text,
-                hours           : data. hours
+                hours           : data.hours
 
             }); 
             happyhour.save();          

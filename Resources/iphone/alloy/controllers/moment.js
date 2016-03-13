@@ -16,7 +16,7 @@ function Controller() {
         var rows = [];
         for (var i = 0; len > i; i++) {
             var __alloyId26 = models[i];
-            __alloyId26.__transform = transform(__alloyId26);
+            __alloyId26.__transform = {};
             var __alloyId28 = Ti.UI.createTableViewRow({
                 width: "100%",
                 height: "20%",
@@ -43,89 +43,31 @@ function Controller() {
         }
         $.__views.happyhourcontents.setData(rows);
     }
-    function setNow(model) {
+    function setNow() {
         Alloy.createCollection("etablishment");
         var db = Ti.Database.open("etablishmentdb");
         var etablishmentData = db.execute("SELECT * FROM etablishment");
-        while (etablishmentData.isValidRow()) {
-            Ti.API.info(etablishmentData.fieldByName("id"));
-            etablishmentData.next();
-        }
+        while (etablishmentData.isValidRow()) etablishmentData.next();
         etablishmentData.close();
         db.close();
-        Ti.API.info(model);
         Alloy.Collections.etablishment.fetch();
     }
     function haveHappyFilter(collection) {
-        Ti.API.info("on est dans la fonction haveHappyFilter ");
+        Ti.API.info("haveHappyFilter ");
         return collection.where({
             haveHappy: "true"
         });
     }
-    function transform(model) {
-        Ti.API.info("on est dans la fonction transform");
-        date = new Date();
-        h = date.getHours() - 6;
-        m = date.getMinutes();
-        0 > h && (h += 24);
-        var hourLast = 100;
-        var minuteLast = 100;
-        var hourEndLast = -1;
-        var minuteEndLast = -1;
-        Alloy.createCollection("happyhour");
-        var db = Ti.Database.open("happyhourdb");
-        var myTransform = model.toJSON();
-        if (myTransform.id) {
-            var happyhourData = db.execute("SELECT * FROM happyhour WHERE id_etablishment = " + myTransform.id);
-            while (happyhourData.isValidRow()) {
-                var hour = happyhourData.fieldByName("hours");
-                var pos = hour.indexOf("/");
-                var begin = hour.substr(0, pos);
-                var end = hour.substr(pos + 1, hour.length);
-                var heure = begin.substr(0, 2);
-                var minute = 0;
-                6 > heure && (heure += 18);
-                heure -= 6;
-                minute = 3 == begin.length ? 0 : begin.substr(3, 2);
-                var posH = end.lastIndexOf("H");
-                var heureEnd = end.substr(0, posH);
-                var minuteEnd = 0;
-                6 > heureEnd && (heureEnd = 18);
-                heureEnd -= 6;
-                minuteEnd = 3 == end.length ? 0 : end.substr(3, 2);
-                hourLast > heure && (hourLast = heure);
-                minuteLast > minute && (minuteLast = minute);
-                heureEnd > hourEndLast && (hourEndLast = heureEnd);
-                minuteEnd > minuteEndLast && (minuteEndLast = minuteEnd);
-                happyhourData.next();
-            }
-            var now = "";
-            (hourLast == h && m >= minuteLast || h > hourLast) && (hourEndLast > h || hourEndLast == h && minuteEndLast >= m) ? now = "En ce moment" : hourLast == h && 30 >= minuteLast - m && minuteLast - m > 0 || hourLast == h + 1 && 60 > m - minuteLast && m - minuteLast >= 30 ? now = "Dans 30 min" : hourLast == h + 1 && m - minuteLast >= 0 && 30 >= m - minuteLast ? now = "Dans 1h" : hourLast > h + 1 && (now = "Dans la soirée");
-            {
-                Alloy.createCollection("etablishment");
-            }
-            var db2 = Ti.Database.open("etablishmentdb");
-            var sql = "";
-            if ("" === now) {
-                if ("false" != transform.haveHappy) {
-                    sql = "UPDATE etablishment SET haveHappy='false' WHERE id=" + myTransform.id;
-                    db2.execute(sql);
-                }
-            } else if ("true" != transform.haveHappy) {
-                sql = "UPDATE etablishment SET haveHappy='true' WHERE id=" + myTransform.id;
-                db2.execute(sql);
-            }
-            myTransform.now = now;
-            happyhourData.close();
-            db.close();
-            db2.close();
-        }
-        return myTransform;
-    }
     function myRefresher(e) {
         Ti.API.info("on refresh ");
-        getAllData();
-        Alloy.Collections.etablishment.fetch();
+        if (Alloy.Globals.hasConnection()) getAllData(); else {
+            var dialog = Ti.UI.createAlertDialog({
+                message: "Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.",
+                ok: "Je comprends",
+                title: "Attention"
+            });
+            dialog.show();
+        }
         e.hide();
     }
     function goEtablishment() {

@@ -11,8 +11,6 @@ function Controller() {
     function openTab() {
         Alloy.Collections.etablishment.fetch();
         $.tabgroup.open();
-        $.tabgroup.close();
-        $.tabgroup.open();
         new Alloy.Globals.CustomTabBar({
             tabBar: $.tabgroup,
             imagePath: "/tabbar/",
@@ -119,6 +117,7 @@ function Controller() {
     });
     chargement.add(activityIndicator);
     $.tabgroup.add(chargement);
+    Ti.API.info("Begin download / end pub ");
     chargement.open();
     activityIndicator.show();
     happyhour.deleteAll();
@@ -145,7 +144,7 @@ function Controller() {
             dialog.show();
         }
         setTimeout(function() {
-            Ti.API.info("End download / end pub ");
+            Ti.API.info("End download/end pub ");
             Alloy.Globals.endDownload = false;
             activityIndicator.hide();
             chargement.close();

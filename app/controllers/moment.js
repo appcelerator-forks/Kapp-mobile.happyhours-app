@@ -5,6 +5,9 @@ else {
   style = Ti.UI.ActivityIndicatorStyle.DARK;
 }
 
+function hey(){
+	Ti.API.info("hey ! ");
+}
 function setNow(model){
 
 	var etablishment = Alloy.createCollection('etablishment');
@@ -14,20 +17,20 @@ function setNow(model){
 	var etablishmentData = db.execute("SELECT * FROM etablishment" );
 
 	while (etablishmentData.isValidRow()){
-		Ti.API.info(etablishmentData.fieldByName("id"));
 
 		etablishmentData.next();
 	}
 	
 	etablishmentData.close();
 	db.close();
-	
-	Ti.API.info(model);
+
 	
 	Alloy.Collections.etablishment.fetch();
 }
+
+//Filter 
 function haveHappyFilter(collection) { 
-	Ti.API.info("on est dans la fonction haveHappyFilter ");
+	Ti.API.info("haveHappyFilter ");
 
     return collection.where({
         haveHappy : "true"
@@ -35,7 +38,8 @@ function haveHappyFilter(collection) {
 }
 
 function transform(model) {
-	Ti.API.info("on est dans la fonction transform");
+
+	Ti.API.info("transform");
 
 	date = new Date();
 	h = date.getHours()-6;
@@ -124,6 +128,8 @@ function transform(model) {
 			happyhourData.next();
 		}
 
+		happyhourData.close();
+
 		var now ="";
 
 		if (((hourLast == h &&  minuteLast <= m ) || (hourLast < h)) && ((hourEndLast > h  )||(hourEndLast == h && minuteEndLast >= m))) {
@@ -136,18 +142,18 @@ function transform(model) {
 			now ="Dans la soirée";
 		}
 
-		var etablishment = Alloy.createCollection('etablishment');
-
 		var db2 = Ti.Database.open('etablishmentdb');
 		var sql = '';
 
 		if(now === ""){
-			if(transform.haveHappy != 'false'){
+			if(myTransform.haveHappy != "false"){
+				myTransform.haveHappy = "false";
 				sql = "UPDATE etablishment SET haveHappy='false' WHERE id=" + myTransform.id;
 				db2.execute(sql);
 			}	
 		}else {
-			if(transform.haveHappy != 'true'){
+			if(myTransform.haveHappy != 'true'){
+				myTransform.haveHappy = "true";
 				sql = "UPDATE etablishment SET haveHappy='true' WHERE id=" + myTransform.id;
 				db2.execute(sql);
 			}
@@ -155,21 +161,33 @@ function transform(model) {
 
 		myTransform.now = now;
 
-		happyhourData.close();
-		db.close();
+				
 		db2.close();
 
 	} else {
 
 	}
+
+	db.close();
+
 	return myTransform;
 }
     
 
 function myRefresher(e) {
 	Ti.API.info("on refresh ");
-	getAllData();
-   	Alloy.Collections.etablishment.fetch();
+
+    if (!Alloy.Globals.hasConnection()) {
+        var dialog = Ti.UI.createAlertDialog({
+            message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.',
+            ok: 'Je comprends',
+            title: 'Attention'
+        });
+        dialog.show();
+    }else{
+		getAllData();
+	   	//Alloy.Collections.etablishment.fetch();
+	 }
    
 	e.hide();
 }
