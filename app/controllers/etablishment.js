@@ -227,15 +227,17 @@ var slideRight = Ti.UI.createAnimation();
 /////////////////////////////////////////////////////////
 ////////////////////EVENT////////////////////////////////
 /////////////////////////////////////////////////////////
-btnBack.addEventListener('click', function(){ 
+btnBack.addEventListener('click', closeWindow);
 
+Ti.App.addEventListener('closeWindow', closeWindow);
+
+function closeWindow(){
 	$.etablishment.close();	
     setTimeout(function(e){
     	$.etablishment.left = 320,
         $.etablishment.close(slideRight);
     }, 30);
-
-});
+}
 
 tabbedBar.addEventListener('click', function(e){
 	
@@ -274,9 +276,8 @@ var happyViewScroll = Ti.UI.createTableView({
     data: oneHappy
 
 });
-/*for (var v = 0; v<hour.length; v++) {
-	happyViewScroll.add(oneHappy[v]);
-}*/
+
+
 
 $.etablishment.add(controlView);
 $.etablishment.add(adressView);

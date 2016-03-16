@@ -93,6 +93,19 @@ etablishment.each(function(etablishment) {
 	
 });
 
+var btnBack = Ti.UI.createButton({ 
+	title: ' < ', 
+	color: "black", 
+	backgroundImage: "none",
+	top: "8.5%",
+	left : "5%"
+});
+
+
+btnBack.addEventListener('click', function(){ 
+	$.MapEtablishment.close();
+	Ti.App.fireEvent('closeWindow');
+});
 
 var tabbedBar = Ti.UI.createTabbedBar({
 	labels:['Etablishment', 'Map'],
@@ -102,6 +115,8 @@ var tabbedBar = Ti.UI.createTabbedBar({
 });
 
 tabbedBar.index = 1; 
+
+$.MapEtablishment.add(btnBack);
 
 $.MapEtablishment.add(tabbedBar);
 

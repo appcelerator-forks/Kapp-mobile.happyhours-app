@@ -121,12 +121,24 @@ function Controller() {
             $.mapview.addAnnotation(annotation);
         }
     });
+    var btnBack = Ti.UI.createButton({
+        title: " < ",
+        color: "black",
+        backgroundImage: "none",
+        top: "8.5%",
+        left: "5%"
+    });
+    btnBack.addEventListener("click", function() {
+        $.MapEtablishment.close();
+        Ti.App.fireEvent("closeWindow");
+    });
     var tabbedBar = Ti.UI.createTabbedBar({
         labels: [ "Etablishment", "Map" ],
         style: Titanium.UI.iPhone.SystemButtonStyle.BAR,
         top: "9%"
     });
     tabbedBar.index = 1;
+    $.MapEtablishment.add(btnBack);
     $.MapEtablishment.add(tabbedBar);
     $.MapEtablishment.open();
     tabbedBar.addEventListener("click", function(e) {

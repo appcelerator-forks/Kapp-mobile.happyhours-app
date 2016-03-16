@@ -8,6 +8,15 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
+    function closeWindow() {
+        $.etablishment.close();
+        setTimeout(function() {
+            $.etablishment.left = 320, $.etablishment.close(slideRight);
+        }, 30);
+    }
+    function closeWindow() {
+        $.etablishment.close();
+    }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "etablishment";
     this.args = arguments[0] || {};
@@ -182,12 +191,8 @@ function Controller() {
     var slideRight = Ti.UI.createAnimation();
     slideRight.right = 320;
     slideRight.duration = 30;
-    btnBack.addEventListener("click", function() {
-        $.etablishment.close();
-        setTimeout(function() {
-            $.etablishment.left = 320, $.etablishment.close(slideRight);
-        }, 30);
-    });
+    btnBack.addEventListener("click", closeWindow);
+    Ti.App.addEventListener("closeWindow", closeWindow);
     tabbedBar.addEventListener("click", function(e) {
         if (0 === e.index) ; else {
             {
