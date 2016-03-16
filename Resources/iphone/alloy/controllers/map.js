@@ -9,7 +9,10 @@ function __processArg(obj, key) {
 
 function Controller() {
     function clickAnnotation(evt) {
-        "leftButton" == evt.clicksource && goEtablishment(evt.annotation.myId, evt.title);
+        Ti.API.error(evt);
+        "leftButton" == evt.clicksource && goEtablishment(evt.annotation.myId, evt.annotation.title);
+        Ti.API.info(evt.annotation.myId);
+        Ti.API.info(evt.annotation.title);
     }
     function goEtablishment(etablishmentId, etablishmentTitle) {
         var etablishmentView = Alloy.createController("etablishment", {
@@ -125,8 +128,11 @@ function Controller() {
             myId: etablishment.get("id"),
             leftButton: "icons/goto.png"
         });
-        annotation.addEventListener("click", clickAnnotation);
         $.mapview.addAnnotation(annotation);
+        annotation.addEventListener("click", clickAnnotation);
+    });
+    $.mapview.addEventListener("click", function(evt) {
+        "leftButton" == evt.clicksource && goEtablishment(evt.annotation.myId, evt.annotation.title);
     });
     $.mapview.setRegion({
         latitude: latitude,

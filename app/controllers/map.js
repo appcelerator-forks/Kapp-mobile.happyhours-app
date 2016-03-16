@@ -85,22 +85,32 @@ etablishment.each(function(etablishment) {
 		myId:  		etablishment.get('id'),
 		leftButton: "icons/goto.png"
 	});
-
-	annotation.addEventListener('click', clickAnnotation);
+	
 	$.mapview.addAnnotation(annotation);
 
+	annotation.addEventListener('click', clickAnnotation);
 	
+	
+		
+});
 
-	
+$.mapview.addEventListener('click', function(evt){
+    if(evt.clicksource == "leftButton"){
+    	goEtablishment(evt.annotation.myId, evt.annotation.title);
+    	
+    }
 });
 
 
 
 function clickAnnotation(evt) {
 
+	Ti.API.error(evt);
  	if (evt.clicksource == 'leftButton') {
- 		goEtablishment(evt.annotation.myId, evt.title);
+ 		goEtablishment(evt.annotation.myId, evt.annotation.title);
  	}
+ 	Ti.API.info(evt.annotation.myId);
+ 	Ti.API.info(evt.annotation.title);
 
 }
 

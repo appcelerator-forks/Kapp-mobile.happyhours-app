@@ -16,6 +16,10 @@
     <ios>
         <plist>
             <dict>
+            	<key>NSLocationAlwaysUsageDescription</key>
+                <string>
+                   Test
+                </string>
                 <key>UISupportedInterfaceOrientations~iphone</key>
                 <array>
                     <string>UIInterfaceOrientationPortrait</string>
@@ -27,6 +31,7 @@
                     <string>UIInterfaceOrientationLandscapeLeft</string>
                     <string>UIInterfaceOrientationLandscapeRight</string>
                 </array>
+            
                 <key>UIRequiresPersistentWiFi</key>
                 <false/>
                 <key>UIPrerenderedIcon</key>
