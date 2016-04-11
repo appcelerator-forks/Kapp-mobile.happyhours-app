@@ -65,7 +65,7 @@ Alloy.Globals.getAllData = function()
         var etablishment;
 
         //we use now in moment.js to display moment's information of the happy hours
-        var now = "not now";
+        var now = "";
 
          for (var i = 0; i < json.etablishment.length; i++) {
             data = json.etablishment[i];

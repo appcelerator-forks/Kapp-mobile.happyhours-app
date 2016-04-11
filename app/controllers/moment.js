@@ -5,12 +5,6 @@ else {
   style = Ti.UI.ActivityIndicatorStyle.DARK;
 }
 
-function hey(){
-	Ti.API.info("hey ! ");
-}
-
-Alloy.Globals.titleControl.setText("En ce moment");
-$.moment.setTitleControl(Alloy.Globals.titleControl);
 
 function setNow(model){
 
@@ -149,22 +143,17 @@ function transform(model) {
 		var db2 = Ti.Database.open('etablishmentdb');
 		var sql = '';
 
-		if(now === ""){
-			if(myTransform.haveHappy != "false"){
-				myTransform.haveHappy = "false";
-				sql = "UPDATE etablishment SET haveHappy='false' WHERE id=" + myTransform.id;
-				db2.execute(sql);
-			}
-		}else {
-			if(myTransform.haveHappy != 'true'){
-				myTransform.haveHappy = "true";
-				sql = "UPDATE etablishment SET haveHappy='true' WHERE id=" + myTransform.id;
-				db2.execute(sql);
-			}
-		}
+		// if(now === ""){
 
+		// 	myTransform.height = "2px";
+		// }else {
+
+		// 	myTransform.height = "20%";
+		// }
+
+		Ti.API.error(myTransform);
 		myTransform.now = now;
-
+		//Ti.API.error(myTransform.height);
 
 		db2.close();
 
@@ -179,20 +168,25 @@ function transform(model) {
 
 
 function myRefresher(e) {
-	Ti.API.info("on refresh ");
+	Ti.API.info("on refresh");
 
     if (!Alloy.Globals.hasConnection()) {
         var dialog = Ti.UI.createAlertDialog({
-            message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.',
+            message: 'Veuillez vous connecter à internet. ',
             ok: 'Je comprends',
             title: 'Attention'
         });
         dialog.show();
     }else{
+    	//////////////////////////////////////
+    	var happyhour = Alloy.createCollection('happyhour');
+		var etablishment = Alloy.createCollection('etablishment');
+		happyhour.deleteAll();
+		etablishment.deleteAll();
 		Alloy.Globals.getAllData();
 	   	//Alloy.Collections.etablishment.fetch();
 	 }
-
+   	Alloy.Collections.etablishment.fetch();
 	e.hide();
 }
 

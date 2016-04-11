@@ -17,7 +17,7 @@ var longitude = 1.4442090000000007;
 Ti.Geolocation.distanceFilter = 10;
 
 Ti.Geolocation.getCurrentPosition(function(e) {
-	if (e.error) return; 
+	if (e.error) return;
 
 	longitude = e.coords.longitude;
 	latitude  = e.coords.latitude;
@@ -25,8 +25,8 @@ Ti.Geolocation.getCurrentPosition(function(e) {
 });
 
 Ti.Geolocation.addEventListener('location',function(e){
-	if (e.error) return; 
-	
+	if (e.error) return;
+
 	longitude = e.coords.longitude;
 	latitude = e.coords.latitude;
 
@@ -39,6 +39,17 @@ $.mapview.setRegion({
 });
 
 /////////////////////////////////////////////////////////
+////////////////////BUTTON//////////////////////////////
+///////////////////////////////////////////////////////
+var btnBack = Ti.UI.createButton({
+	title: ' < ',
+	color: "black",
+	backgroundImage: "none",
+	top: "8.5%",
+	left : "5%"
+});
+
+/////////////////////////////////////////////////////////
 //////////////////EVENT LISTENER////////////////////////
 ///////////////////////////////////////////////////////
 $.backToMe.addEventListener('click', function(e) {
@@ -46,6 +57,11 @@ $.backToMe.addEventListener('click', function(e) {
 		latitude: latitude, longitude: longitude,
         latitudeDelta:0.02, longitudeDelta:0.02
 	});
+});
+
+btnBack.addEventListener('click', function(){
+	$.MapEtablishment.close();
+	//Ti.App.fireEvent('closeWindow');
 });
 
 var etablishment = Alloy.createCollection('etablishment');
@@ -88,37 +104,13 @@ etablishment.each(function(etablishment) {
 		});
 
 		$.mapview.addAnnotation(annotation);
-	
+
 	}
-	
-});
-
-var btnBack = Ti.UI.createButton({ 
-	title: ' < ', 
-	color: "black", 
-	backgroundImage: "none",
-	top: "8.5%",
-	left : "5%"
-});
-
-
-btnBack.addEventListener('click', function(){ 
-	$.MapEtablishment.close();
-	Ti.App.fireEvent('closeWindow');
-});
-
-var tabbedBar = Ti.UI.createTabbedBar({
-	labels:['Etablishment', 'Map'],
-	style:Titanium.UI.iPhone.SystemButtonStyle.BAR,
-	top : "9%"
 
 });
 
-tabbedBar.index = 1; 
 
 $.MapEtablishment.add(btnBack);
-
-$.MapEtablishment.add(tabbedBar);
 
 $.MapEtablishment.open();
 
@@ -130,19 +122,3 @@ function clickAnnotation(evt) {
  	}
 
 }
-
-
-tabbedBar.addEventListener('click', function(e){
-	
-	if(e.index === 0){
-
-		$.MapEtablishment.close();
-		var etablishmentView = Alloy.createController('etablishment', {
-			'etablishmentId'	: etablishmentId,
-			'etablishmentTitle'	: etablishmentTitle
-		});
-	}else{
-		
-	}
-});
-

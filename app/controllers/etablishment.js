@@ -38,16 +38,6 @@ $.etablishment.animate({
 /////////////////////////////////////////////////////////
 ////////////MAIN VIEW ///////////////////////////////////
 /////////////////////////////////////////////////////////
-
-var tabbedBar = Ti.UI.createTabbedBar({
-	labels:['Etablishment', 'Map'],
-	style:Titanium.UI.iPhone.SystemButtonStyle.BAR,
-	top : "60%"
-
-});
-
-tabbedBar.index = 0; 
-
 var controlView = Ti.UI.createView({
 	backgroundColor:'white',
     height: "14%",
@@ -76,25 +66,32 @@ var blackView2 = Ti.UI.createView({
 /////////////////////////////////////////////////////////
 ////////////////////BUTTON///////////////////////////////
 /////////////////////////////////////////////////////////
-var btnBack = Ti.UI.createButton({ 
-	title: ' < ', 
-	color: "black", 
+var btnBack = Ti.UI.createButton({
+	title: ' < ',
+	color: "black",
 	backgroundImage: "none",
 	top: "53%",
 	left : "5%"
+});
+var btnMap = Ti.UI.createButton({
+	title: ' Map ',
+	color: "black",
+	backgroundImage: "none",//TODO
+	top: "53%",
+	right : "5%"
 });
 
 /////////////////////////////////////////////////////////
 ////////////////////LABEL////////////////////////////////
 /////////////////////////////////////////////////////////
-var labelTitle = Ti.UI.createLabel({ 
+var labelTitle = Ti.UI.createLabel({
 	text: etablishmentTitle,
-	color: "black", 
+	color: "black",
 	top: "30%",
 	left : "37%"
 });
-var labeladress = Ti.UI.createLabel({ 
-	text: adress, 
+var labeladress = Ti.UI.createLabel({
+	text: adress,
 	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	color: "black"
 });
@@ -116,7 +113,7 @@ var StyledLabel = require('ti.styledlabel');
 
 
 for (var j = 0; j<hour.length; j++) {
-	
+
 	oneHappy.push(Ti.UI.createTableViewRow({
 		backgroundColor:'white',
 		className: 'row',
@@ -124,7 +121,7 @@ for (var j = 0; j<hour.length; j++) {
 		selectedBackgroundColor: "#fff"
 	}));
 
-	labelDay.push(Ti.UI.createLabel({   
+	labelDay.push(Ti.UI.createLabel({
 		top: "22%",
 		left : "1%",
 		width : "15%"
@@ -174,7 +171,7 @@ for (var j = 0; j<hour.length; j++) {
 		happyText+='<span>D</span>';
 	}
 
-	happyText+='</p>';	
+	happyText+='</p>';
 
 	labelTextDay = StyledLabel.createLabel({
 		html: happyText
@@ -183,15 +180,15 @@ for (var j = 0; j<hour.length; j++) {
 	labelDay[j].add(labelTextDay);
 
 
-	labelHour.push(Ti.UI.createLabel({ 
+	labelHour.push(Ti.UI.createLabel({
 		top: "23%",
 		right : "0%",
 		width : "16%",
 	}));
 
-	labeltextHour = Ti.UI.createLabel({ 
-		text: "De "+hour[j], 
-		color: "black", 
+	labeltextHour = Ti.UI.createLabel({
+		text: "De "+hour[j],
+		color: "black",
 		textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		font: {
 			fontSize: 11
@@ -200,8 +197,8 @@ for (var j = 0; j<hour.length; j++) {
 	labelHour[j].add(labeltextHour);
 
 
-	labelHappy.push(Ti.UI.createLabel({ 
-		text: happy[j] , 
+	labelHappy.push(Ti.UI.createLabel({
+		text: happy[j] ,
 		textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		top: "21%",
 		width : "60%",
@@ -228,37 +225,25 @@ var slideRight = Ti.UI.createAnimation();
 ////////////////////EVENT////////////////////////////////
 /////////////////////////////////////////////////////////
 btnBack.addEventListener('click', closeWindow);
+btnMap.addEventListener('click', openMap);
 
 Ti.App.addEventListener('closeWindow', closeWindow);
 
 function closeWindow(){
-	$.etablishment.close();	
+	$.etablishment.close();
     setTimeout(function(e){
     	$.etablishment.left = 320,
         $.etablishment.close(slideRight);
     }, 30);
 }
 
-tabbedBar.addEventListener('click', function(e){
-	
-	if(e.index === 0){
-
-	}else{
-		var mapView = Alloy.createController('mapEtablishment', {
-			'etablishmentId'	: etablishmentId,
-			'etablishmentTitle' : etablishmentTitle
-		});
-
-		$.etablishment.close();
-	}
-});
 
 /////////////////////////////////////////////////////////
 //////////////////////ADD////////////////////////////////
 /////////////////////////////////////////////////////////
 
 controlView.add(btnBack);
-controlView.add(tabbedBar);
+controlView.add(btnMap);
 controlView.add(labelTitle);
 
 adressView.add(labeladress);
@@ -288,6 +273,14 @@ $.etablishment.add(happyViewScroll);
 
 $.etablishment.open();
 
-function closeWindow(){
+function closeWindow() {
 	$.etablishment.close();
+}
+
+function openMap() {
+	var mapView = Alloy.createController('mapEtablishment', {
+		'etablishmentId'	: etablishmentId,
+		'etablishmentTitle' : etablishmentTitle
+	});
+
 }
