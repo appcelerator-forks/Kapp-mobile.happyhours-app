@@ -7,7 +7,7 @@ Alloy.Globals.titleControl = Ti.UI.createLabel({
   color: "#ffffff",
   font: {
     fontFamily: 'TitilliumWeb-Regular',
-    fontSize: 18
+    fontSize: 20
   }
 });
 

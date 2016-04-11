@@ -1,15 +1,15 @@
 <Alloy>
-	 <TabGroup id="tabgroup">
-        <Tab id="tab1" title="Moment">
+	 <TabGroup id="tabgroup" activeTabIconTint="#e25d55">
+        <Tab id="tab1" title="En ce moment">
         	<Require src="moment" />
         </Tab>
-        <Tab id="tab2" title="All">
+        <Tab id="tab2" title="Recherche">
             <Require src="all" />
         </Tab>
-        <Tab id="tab3" title="Map">
+        <Tab id="tab3" title="Carte">
             <Require src="map" />
         </Tab>
-        <Tab id="tab4" title="Info">
+        <Tab id="tab4" title="Infos">
             <Require src="info" />
         </Tab>
 
