@@ -6,6 +6,16 @@ else {
 }
 
 
+$.moment.setTitleControl(Ti.UI.createLabel({
+  color: "#ffffff",
+  font: {
+    fontFamily: 'TitilliumWeb-Regular',
+    fontSize: 20
+  },
+	text: "En ce moment"
+}));
+
+
 function setNow(model){
 
 	var etablishment = Alloy.createCollection('etablishment');

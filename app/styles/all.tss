@@ -1,0 +1,5 @@
+"#all": {
+  barImage: "header/bg.png",
+  barColor: "#ffffff",
+  tintColor: "#ffffff"
+}

@@ -1,6 +1,14 @@
 var Map 	= require('ti.map');
 var mapview = Map.createView({mapType:Map.NORMAL_TYPE});
 
+$.map.setTitleControl(Ti.UI.createLabel({
+  color: "#ffffff",
+  font: {
+    fontFamily: 'TitilliumWeb-Regular',
+    fontSize: 20
+  },
+	text: "Carte"
+}));
 
 /////////////////////////////////////////////////////////
 /////////////////////INITIALIZATION/////////////////////
@@ -13,11 +21,11 @@ var longitude = 1.4442090000000007;
 Ti.Geolocation.distanceFilter = 10;
 
 Ti.Geolocation.getCurrentPosition(function(e) {
-	if (e.error) return; 
+	if (e.error) return;
 
 	longitude = e.coords.longitude;
 	latitude  = e.coords.latitude;
-	
+
 
 		$.mapview.setRegion({
 			latitude: latitude, longitude: longitude,
@@ -27,17 +35,17 @@ Ti.Geolocation.getCurrentPosition(function(e) {
 });
 
 Ti.Geolocation.addEventListener('location',function(e){
-	if (e.error) return; 
-	
+	if (e.error) return;
+
 	longitude = e.coords.longitude;
 	latitude = e.coords.latitude;
-	
-	
+
+
 		$.mapview.setRegion({
 			latitude: latitude, longitude: longitude,
 	        latitudeDelta:0.02, longitudeDelta:0.02
 		});
-	
+
 
 });
 
@@ -75,7 +83,7 @@ etablishment.each(function(etablishment) {
 
 
 	var happy = etablishment.get('text');
-	
+
 	var annotation = Map.createAnnotation({
 		latitude: 	coord[0],
 		longitude: 	coord[1],
@@ -85,19 +93,19 @@ etablishment.each(function(etablishment) {
 		myId:  		etablishment.get('id'),
 		leftButton: "icons/goto.png"
 	});
-	
+
 	$.mapview.addAnnotation(annotation);
 
 	annotation.addEventListener('click', clickAnnotation);
-	
-	
-		
+
+
+
 });
 
 $.mapview.addEventListener('click', function(evt){
     if(evt.clicksource == "leftButton"){
     	goEtablishment(evt.annotation.myId, evt.annotation.title);
-    	
+
     }
 });
 
@@ -116,7 +124,7 @@ function clickAnnotation(evt) {
 
 
 	$.mapview.setRegion({
-		latitude: 		latitude, 
+		latitude: 		latitude,
 		longitude: 		longitude,
 	    latitudeDelta: 	0.02,
 	    longitudeDelta: 0.02
@@ -138,4 +146,3 @@ function goEtablishment(etablishmentId, etablishmentTitle) {
 
 	etablishmentView.open();
 }
-
