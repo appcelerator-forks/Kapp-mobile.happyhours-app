@@ -16,12 +16,20 @@ function Controller() {
         var rows = [];
         for (var i = 0; len > i; i++) {
             var __alloyId2 = models[i];
-            __alloyId2.__transform = {};
+            __alloyId2.__transform = _.isFunction(__alloyId2.transform) ? __alloyId2.transform() : __alloyId2.toJSON();
             var __alloyId4 = Ti.UI.createTableViewRow({
                 width: "100%",
                 height: "20%",
-                idEtablishment: "undefined" != typeof __alloyId2.__transform["id"] ? __alloyId2.__transform["id"] : __alloyId2.get("id"),
-                titleEtablishment: "undefined" != typeof __alloyId2.__transform["name"] ? __alloyId2.__transform["name"] : __alloyId2.get("name"),
+                idEtablishment: _.template("{m.id}", {
+                    m: __alloyId2.__transform
+                }, {
+                    interpolate: /\{([\s\S]+?)\}/g
+                }),
+                titleEtablishment: _.template("{m.name}", {
+                    m: __alloyId2.__transform
+                }, {
+                    interpolate: /\{([\s\S]+?)\}/g
+                }),
                 selectedBackgroundColor: "##E8E8E8"
             });
             rows.push(__alloyId4);
@@ -30,14 +38,22 @@ function Controller() {
                 top: "10%",
                 textAlign: "center",
                 color: "black",
-                text: "undefined" != typeof __alloyId2.__transform["name"] ? __alloyId2.__transform["name"] : __alloyId2.get("name")
+                text: _.template("{m.name}", {
+                    m: __alloyId2.__transform
+                }, {
+                    interpolate: /\{([\s\S]+?)\}/g
+                })
             });
             __alloyId4.add(__alloyId6);
             var __alloyId8 = Ti.UI.createLabel({
                 top: "50%",
                 textAlign: "center",
                 color: "black",
-                text: "undefined" != typeof __alloyId2.__transform["adress"] ? __alloyId2.__transform["adress"] : __alloyId2.get("adress")
+                text: _.template("{m.adress}", {
+                    m: __alloyId2.__transform
+                }, {
+                    interpolate: /\{([\s\S]+?)\}/g
+                })
             });
             __alloyId4.add(__alloyId8);
         }
@@ -68,8 +84,10 @@ function Controller() {
     var __defers = {};
     Alloy.Collections.instance("etablishment");
     $.__views.all = Ti.UI.createWindow({
+        backgroundColor: "#ffffff",
+        barColor: "#ffffff",
+        tintColor: "#ffffff",
         id: "all",
-        tabBarHidden: "true",
         title: "Établissements"
     });
     $.__views.all && $.addTopLevelView($.__views.all);
@@ -83,7 +101,7 @@ function Controller() {
     var __alloyId9 = Alloy.Collections["etablishment"] || etablishment;
     __alloyId9.on("fetch destroy change add remove reset", __alloyId10);
     exports.destroy = function() {
-        __alloyId9.off("fetch destroy change add remove reset", __alloyId10);
+        __alloyId9 && __alloyId9.off("fetch destroy change add remove reset", __alloyId10);
     };
     _.extend($, $.__views);
     Alloy.Collections.etablishment.fetch();

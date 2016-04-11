@@ -1,7 +1,6 @@
 var happyhour = Alloy.createCollection('happyhour');
 var etablishment = Alloy.createCollection('etablishment');
 
-
 var activityIndicator = Ti.UI.createActivityIndicator({
     color: 'gray',
     message: 'Chargement...',
@@ -17,8 +16,10 @@ var chargement = Ti.UI.createWindow({
     fullscreen: true
 });
 
+$.tabgroup.open();
+
 chargement.add(activityIndicator);
-$.tabgroup.add(chargement);
+//$.tabgroup.add(chargement);
 
 //loading
  Ti.API.info("Begin download / end pub ");
@@ -27,15 +28,15 @@ activityIndicator.show();
 
 /*for test */
 //////////////////////////////////////
-happyhour.deleteAll();   
+happyhour.deleteAll();
 etablishment.deleteAll();
 
 
 /////////////////////////////////////////////////////////
 ////////////////////Get DATA////////////////////////////
 ///////////////////////////////////////////////////////
-if(Alloy.Globals.firstOpening){ 
-        
+if(Alloy.Globals.firstOpening){
+
     // si pas d'happyhour et d'établissement existants
     if (!happyhour.count() && !etablishment.count()) {
 
@@ -50,7 +51,7 @@ if(Alloy.Globals.firstOpening){
 
             Ti.API.info("Get All data");
 
-            getAllData();
+            Alloy.Globals.getAllData();
         }
 
     }else {
@@ -66,9 +67,7 @@ if(Alloy.Globals.firstOpening){
         }
     }
 
-    //sleep(3000);
-
-    setTimeout(function(){ 
+    setTimeout(function(){
 
         Ti.API.info("End download/end pub ");
 
@@ -76,58 +75,31 @@ if(Alloy.Globals.firstOpening){
 
         activityIndicator.hide();
         chargement.close();
-       
+
         openTab();
 
         Alloy.Globals.firstOpening = false;
 
     }, 3000);
- 
 
-}else {
 
-    sleep(1000);
+} else {
+
+  setTimeout(function () {
     activityIndicator.hide();
     chargement.close();
-    
+
     openTab();
-   
+  }, 1000);
+
 }
 
-function openTab(){
-
-    /////////////////////////////////////////////////////////
-    ///////////////FETCH DATA///////////////////////////////
-    ///////////////////////////////////////////////////////
+/**
+ * Fetch data & open tabs
+ */
+function openTab()
+{
     Alloy.Collections.etablishment.fetch();
 
-    $.tabgroup.open(); 
-
-    //We create our TabBar (see alloy.js for more informations about our TabBar)
-    new Alloy.Globals.CustomTabBar({
-        tabBar: $.tabgroup,
-        imagePath: '/tabbar/',
-        width: 80,
-        height: 49,
-        items: [
-            { image: 'moment.png', selected: 'moment_select.png' },
-            { image: 'search.png', selected: 'search_select.png' },
-            { image: 'map.png', selected: 'map_select.png' },
-            { image: 'info.png', selected: 'info_select.png' }
-        ]
-
-        // TODO : Change images !
-    });
+    $.tabgroup.open();
 }
-
-
-function sleep(miliseconds) {
-   var currentTime = new Date().getTime();
-
-   while (currentTime + miliseconds >= new Date().getTime()) {
-   }
-}
-
-
-
-

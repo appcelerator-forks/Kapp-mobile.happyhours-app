@@ -38,6 +38,9 @@ function Controller() {
     var $ = this;
     var exports = {};
     $.__views.map = Ti.UI.createWindow({
+        backgroundColor: "#ffffff",
+        barColor: "#ffffff",
+        tintColor: "#ffffff",
         id: "map",
         title: "Map",
         statusBarStyle: Ti.UI.iPhone.StatusBar.LIGHT_CONTENT
@@ -50,9 +53,9 @@ function Controller() {
         annotations: __alloyId22,
         id: "mapview",
         mapType: "NORMAL_TYPE",
-        animate: "true",
-        userLocation: "true",
-        regionFit: "true"
+        animate: true,
+        userLocation: true,
+        regionFit: true
     });
     $.__views.map.add($.__views.mapview);
     $.__views.backToMe = Ti.UI.createButton({
@@ -66,8 +69,8 @@ function Controller() {
         shadowColor: "#000000",
         shadowRadius: 3,
         backgroundImage: "pics/btn-card.png",
-        width: "60",
-        height: "60",
+        width: 60,
+        height: 60,
         id: "backToMe"
     });
     $.__views.map.add($.__views.backToMe);

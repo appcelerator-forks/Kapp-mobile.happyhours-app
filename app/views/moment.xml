@@ -1,7 +1,7 @@
 <Alloy>
-	<Collection src="etablishment" />
-	
-		<Window id="moment" title="Happy Hours" tabBarHidden="true" onOpen="setNow">
+		<Collection src="etablishment" />
+
+		<Window id="moment" title="Happy Hours" onOpen="setNow">
 			<Widget id="ptr" src="nl.fokkezb.pullToRefresh" onRelease="myRefresher">
 				<TableView  layout="vertical" width="100%" height="90%" id="happyhourcontents" dataCollection="etablishment"  dataFilter="haveHappyFilter"><!-- dataTransform="transform"  -->
 					<TableViewRow width="100%" height="20%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment" selectedBackgroundColor="##E8E8E8" >
@@ -10,5 +10,5 @@
 					</TableViewRow>
 				</TableView>
 			</Widget>
-	    </Window>	
+		</Window>
 </Alloy>

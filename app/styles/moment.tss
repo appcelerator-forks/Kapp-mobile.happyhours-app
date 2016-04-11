@@ -1,11 +1,6 @@
-".name": {
-	top: 		"10%",
-	textAlign: 	"center",
-	color: 		"black"
+"#moment": {
+	barImage: "header/bg.png",
+	title: "My Sub Page",
+	barColor: "#ffffff",
+	tintColor: "#ffffff"
 }
-".happy" : {
-	top: 		"50%",
-	textAlign: 	"center",
-	color: 		"black"
-}
- 

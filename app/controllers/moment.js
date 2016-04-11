@@ -8,6 +8,10 @@ else {
 function hey(){
 	Ti.API.info("hey ! ");
 }
+
+Alloy.Globals.titleControl.setText("En ce moment");
+$.moment.setTitleControl(Alloy.Globals.titleControl);
+
 function setNow(model){
 
 	var etablishment = Alloy.createCollection('etablishment');
@@ -20,16 +24,16 @@ function setNow(model){
 
 		etablishmentData.next();
 	}
-	
+
 	etablishmentData.close();
 	db.close();
 
-	
+
 	Alloy.Collections.etablishment.fetch();
 }
 
-//Filter 
-function haveHappyFilter(collection) { 
+//Filter
+function haveHappyFilter(collection) {
 	Ti.API.info("haveHappyFilter ");
 
     return collection.where({
@@ -58,16 +62,16 @@ function transform(model) {
 	var db = Ti.Database.open('happyhourdb');
 
 	var myTransform = model.toJSON();
-		
+
 	if (myTransform.id) {
 
 
-		
+
 		var happyhourData = db.execute("SELECT * FROM happyhour WHERE id_etablishment = " +  myTransform.id);
-		
+
 
 		while (happyhourData.isValidRow()){
-		
+
 
 			////////Complicated operation on hour !!!///////
 			var hour = happyhourData.fieldByName('hours');
@@ -76,23 +80,23 @@ function transform(model) {
 
 			var begin = hour.substr(0, pos);
 			var end = hour.substr(pos+1, hour.length);
-		
+
 			var heure = begin.substr(0, 2);
 
 			var minute = 0;
-			
+
 			if (heure < 6) {
 				heure = heure + 18;
 			}
-			
+
 			heure = heure - 6;
-		
+
 			if (begin.length == 3) {
 			 	minute = 0;
 			} else {
 				minute = begin.substr(3, 2);
 			}
-		
+
 			var posH = end.lastIndexOf('H');
 			var heureEnd = end.substr(0, posH);
 			var minuteEnd = 0;
@@ -108,7 +112,7 @@ function transform(model) {
 			} else {
 				minuteEnd = end.substr(3, 2);
 			}
-	
+
 			if (hourLast>heure) {
 				hourLast=heure;
 			}
@@ -150,7 +154,7 @@ function transform(model) {
 				myTransform.haveHappy = "false";
 				sql = "UPDATE etablishment SET haveHappy='false' WHERE id=" + myTransform.id;
 				db2.execute(sql);
-			}	
+			}
 		}else {
 			if(myTransform.haveHappy != 'true'){
 				myTransform.haveHappy = "true";
@@ -161,7 +165,7 @@ function transform(model) {
 
 		myTransform.now = now;
 
-				
+
 		db2.close();
 
 	} else {
@@ -172,7 +176,7 @@ function transform(model) {
 
 	return myTransform;
 }
-    
+
 
 function myRefresher(e) {
 	Ti.API.info("on refresh ");
@@ -185,10 +189,10 @@ function myRefresher(e) {
         });
         dialog.show();
     }else{
-		getAllData();
+		Alloy.Globals.getAllData();
 	   	//Alloy.Collections.etablishment.fetch();
 	 }
-   
+
 	e.hide();
 }
 

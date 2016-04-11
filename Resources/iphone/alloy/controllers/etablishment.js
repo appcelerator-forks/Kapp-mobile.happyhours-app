@@ -34,7 +34,9 @@ function Controller() {
     var $ = this;
     var exports = {};
     $.__views.etablishment = Ti.UI.createWindow({
+        backgroundColor: "#ffffff",
         barColor: "#e3004e",
+        tintColor: "#ffffff",
         titleAttributes: {
             color: "white",
             fontWeight: "bold"

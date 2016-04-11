@@ -1,17 +1,17 @@
 <Alloy>
-	 <TabGroup id="tabgroup" backgroundColor="white" >
-        <Tab id="tab1">
+	 <TabGroup id="tabgroup">
+        <Tab id="tab1" title="Moment">
         	<Require src="moment" />
         </Tab>
-        <Tab id="tab2">
+        <Tab id="tab2" title="All">
             <Require src="all" />
         </Tab>
-        <Tab id="tab3">
+        <Tab id="tab3" title="Map">
             <Require src="map" />
         </Tab>
-        <Tab id="tab4">
+        <Tab id="tab4" title="Info">
             <Require src="info" />
         </Tab>
-        
+
     </TabGroup>
 </Alloy>

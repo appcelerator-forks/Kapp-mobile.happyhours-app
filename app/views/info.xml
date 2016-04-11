@@ -1,5 +1,5 @@
 <Alloy>
-	<Window tabBarHidden="true" title="Informations">
+	<Window title="Informations">
        <Label id="label1" color="#999">info</Label>
     </Window>
 </Alloy>

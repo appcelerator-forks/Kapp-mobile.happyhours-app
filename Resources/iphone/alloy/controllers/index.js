@@ -11,29 +11,6 @@ function Controller() {
     function openTab() {
         Alloy.Collections.etablishment.fetch();
         $.tabgroup.open();
-        new Alloy.Globals.CustomTabBar({
-            tabBar: $.tabgroup,
-            imagePath: "/tabbar/",
-            width: 80,
-            height: 49,
-            items: [ {
-                image: "moment.png",
-                selected: "moment_select.png"
-            }, {
-                image: "search.png",
-                selected: "search_select.png"
-            }, {
-                image: "map.png",
-                selected: "map_select.png"
-            }, {
-                image: "info.png",
-                selected: "info_select.png"
-            } ]
-        });
-    }
-    function sleep(miliseconds) {
-        var currentTime = new Date().getTime();
-        while (currentTime + miliseconds >= new Date().getTime()) ;
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "index";
@@ -59,7 +36,8 @@ function Controller() {
         window: $.__views.__alloyId15.getViewEx({
             recurse: true
         }),
-        id: "tab1"
+        id: "tab1",
+        title: "Moment"
     });
     __alloyId14.push($.__views.tab1);
     $.__views.__alloyId17 = Alloy.createController("all", {
@@ -69,7 +47,8 @@ function Controller() {
         window: $.__views.__alloyId17.getViewEx({
             recurse: true
         }),
-        id: "tab2"
+        id: "tab2",
+        title: "All"
     });
     __alloyId14.push($.__views.tab2);
     $.__views.__alloyId19 = Alloy.createController("map", {
@@ -79,7 +58,8 @@ function Controller() {
         window: $.__views.__alloyId19.getViewEx({
             recurse: true
         }),
-        id: "tab3"
+        id: "tab3",
+        title: "Map"
     });
     __alloyId14.push($.__views.tab3);
     $.__views.__alloyId20 = Alloy.createController("info", {
@@ -89,13 +69,13 @@ function Controller() {
         window: $.__views.__alloyId20.getViewEx({
             recurse: true
         }),
-        id: "tab4"
+        id: "tab4",
+        title: "Info"
     });
     __alloyId14.push($.__views.tab4);
     $.__views.tabgroup = Ti.UI.createTabGroup({
         tabs: __alloyId14,
-        id: "tabgroup",
-        backgroundColor: "white"
+        id: "tabgroup"
     });
     $.__views.tabgroup && $.addTopLevelView($.__views.tabgroup);
     exports.destroy = function() {};
@@ -115,8 +95,8 @@ function Controller() {
         backgroundColor: "white",
         fullscreen: true
     });
+    $.tabgroup.open();
     chargement.add(activityIndicator);
-    $.tabgroup.add(chargement);
     Ti.API.info("Begin download / end pub ");
     chargement.open();
     activityIndicator.show();
@@ -134,7 +114,7 @@ function Controller() {
             }
         } else if (Alloy.Globals.hasConnection()) {
             Ti.API.info("Get All data");
-            getAllData();
+            Alloy.Globals.getAllData();
         } else {
             var dialog = Ti.UI.createAlertDialog({
                 message: "Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.",
@@ -151,12 +131,11 @@ function Controller() {
             openTab();
             Alloy.Globals.firstOpening = false;
         }, 3e3);
-    } else {
-        sleep(1e3);
+    } else setTimeout(function() {
         activityIndicator.hide();
         chargement.close();
         openTab();
-    }
+    }, 1e3);
     _.extend($, exports);
 }
 

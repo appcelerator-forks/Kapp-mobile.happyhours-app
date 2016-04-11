@@ -3,82 +3,13 @@ Alloy.Globals.dataEtablishment  =  {};
 Alloy.Globals.firstOpening  =   true;
 Alloy.Globals.endDownload =   false;
 
-
-Alloy.Globals.CustomTabBar = function(settings) {
-	var tabBarItems = [];
-	var	tabCurrent = 0;
-	
-	var resetTabs = function() {
-		for(var i = 0; i < tabBarItems.length; i++) {
-			tabBarItems[i].image = settings.imagePath + settings.items[i].image;
-		}
-	};
-	
-	var assignClick = function(tabItem) {
-		tabItem.addEventListener('click', function(e) {
-			// Just fetching the 'i' variable from the loop
-			var pos = e.source.pos;
-
-			if (tabCurrent == pos) {
-				// TODO
-				// Change back to root window, like the native tab action.
-    			return false;
-	        }		
-			
-			// Switch to the tab associated with the image pressed
-			settings.tabBar.tabs[pos].active = true;
-			tabCurrent = pos;
-
-			
-			// Reset all the tab images
-			resetTabs();
-			
-			// Set the current tab as selected
-			tabBarItems[pos].image = settings.imagePath + settings.items[pos].selected;		
-		});
-	};
-	
-	// Create the container for our tab items
-	var customTabBar = Ti.UI.createWindow({
-		height: settings.height,
-		bottom: 0
-	});
-	
-	
-	for(var i = 0; i < settings.items.length; i++) {
-		// Go through each item and create an imageView
-
-
-		tabBarItems[i] = Titanium.UI.createImageView({
-			// background is the default image
-			backgroundImage: settings.imagePath + settings.items[i].image,
-			
-			width: settings.width,
-			height: settings.height,
-			left: settings.width * i
-		});
-
-		// Pass the item number (used later for changing tabs)
-		tabBarItems[i].pos = i;
-		assignClick(tabBarItems[i]);
-
-		// Add to the container window
-		customTabBar.add(tabBarItems[i]);
-	}
-
-	// Display the container and it's items
-	customTabBar.open();
-
-	// Set the first item as current :)
-	resetTabs();
-	tabBarItems[0].image = settings.imagePath + settings.items[0].selected;
-	
-	return {
-		hide: function() { customTabBar.hide(); },
-		show: function() { customTabBar.show(); }
-	};
-};
-
+Alloy.Globals.titleControl = Ti.UI.createLabel({
+  color: "#ffffff",
+  font: {
+    fontFamily: 'TitilliumWeb-Regular',
+    fontSize: 18
+  }
+});
 
 //we use RESTe to take data from API
 /////////////////////////////////////////////////////////
@@ -118,24 +49,27 @@ api.config({
     }
 });
 
-
-function getAllData(){
+/**
+ * Récupération de tout les établissements depuis la bdd
+ */
+Alloy.Globals.getAllData = function()
+{
     api.getEtablishments(function(json){
-    
+
         Ti.API.info("Get All Etablishment");
         var d   = new Date();
         var day = d.getDay() === 0 ? 7 : d.getDay();//day
-       
+
         var havehappy;
         var data;
         var etablishment;
-        
-        //we use now in moment.js to display moment's information of the happy hours 
+
+        //we use now in moment.js to display moment's information of the happy hours
         var now = "not now";
-                
+
          for (var i = 0; i < json.etablishment.length; i++) {
             data = json.etablishment[i];
-            
+
              havehappy = "false";
 
             if (data.now !== "Passer") //Happy is today?
@@ -144,7 +78,7 @@ function getAllData(){
             Ti.API.info(havehappy);
             Ti.API.info(data.now);
             etablishment = Alloy.createModel('etablishment', {
-                id          : data.id, 
+                id          : data.id,
                 name        : data.name,
                 adress      : data.adress,
                 gps         : data.gps,
@@ -152,7 +86,7 @@ function getAllData(){
                 city        : data.city,
                 haveHappy   : havehappy,
                 now         : data.now
-            }); 
+            });
 
             etablishment.save();
 
@@ -163,28 +97,26 @@ function getAllData(){
     });
 
     api.getHappyHours(function(json){
-        
+
         Ti.API.info("Get AHappy");
-        
+
         for (var i = 0; i < json.happyhour.length; i++) {
             Ti.API.info("happy");
             var data    = json.happyhour[i];
 
             var happyhour = Alloy.createModel('happyhour', {
-                id              : data.id, 
+                id              : data.id,
                 id_etablishment : data.id_etablishment,
                 day             : data.day,
                 text            : data.text,
                 hours           : data.hours
 
-            }); 
-            happyhour.save();          
+            });
+            happyhour.save();
         }
     });
 
     Alloy.Globals.endDownload = true;
-
-    
 }
 
 /**

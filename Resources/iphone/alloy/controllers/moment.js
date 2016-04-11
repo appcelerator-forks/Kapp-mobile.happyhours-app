@@ -16,12 +16,20 @@ function Controller() {
         var rows = [];
         for (var i = 0; len > i; i++) {
             var __alloyId26 = models[i];
-            __alloyId26.__transform = {};
+            __alloyId26.__transform = _.isFunction(__alloyId26.transform) ? __alloyId26.transform() : __alloyId26.toJSON();
             var __alloyId28 = Ti.UI.createTableViewRow({
                 width: "100%",
                 height: "20%",
-                idEtablishment: "undefined" != typeof __alloyId26.__transform["id"] ? __alloyId26.__transform["id"] : __alloyId26.get("id"),
-                titleEtablishment: "undefined" != typeof __alloyId26.__transform["name"] ? __alloyId26.__transform["name"] : __alloyId26.get("name"),
+                idEtablishment: _.template("{m.id}", {
+                    m: __alloyId26.__transform
+                }, {
+                    interpolate: /\{([\s\S]+?)\}/g
+                }),
+                titleEtablishment: _.template("{m.name}", {
+                    m: __alloyId26.__transform
+                }, {
+                    interpolate: /\{([\s\S]+?)\}/g
+                }),
                 selectedBackgroundColor: "##E8E8E8"
             });
             rows.push(__alloyId28);
@@ -30,14 +38,19 @@ function Controller() {
                 top: "10%",
                 textAlign: "center",
                 color: "black",
-                text: "undefined" != typeof __alloyId26.__transform["name"] ? __alloyId26.__transform["name"] : __alloyId26.get("name")
+                text: _.template("{m.name}", {
+                    m: __alloyId26.__transform
+                }, {
+                    interpolate: /\{([\s\S]+?)\}/g
+                })
             });
             __alloyId28.add(__alloyId30);
             var __alloyId32 = Ti.UI.createLabel({
-                top: "50%",
-                textAlign: "center",
-                color: "black",
-                text: "undefined" != typeof __alloyId26.__transform["now"] ? __alloyId26.__transform["now"] : __alloyId26.get("now")
+                text: _.template("{m.now}", {
+                    m: __alloyId26.__transform
+                }, {
+                    interpolate: /\{([\s\S]+?)\}/g
+                })
             });
             __alloyId28.add(__alloyId32);
         }
@@ -60,7 +73,7 @@ function Controller() {
     }
     function myRefresher(e) {
         Ti.API.info("on refresh ");
-        if (Alloy.Globals.hasConnection()) getAllData(); else {
+        if (Alloy.Globals.hasConnection()) Alloy.Globals.getAllData(); else {
             var dialog = Ti.UI.createAlertDialog({
                 message: "Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.",
                 ok: "Je comprends",
@@ -95,9 +108,12 @@ function Controller() {
     var __defers = {};
     Alloy.Collections.instance("etablishment");
     $.__views.moment = Ti.UI.createWindow({
-        id: "moment",
+        backgroundColor: "#ffffff",
+        barColor: "#ffffff",
+        tintColor: "#ffffff",
+        barImage: "header/bg.png",
         title: "Happy Hours",
-        tabBarHidden: "true"
+        id: "moment"
     });
     $.__views.moment && $.addTopLevelView($.__views.moment);
     setNow ? $.addListener($.__views.moment, "open", setNow) : __defers["$.__views.moment!open!setNow"] = true;
@@ -117,10 +133,12 @@ function Controller() {
     $.__views.ptr.setParent($.__views.moment);
     myRefresher ? $.__views.ptr.on("release", myRefresher) : __defers["$.__views.ptr!release!myRefresher"] = true;
     exports.destroy = function() {
-        __alloyId33.off("fetch destroy change add remove reset", __alloyId34);
+        __alloyId33 && __alloyId33.off("fetch destroy change add remove reset", __alloyId34);
     };
     _.extend($, $.__views);
     style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
+    Alloy.Globals.titleControl.setText("En ce moment");
+    $.moment.setTitleControl(Alloy.Globals.titleControl);
     __defers["$.__views.moment!open!setNow"] && $.addListener($.__views.moment, "open", setNow);
     __defers["__alloyId28!click!goEtablishment"] && $.addListener(__alloyId28, "click", goEtablishment);
     __defers["$.__views.ptr!release!myRefresher"] && $.__views.ptr.on("release", myRefresher);

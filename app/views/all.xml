@@ -1,6 +1,6 @@
 <Alloy>
 	<Collection src="etablishment" />
-	<Window id="all" tabBarHidden="true" title="Établissements">
+	<Window id="all" title="Établissements">
 		<TableView  layout="vertical" width="100%" height="90%" id="partnerscontent" dataCollection="etablishment">
 			<TableViewRow width="100%" height="20%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment" selectedBackgroundColor="##E8E8E8">
 				<Label text="{name}" class="name" />

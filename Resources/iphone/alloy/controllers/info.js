@@ -25,7 +25,9 @@ function Controller() {
     var $ = this;
     var exports = {};
     $.__views.info = Ti.UI.createWindow({
-        tabBarHidden: "true",
+        backgroundColor: "#ffffff",
+        barColor: "#ffffff",
+        tintColor: "#ffffff",
         title: "Informations",
         id: "info"
     });

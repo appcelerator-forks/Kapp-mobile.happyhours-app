@@ -1,0 +1,17 @@
+"Window": {
+	backgroundColor: "#ffffff",
+	barColor: "#ffffff",
+	tintColor: "#ffffff"
+}
+
+".name": {
+	top: 		"10%",
+	textAlign: 	"center",
+	color: 		"black"
+}
+
+".adress": {
+	top: 		"50%",
+	textAlign: 	"center",
+	color: 		"black"
+}
