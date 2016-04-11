@@ -1,6 +1,5 @@
 "#moment": {
 	barImage: "header/bg.png",
-	title: "My Sub Page",
 	barColor: "#ffffff",
 	tintColor: "#ffffff"
 }

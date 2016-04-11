@@ -3,14 +3,6 @@ Alloy.Globals.dataEtablishment  =  {};
 Alloy.Globals.firstOpening  =   true;
 Alloy.Globals.endDownload =   false;
 
-Alloy.Globals.titleControl = Ti.UI.createLabel({
-  color: "#ffffff",
-  font: {
-    fontFamily: 'TitilliumWeb-Regular',
-    fontSize: 20
-  }
-});
-
 //we use RESTe to take data from API
 /////////////////////////////////////////////////////////
 /////////////Reste initilization////////////////////////

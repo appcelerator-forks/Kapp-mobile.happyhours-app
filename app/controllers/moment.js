@@ -9,8 +9,14 @@ function hey(){
 	Ti.API.info("hey ! ");
 }
 
-Alloy.Globals.titleControl.setText("En ce moment");
-$.moment.setTitleControl(Alloy.Globals.titleControl);
+$.moment.setTitleControl(Ti.UI.createLabel({
+  color: "#ffffff",
+  font: {
+    fontFamily: 'TitilliumWeb-Regular',
+    fontSize: 20
+  },
+	text: "En ce moment"
+}));
 
 function setNow(model){
 
