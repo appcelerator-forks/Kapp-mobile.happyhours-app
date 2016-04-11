@@ -5,3 +5,6 @@ build/
 build.log
 .fastdev.lock
 .settings
+Resources/
+i18n/
+platform/
