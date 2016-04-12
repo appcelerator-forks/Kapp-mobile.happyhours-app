@@ -278,9 +278,40 @@ function closeWindow() {
 }
 
 function openMap() {
-	var mapView = Alloy.createController('mapEtablishment', {
-		'etablishmentId'	: etablishmentId,
-		'etablishmentTitle' : etablishmentTitle
+
+	// Toulouse center
+	var latitude  = 43.604652;
+	var longitude = 1.4442090000000007;
+
+	// Get User location
+	Ti.Geolocation.distanceFilter = 10;
+
+	Ti.Geolocation.getCurrentPosition(function(e) {
+		if (e.error) return;
+
+		longitude = e.coords.longitude;
+		latitude  = e.coords.latitude;
+
 	});
+
+	var etablishment = Alloy.createCollection('etablishment');
+	etablishment.fetch();
+
+	// for each etablishment we build an annotation
+	etablishment.each(function(etablishment) {
+
+		if (etablishmentId && etablishmentId == etablishment.get('id')) {
+				var coord = etablishment.get('gps');
+
+				Ti.Platform.openURL("http://maps.apple.com/?saddr="+latitude+","+longitude+"&daddr="+coord);
+		}
+
+	});
+
+
+	// var mapView = Alloy.createController('mapEtablishment', {
+	// 	'etablishmentId'	: etablishmentId,
+	// 	'etablishmentTitle' : etablishmentTitle
+	// });
 
 }
