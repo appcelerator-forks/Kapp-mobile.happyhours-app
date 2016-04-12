@@ -13,6 +13,7 @@
     <analytics>true</analytics>
     <guid>b808b602-97df-4fb5-8451-52e582f19fd7</guid>
     <property name="ti.ui.defaultunit" type="string">dp</property>
+    <property name="installr.api_token">eTgekbLvdCEgx3WorXBIB6SakjhB3JZv</property>
     <ios>
         <plist>
             <dict>
