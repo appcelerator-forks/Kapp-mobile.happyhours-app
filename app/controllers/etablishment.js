@@ -277,41 +277,51 @@ function closeWindow() {
 	$.etablishment.close();
 }
 
+// if (Ti.Geolocation.locationServicesEnabled) {
+//     Titanium.Geolocation.purpose = 'Get Current Location';
+//     Titanium.Geolocation.getCurrentPosition(function(e) {
+//         if (e.error) {
+//             Ti.API.error('Error: ' + e.error);
+//         } else {
+//             Ti.API.info(e.coords);
+//         }
+//     });
+// } else {
+//     alert('Please enable location services');
+// }
+
 function openMap() {
 
 	// Toulouse center
-	var latitude  = 43.604652;
+	var latitude  = 43.584652;
 	var longitude = 1.4442090000000007;
 
 	// Get User location
-	Ti.Geolocation.distanceFilter = 10;
+    Ti.Geolocation.distanceFilter = 10;
 
-	Ti.Geolocation.getCurrentPosition(function(e) {
-		if (e.error) return;
+		Ti.API.info("hey");
+		Ti.Geolocation.getCurrentPosition(function(e) {
+			if (e.error) Ti.API.info("mince");
 
-		longitude = e.coords.longitude;
-		latitude  = e.coords.latitude;
+			Ti.API.info("ok") ;
+			longitude = e.coords.longitude;
+			latitude  = e.coords.latitude;
+
+			var etablishment = Alloy.createCollection('etablishment');
+			etablishment.fetch();
+
+			// for each etablishment we build an annotation
+			etablishment.each(function(etablishment) {
+
+				if (etablishmentId && etablishmentId == etablishment.get('id')) {
+						var coord = etablishment.get('gps');
+
+						Ti.Platform.openURL("http://maps.apple.com/?saddr="+latitude+","+longitude+"&daddr="+coord);
+				}
+
+			});
+
 
 	});
-
-	var etablishment = Alloy.createCollection('etablishment');
-	etablishment.fetch();
-
-	// for each etablishment we build an annotation
-	etablishment.each(function(etablishment) {
-
-		if (etablishmentId && etablishmentId == etablishment.get('id')) {
-				var coord = etablishment.get('gps');
-
-				Ti.Platform.openURL("http://maps.apple.com/?saddr="+latitude+","+longitude+"&daddr="+coord);
-		}
-
-	});
-
-
-	// var mapView = Alloy.createController('mapEtablishment', {
-	// 	'etablishmentId'	: etablishmentId,
-	// 	'etablishmentTitle' : etablishmentTitle
-	// });
 
 }
