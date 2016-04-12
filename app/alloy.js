@@ -24,17 +24,17 @@ api.config({
         name: "getEtablishments",
         post: "allEtablishment.php",
         onError: function(e, callback){
-            alert("There was an error getting the courses!");
+            //alert("There was an error getting the courses!");
         }
     },{
     	name: "getHappyHours",
         post: "allHappyHours.php",
         onError: function(e, callback){
-            alert("There was an error getting the courses!");
+            //alert("There was an error getting the courses!");
         }
     }],
     onError: function(e) {
-        alert("There was an error accessing the API");
+        alert("Une erreur c'est produite lors de la récupération des données. Veuillez réessayer ultérieurement");
     },
     onLoad: function(e, callback) {
        callback(e);
