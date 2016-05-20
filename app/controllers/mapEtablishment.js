@@ -10,7 +10,7 @@ var etablishmentTitle 	=  args.etablishmentTitle;
 ///////////////////////////////////////////////////////
 
 // Toulouse center
-var latitude  = 43.604652;
+var latitude  = 40.604652;
 var longitude = 1.4442090000000007;
 
 // Get User location

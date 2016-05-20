@@ -277,19 +277,6 @@ function closeWindow() {
 	$.etablishment.close();
 }
 
-// if (Ti.Geolocation.locationServicesEnabled) {
-//     Titanium.Geolocation.purpose = 'Get Current Location';
-//     Titanium.Geolocation.getCurrentPosition(function(e) {
-//         if (e.error) {
-//             Ti.API.error('Error: ' + e.error);
-//         } else {
-//             Ti.API.info(e.coords);
-//         }
-//     });
-// } else {
-//     alert('Please enable location services');
-// }
-
 function openMap() {
 
 	// Toulouse center
