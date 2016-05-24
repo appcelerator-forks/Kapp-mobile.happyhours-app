@@ -1,23 +1,25 @@
 <Alloy>
-		<Collection src="etablishment" />
+	<Collection src="etablishment"/>
 
-		<Window id="moment" title="Happy Hours" onOpen="setNow">
-			<Widget id="ptr" src="nl.fokkezb.pullToRefresh" onRelease="myRefresher">
-				<TableView  layout="vertical" width="100%" height="100%" id="happyhourcontents" dataCollection="etablishment"  dataFilter="haveHappyFilter"><!-- dataTransform="transform"  -->
-					<TableViewRow width="100%" height="60%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment" selectedBackgroundColor="##E8E8E8" >
-						<Label text="{name}" class="name" />
-						<Label text="{adress}" class="adress"/>
-						<Label text="Toulouse" class="ville"/>
-						<Label text="{now}" class="happy"/>
-						<View class="image" backgroundImage="https://toulousenightfever.files.wordpress.com/2011/05/lndon-twn1.jpg">
-							<View class="description">
-								<Label class="description_label">
-									Un pub traditionnel anglais, au milieu de l’incessant va-et-vient de la ville. Une clientèle jeune, des concerts et une ambiance géniale font que c’est l’un des pubs les plus fréquentés de Toulouse.
-								</Label>
-							</View>
+	<Window id="moment" title="Happy Hours" onOpen="setNow">
+		<Widget id="ptr" src="nl.fokkezb.pullToRefresh" onRelease="myRefresher">
+			<TableView layout="vertical" width="100%" height="100%" id="happyhourcontents" dataCollection="etablishment" dataFilter="haveHappyFilter">
+				<!-- dataTransform="transform"  -->
+				<TableViewRow width="100%" height="60%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment" selectedBackgroundColor="##E8E8E8">
+					<Label text="{name}" class="name"/>
+					<Label text="{adress}" class="adress"/>
+					<Label text="Toulouse" class="ville"/>
+					<Label text="{now}" class="happy"/>
+					<View class="image" backgroundImage='background/background.png'>
+						<View class="description">
+							<Label class="description_label">
+								Le London Town est un lieu où boire de la bière anglaise traditionnelle, écouter de la musique live, jouer aux fléchettes et se détendre en terrasse.
+							</Label>
+							<ImageView class="image_arrow" image="/icons/right-arrow.png"/>
 						</View>
-					</TableViewRow>
-				</TableView>
-			</Widget>
-		</Window>
+					</View>
+				</TableViewRow>
+			</TableView>
+		</Widget>
+	</Window>
 </Alloy>
