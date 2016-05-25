@@ -12,9 +12,7 @@
 					<Label text="{now}" class="happy"/>
 					<View class="image" backgroundImage='background/background.png'>
 						<View class="description">
-							<Label class="description_label">
-								Le London Town est un lieu où boire de la bière anglaise traditionnelle, écouter de la musique live, jouer aux fléchettes et se détendre en terrasse.
-							</Label>
+							<Label class="description_label" text="{description}" />
 							<ImageView class="image_arrow" image="/icons/right-arrow.png"/>
 						</View>
 					</View>

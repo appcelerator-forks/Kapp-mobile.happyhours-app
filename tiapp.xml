@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>fr.happyhours.happyhours</id>
     <name>Happy Hours</name>
-    <version>0.1.0.2</version>
+    <version>0.1.1.0</version>
     <publisher>rkueny</publisher>
     <url>http://happyhours-app.fr</url>
     <description>undefined</description>

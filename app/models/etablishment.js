@@ -7,8 +7,9 @@ exports.definition = {
 			"gps"			:  "Text",
 			"yelp_id"		:  "Text",
 			"city"			:  "Text",
+			"description"	:  "Text",
 			"haveHappy"		:  "Text",
-			"now"			:  "Text"					
+			"now"			:  "Text"
 		},
 		"defaults": {
 			"name"			:  "",
@@ -16,6 +17,7 @@ exports.definition = {
 			"gps"			:  "",
 			"yelp_id"		:  0,
 			"city"			:  "",
+			"description"	:  "",
 			"haveHappy"		:  "",
 			"now"			:  ""
 
@@ -24,12 +26,12 @@ exports.definition = {
 			"type": 			"sql",
 			"collection_name": 	"etablishment",
 			"idAttribute": 		"id",
-			"db_name": 			"etablishmentdb" 
+			"db_name": 			"etablishmentdb"
 		}
 	},
 	extendModel: function(Model) {
 		_.extend(Model.prototype, {
-			
+
 		});
 		return Model;
 	},
@@ -37,12 +39,12 @@ exports.definition = {
 		_.extend(Collection.prototype, {
 			deleteAll : function() {
 				var collection = this;
-				 
+
 				var sql = "DELETE FROM " + collection.config.adapter.collection_name;
 				db = Ti.Database.open(collection.config.adapter.db_name);
 				db.execute(sql);
 				db.close();
-				 
+
 				collection.trigger('sync');
 			},
 
@@ -55,7 +57,7 @@ exports.definition = {
 				var count = db.execute(sql);
 				count = count.getRowCount();
 				db.close();
-				 
+
 				return count;
 			}
 

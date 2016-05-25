@@ -16,13 +16,11 @@ var chargement = Ti.UI.createWindow({
     fullscreen: true
 });
 
-$.tabgroup.open();
+// $.tabgroup.open();
 
 chargement.add(activityIndicator);
 //$.tabgroup.add(chargement);
 
-//loading
- Ti.API.info("Begin download / end pub ");
 chargement.open();
 activityIndicator.show();
 
@@ -35,71 +33,47 @@ etablishment.deleteAll();
 /////////////////////////////////////////////////////////
 ////////////////////Get DATA////////////////////////////
 ///////////////////////////////////////////////////////
-if(Alloy.Globals.firstOpening){
 
-    // si pas d'happyhour et d'établissement existants
-    if (!happyhour.count() && !etablishment.count()) {
 
-        if (!Alloy.Globals.hasConnection()) {
-            var dialog = Ti.UI.createAlertDialog({
-                message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.',
-                ok: 'Je comprends',
-                title: 'Attention'
-            });
-            dialog.show();
-        }else{
+// si pas d'happyhour et d'établissement existants
+if (!happyhour.count() && !etablishment.count()) {
 
-            Ti.API.info("Get All data");
+    if (!Alloy.Globals.hasConnection()) {
+        var dialog = Ti.UI.createAlertDialog({
+            message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.',
+            ok: 'Je comprends',
+            title: 'Attention'
+        });
+        dialog.show();
+    }else{
 
-            Alloy.Globals.getAllData();
-        }
+        Ti.API.info("Get All data");
 
-    }else {
-        if (!Alloy.Globals.hasConnection()) {
-            var dialog = Ti.UI.createAlertDialog({
-                message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.',
-                ok: 'Je comprends',
-                title: 'Attention'
-            });
-            dialog.show();
-        }else {
-            // TODO : Update data after 24h
-        }
+        Alloy.Globals.getAllData();
     }
 
-    setTimeout(function(){
+}else {
+    if (!Alloy.Globals.hasConnection()) {
+        var dialog = Ti.UI.createAlertDialog({
+            message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.',
+            ok: 'Je comprends',
+            title: 'Attention'
+        });
+        dialog.show();
+    }else {
+        // TODO : Update data after 24h
+    }
+}
 
-        Ti.API.info("End download/end pub ");
 
-        Alloy.Globals.endDownload = false;
+setTimeout(function(){
+    if(Alloy.Globals.endDownload) {
 
         activityIndicator.hide();
         chargement.close();
 
-        openTab();
-
-        Alloy.Globals.firstOpening = false;
-
-    }, 3000);
+        $.tabgroup.open();
+    }
 
 
-} else {
-
-  setTimeout(function () {
-    activityIndicator.hide();
-    chargement.close();
-
-    openTab();
-  }, 1000);
-
-}
-
-/**
- * Fetch data & open tabs
- */
-function openTab()
-{
-    Alloy.Collections.etablishment.fetch();
-
-    $.tabgroup.open();
-}
+}, 1000);
