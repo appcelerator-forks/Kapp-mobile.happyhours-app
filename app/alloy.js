@@ -14,7 +14,8 @@ Alloy.Globals.getAllData = function() {
 
             var responseText = JSON.parse(this.responseText);
 
-            responseText = '[{"id":1,"name":"Tonton","description":"Bar de nuit pris\u00e9 des \u00e9tudiants, au d\u00e9cor festif et bon enfant. \u00c9v\u00e9nements, p\u00e9tanques et soir\u00e9es \u00e0 th\u00e8mes.","adress":"Place St Pierre","gps":"43.6038642,1.4351481,15","city":"Toulouse","happies":[{"id":4,"id_description":"happy_tonton","day":"1,2,3,4,5,6,7","text":"Un ricard achet\u00e9, un ricard offert !","hours":"19H00-22H00"}]},{"id":2,"name":"The London Town","description":"Un pub traditionnel anglais, au milieu de l\u2019incessant va-et-vient de la ville. Une client\u00e8le jeune, des concerts et une ambiance g\u00e9niale font que c\u2019est l\u2019un des pubs les plus fr\u00e9quent\u00e9s de Toulouse.","adress":"14 rue de Pretres 31000 Toulouse","gps":"43.5975499,1.4416755","city":"Toulouse","happies":[{"id":5,"id_description":"happy_london","day":"1,2,3","text":"Peitite happy","hours":"19H00-22H00"}]}]';
+            // TEST
+            responseText = '[{"id":1,"name":"Tonton","description":"Bar de nuit pris\u00e9 des \u00e9tudiants, au d\u00e9cor festif et bon enfant. \u00c9v\u00e9nements, p\u00e9tanques et soir\u00e9es \u00e0 th\u00e8mes.","adress":"Place St Pierre","gps":"43.6038642,1.4351481,15","city":"Toulouse","happies":[{"id":4,"id_description":"happy_tonton","day":"1,2,3,4,5,6,7","text":"Un ricard achet\u00e9, un ricard offert !","hours":"19H00-22H00"},{"id":6,"id_description":"happy_tonton_exceptionnel","day":"2,3","text":"Tout gratuit","hours":"21H00-21H30"}]},{"id":2,"name":"The London Town","description":"Un pub traditionnel anglais, au milieu de l\u2019incessant va-et-vient de la ville. Une client\u00e8le jeune, des concerts et une ambiance g\u00e9niale font que c\u2019est l\u2019un des pubs les plus fr\u00e9quent\u00e9s de Toulouse.","adress":"14 rue de Pretres 31000 Toulouse","gps":"43.5975499,1.4416755","city":"Toulouse","happies":[{"id":5,"id_description":"happy_london","day":"1,2,3","text":"Peitite happy","hours":"19H00-22H00"}]}]';
 
             responseText = JSON.parse(responseText);
 
@@ -62,8 +63,6 @@ Alloy.Globals.getAllData = function() {
                 if (now != "")
                     havehappy = 'true';
 
-                console.log(havehappy);
-
                 etablishment = Alloy.createModel('etablishment', {
                     id          : etablishment.id,
                     name        : etablishment.name,
@@ -79,7 +78,6 @@ Alloy.Globals.getAllData = function() {
                 etablishment.save();
             }
 
-            console.log("coucou");
             Alloy.Collections.etablishment.fetch();
 
             Alloy.Globals.endDownload = true;
@@ -88,33 +86,15 @@ Alloy.Globals.getAllData = function() {
         // function called when an error occurs, including a timeout
         onerror: function(e) {
             Ti.API.debug(e.error);
+            Alloy.Globals.endDownload = true;
         },
         timeout: 5000 // in milliseconds
     });
-
-    var client2 = Ti.Network.createHTTPClient({
-        // function called when the response data is available
-        onload: function(e) {
-            //   Ti.API.info("Received text: " + this.responseText);
-        },
-        // function called when an error occurs, including a timeout
-        onerror: function(e) {
-            Ti.API.debug(e.error);
-        },
-        timeout: 5000 // in milliseconds
-    });
-
 
     // Prepare the connection.
     client1.open("GET", Alloy.Globals.urlEtablishment);
     // Send the request.
     client1.send();
-
-    // Prepare the connection.
-    client2.open("GET", Alloy.Globals.urlHappy);
-    // Send the request.
-    client2.send();
-
 }
 
 function getHourBegin(hour) {

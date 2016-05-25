@@ -50,6 +50,23 @@ if (!happyhour.count() && !etablishment.count()) {
         Ti.API.info("Get All data");
 
         Alloy.Globals.getAllData();
+
+        var i = 0;
+        setTimeout(function(){
+            if(Alloy.Globals.endDownload || i > 5000) {
+
+                console.log("enDownload");
+
+                activityIndicator.hide();
+                chargement.close();
+
+                $.tabgroup.open();
+            }
+
+            i += 1000;
+
+
+        }, 1000);
     }
 
 }else {
@@ -64,16 +81,3 @@ if (!happyhour.count() && !etablishment.count()) {
         // TODO : Update data after 24h
     }
 }
-
-
-setTimeout(function(){
-    if(Alloy.Globals.endDownload) {
-
-        activityIndicator.hide();
-        chargement.close();
-
-        $.tabgroup.open();
-    }
-
-
-}, 1000);

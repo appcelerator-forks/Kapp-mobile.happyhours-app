@@ -2,6 +2,8 @@ var args 			=  arguments[0] || {};
 var etablishmentId 		=  args.etablishmentId;
 var etablishmentTitle 	=  args.etablishmentTitle;
 
+// var myModule = require('../lib/PagingControl');
+
 /////////////////////////////////////////////////////////
 ////////////////////SQL//////////////////////////////////
 /////////////////////////////////////////////////////////
@@ -50,7 +52,7 @@ var happyView = Ti.UI.createView({
 	zIndex			: 10
 });
 
-var happyScroll = Ti.UI.createView({
+var allHappy = Ti.UI.createView({
 	backgroundImage	:'background/background_happy.png',
     height			: "55%",
     width			: "98%",
@@ -59,6 +61,14 @@ var happyScroll = Ti.UI.createView({
 	zIndex			: 10
 });
 
+var happyScrollable = Ti.UI.createScrollableView({
+	views				: [],
+	height				: "55%",
+    width				: "80%",
+    top 				: "30%",
+	left				: "10%",
+	backgroundColor		: "white",
+});
 
 /////////////////////////////////////////////////////////
 ////////////////////BUTTON///////////////////////////////
@@ -133,11 +143,6 @@ var oneHappy = [];
 var labelTextDay;
 var labeltextHour;
 
-// Do not work with Iphone 6
-// var StyledLabel = require('com.dzlabel');
-
-
-
 for (var j = 0; j< hour.length; j++) { //
 
 	console.log(hour[j]);
@@ -145,10 +150,10 @@ for (var j = 0; j< hour.length; j++) { //
 	oneHappy.push(Ti.UI.createView({
 		backgroundColor	: 'white',
 		className		: 'row',
-		height			: "62%",
-		width			: "85%",
-		left			: "7%",
-		top				: "28%",
+		height			: "90%",
+		width			: "100%",
+		left			: "0%",
+		top				: "0%",
 		zIndex			: 40,
 	}));
 
@@ -220,11 +225,6 @@ for (var j = 0; j< hour.length; j++) { //
 	labelHour[j].add(labeltextHour);
 
 
-
-	// happy[j] = happy[j].replace(/-/g, "<p></p>");
-
-	console.log("text : " + happy[j]);
-
 	labelHappy.push(Ti.UI.createView({
 		top		: "20%",
 		left 	: "5%",
@@ -260,7 +260,10 @@ for (var j = 0; j< hour.length; j++) { //
 	oneHappy[j].add(labelHour[j]);
 	oneHappy[j].add(labelHappy[j]);
 
+
+	happyScrollable.addView(oneHappy[j]);
 }
+
 
 /////////////////////////////////////////////////////////
 //////////////////////ADD////////////////////////////////
@@ -270,19 +273,12 @@ controlView.add(labelTitle);
 controlView.add(labeladress);
 controlView.add(barreIcon);
 
-console.log(oneHappy[0]);
 
-happyScroll.add(oneHappy[0]);
+// var sViewPagingControl = new PagingControl(happyScrollable);
 
+allHappy.add(happyScrollable);
+// allHappy.add(sViewPagingControl);
 
-var happyViewScroll = Ti.UI.createTableView({
-  	backgroundColor:'white',
-  	height: "72.63%",
-    width: "100%",
-    top : "27.18%",
-    data: oneHappy
-
-});
 
 
 $.etablishment.add(btnMap);
@@ -291,7 +287,7 @@ $.etablishment.add(btnBack);
 $.etablishment.add(controlView);
 $.etablishment.add(happyView);
 
-$.etablishment.add(happyScroll);
+$.etablishment.add(allHappy);
 
 $.etablishment.open();
 
@@ -304,13 +300,6 @@ btnMap.addEventListener('click', openMap);
 
 Ti.App.addEventListener('closeWindow', closeWindow);
 
-happyScroll.addEventListener('swipe', function (e) {
-	if (e.direction == 'left') {
-		console.log("left");
-   } else if (e.direction == 'right') {
-      	console.log("right");
-   }
-});
 
 function closeWindow(){
 	$.etablishment.close();
