@@ -1,7 +1,7 @@
 <Alloy>
 	<Collection src="etablishment"/>
 
-	<Window id="moment" title="Happy Hours" onOpen="setNow">
+	<Window id="moment" title="Happy Hours">
 		<Widget id="ptr" src="nl.fokkezb.pullToRefresh" onRelease="myRefresher">
 			<TableView layout="vertical" width="100%" height="100%" id="happyhourcontents" dataCollection="etablishment" dataFilter="haveHappyFilter">
 				<!-- dataTransform="transform"  -->

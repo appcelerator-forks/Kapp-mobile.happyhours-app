@@ -104,6 +104,27 @@ var barreIcon = Ti.UI.createImageView({
 
 });
 
+
+var barreIconDay = Ti.UI.createImageView({
+	image			: "icons/line_happy.png",
+	top				: "61.5%",
+	left 			: "42.5%",
+	width			: "100px",
+	height			: "50px",
+	zIndex			: 20
+
+});
+
+var clock = Ti.UI.createImageView({
+	image			: "icons/clock.png",
+	top				: "78.6%",
+	left 			: "15%",
+	width			: "40px",
+	height			: "40px",
+	zIndex			: 20
+
+});
+
 /////////////////////////////////////////////////////////
 ////////////////////LABEL////////////////////////////////
 /////////////////////////////////////////////////////////
@@ -145,8 +166,6 @@ var labeltextHour;
 
 for (var j = 0; j< hour.length; j++) { //
 
-	console.log(hour[j]);
-
 	oneHappy.push(Ti.UI.createView({
 		backgroundColor	: 'white',
 		className		: 'row',
@@ -187,8 +206,6 @@ for (var j = 0; j< hour.length; j++) { //
 		happyText+=' Dimanche ';
 	}
 
-	console.log(happyText);
-
 
 	labelTextDay = Ti.UI.createLabel({
 		text		: happyText,
@@ -220,13 +237,14 @@ for (var j = 0; j< hour.length; j++) { //
 		textAlign	: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 		font: {
 			fontSize: 11
-		}
+		},
+		left		: "50px",
 	});
 	labelHour[j].add(labeltextHour);
 
 
 	labelHappy.push(Ti.UI.createView({
-		top		: "20%",
+		top		: "30%",
 		left 	: "5%",
 		height	: "60%",
 		width	: "90%",
@@ -249,8 +267,6 @@ for (var j = 0; j< hour.length; j++) { //
 			height		: Ti.UI.SIZE,
 		}));
 
-		console.log(labelTextHappy[i]);
-
 		labelHappy[j].add(labelTextHappy[i]);
 
 	}
@@ -259,7 +275,6 @@ for (var j = 0; j< hour.length; j++) { //
 	oneHappy[j].add(labelDay[j]);
 	oneHappy[j].add(labelHour[j]);
 	oneHappy[j].add(labelHappy[j]);
-
 
 	happyScrollable.addView(oneHappy[j]);
 }
@@ -274,6 +289,8 @@ controlView.add(labeladress);
 controlView.add(barreIcon);
 
 
+$.etablishment.add(barreIconDay);
+$.etablishment.add(clock);
 var sViewPagingControl = new Alloy.Globals.PagingControl(happyScrollable);
 
 allHappy.add(happyScrollable);

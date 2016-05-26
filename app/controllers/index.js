@@ -1,5 +1,6 @@
 var happyhour = Alloy.createCollection('happyhour');
 var etablishment = Alloy.createCollection('etablishment');
+var i = 0;
 
 var activityIndicator = Ti.UI.createActivityIndicator({
     color: 'gray',
@@ -51,22 +52,8 @@ if (!happyhour.count() && !etablishment.count()) {
 
         Alloy.Globals.getAllData();
 
-        var i = 0;
-        setTimeout(function(){
-            if(Alloy.Globals.endDownload || i > 5000) {
 
-                console.log("enDownload");
-
-                activityIndicator.hide();
-                chargement.close();
-
-                $.tabgroup.open();
-            }
-
-            i += 1000;
-
-
-        }, 1000);
+        setTimeout(download, 1000);
     }
 
 }else {
@@ -80,4 +67,24 @@ if (!happyhour.count() && !etablishment.count()) {
     }else {
         // TODO : Update data after 24h
     }
+}
+
+
+function download() {
+    if(Alloy.Globals.endDownload || i > 5000) {
+
+        activityIndicator.hide();
+        chargement.close();
+
+        $.tabgroup.open();
+
+        return;
+    }
+
+    i += 1000;
+
+    setTimeout(download, 1000);
+
+
+
 }

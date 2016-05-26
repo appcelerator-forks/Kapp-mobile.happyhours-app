@@ -16,29 +16,11 @@ $.moment.setTitleControl(Ti.UI.createLabel({
 }));
 
 
-function setNow(model){
-
-	var etablishment = Alloy.createCollection('etablishment');
-
-	var db = Ti.Database.open('etablishmentdb');
-
-	var etablishmentData = db.execute("SELECT * FROM etablishment" );
-
-	while (etablishmentData.isValidRow()){
-
-		etablishmentData.next();
-	}
-
-	etablishmentData.close();
-	db.close();
-
-
-	Alloy.Collections.etablishment.fetch();
-}
-
 //Filter
 function haveHappyFilter(collection) {
 	Ti.API.info("haveHappyFilter ");
+
+    Ti.API.info(collection);
 
     return collection.where({
         haveHappy : 'true'
@@ -84,7 +66,25 @@ function goEtablishment() {
 
 
 
-
+// function setNow(model){
+//
+// 	var etablishment = Alloy.createCollection('etablishment');
+//
+// 	var db = Ti.Database.open('etablishmentdb');
+//
+// 	var etablishmentData = db.execute("SELECT * FROM etablishment" );
+//
+// 	while (etablishmentData.isValidRow()){
+//
+// 		etablishmentData.next();
+// 	}
+//
+// 	etablishmentData.close();
+// 	db.close();
+//
+//
+// 	Alloy.Collections.etablishment.fetch();
+// }
 
 
 // function transform(model) {

@@ -26,11 +26,11 @@ Alloy.Globals.getAllData = function() {
             for (var i = 0; i < responseText.length; i++) {
                 var etablishment = responseText[i];
 
+                var now = "";
+
                 for (var j = 0; j < etablishment.happies.length; j++) {
 
                     var happy = etablishment.happies[j];
-
-                    var now = "";
 
                     day = day.toString();
 
@@ -90,6 +90,9 @@ Alloy.Globals.getAllData = function() {
             Alloy.Globals.endDownload = true;
         },
         timeout: 5000 // in milliseconds
+
+        Alloy.Globals.endDownload = true;
+
     });
 
     // Prepare the connection.
@@ -200,10 +203,8 @@ Alloy.Globals.PagingControl = function(scrollableView){
     var container = Titanium.UI.createView({
 		height    : 30,
 		top       : "80%",
-        width     : 15 * numberOfPages + 8 * numberOfPages - 15 
+        width     : 15 * numberOfPages + 8 * numberOfPages - 15
 	});
-
-	console.log(numberOfPages);
 
 	var pages = []; // without this, the current page won't work on future references of the module
 
@@ -225,8 +226,6 @@ Alloy.Globals.PagingControl = function(scrollableView){
 
 	// Mark the initial selected page
 	pages[scrollableView.getCurrentPage()].setOpacity(1);
-
-	console.log(pages[scrollableView.getCurrentPage()]);
 
 	// Callbacks
 	onScroll = function(event){
