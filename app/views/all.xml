@@ -1,10 +1,18 @@
 <Alloy>
 	<Collection src="etablishment" />
 	<Window id="all" title="Établissements">
-		<TableView  layout="vertical" width="100%" height="90%" id="partnerscontent" dataCollection="etablishment">
-			<TableViewRow width="100%" height="20%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment" selectedBackgroundColor="##E8E8E8">
-				<Label text="{name}" class="name" />
-				<Label text="{adress}" class="adress" />
+		<TableView  layout="vertical" width="100%" height="100%" top="" id="partnerscontent" dataCollection="etablishment" filterAttribute="titleEtablishment" >
+			<TableViewRow width="100%" height="70%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment" selectedBackgroundColor="##E8E8E8" >
+				<Label text="{name}" class="name"/>
+				<Label text="{adress}" class="adress"/>
+				<Label text="Toulouse" class="ville"/>
+				<Label text="{now}" class="happy"/>
+				<View class="image" backgroundImage='background/background.png'>
+					<View class="description">
+						<Label class="description_label" text="{description}" />
+						<ImageView class="image_arrow" image="/icons/right-arrow.png"/>
+					</View>
+				</View>
 			</TableViewRow>
 		</TableView>
     </Window>

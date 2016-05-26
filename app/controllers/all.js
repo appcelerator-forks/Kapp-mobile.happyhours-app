@@ -2,6 +2,8 @@
 /////////////////////////////////////////////////////////
 /////// GO TO PARTNER VIEW ////////
 /////////////////////////////////////////////////////////
+var seachHide = true;
+
 Alloy.Collections.etablishment.fetch();
 
 $.all.setTitleControl(Ti.UI.createLabel({
@@ -12,6 +14,16 @@ $.all.setTitleControl(Ti.UI.createLabel({
   },
 	text: "Happy Hours"
 }));
+
+searchBar = Ti.UI.createSearchBar({
+    barColor        : "rgb(186,185,191)",
+     borderColor    : "rgb(186,185,191)",
+     height         : "43",
+     top            : "0",
+     hintText       : "Rechercher"
+});
+
+$.partnerscontent.setSearch(searchBar);
 
 function goEtablishment() {
 

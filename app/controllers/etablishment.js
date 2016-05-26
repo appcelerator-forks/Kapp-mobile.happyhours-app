@@ -274,10 +274,10 @@ controlView.add(labeladress);
 controlView.add(barreIcon);
 
 
-// var sViewPagingControl = new PagingControl(happyScrollable);
+var sViewPagingControl = new Alloy.Globals.PagingControl(happyScrollable);
 
 allHappy.add(happyScrollable);
-// allHappy.add(sViewPagingControl);
+allHappy.add(sViewPagingControl);
 
 
 
