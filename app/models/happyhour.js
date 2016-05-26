@@ -13,16 +13,16 @@ exports.definition = {
 			"text"				:  "",
 			"hours"			    :  0
 		},
-		"adapter": {
+	"adapter": {
 			"type": 			"sql",
 			"collection_name": 	"happyhour",
 			"idAttribute": 		"id",
-			"db_name": 			"happyhourdb" 
+			"db_name": 			"happyhourdb"
 		}
 	},
 	extendModel: function(Model) {
 		_.extend(Model.prototype, {
-			
+
 		});
 		return Model;
 	},
@@ -30,12 +30,12 @@ exports.definition = {
 		_.extend(Collection.prototype, {
 			deleteAll : function() {
 				var collection = this;
-				 
+
 				var sql = "DELETE FROM " + collection.config.adapter.collection_name;
 				db = Ti.Database.open(collection.config.adapter.db_name);
 				db.execute(sql);
 				db.close();
-				 
+
 				collection.trigger('sync');
 			},
 
@@ -48,10 +48,11 @@ exports.definition = {
 				var count = db.execute(sql);
 				count = count.getRowCount();
 				db.close();
-				 
+
 				return count;
 			}
+
 		});
 		return Collection;
 	}
-}
+};

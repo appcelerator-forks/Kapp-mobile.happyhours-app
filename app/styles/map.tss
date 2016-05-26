@@ -13,46 +13,6 @@
 	height: Ti.UI.SIZE,
 	color: "#000"
 },
-"#menu": {
-	backgroundImage: 'pics/menu-bg.png'
-}
-
-"#menuRight": {
-	backgroundImage: 'pics/menu-bg.png'
-}
-
-"#leftButton": {
-	width: "44px",
-	height: "44px",
-	backgroundImage: 'pics/btn-menu.png'
-},
-"#win": {
-	backgroundColor: "white",
-	titleAttributes:  {
-        color:'black'
-    }
-},
-".partner": {
-	width: "100%",
-	height: "16%"
-},
-".offers": {
-	top: "60%",
-	left: "40%"
-},
-".localiz": {
-	top: "60%",
-	left: "73%"
-},
-".border": {
-	width: "100%",
-	height: "1px",
-	backgroundColor: "black"
-},
-
-".accueil": {
-	top: "25%"
-},
 "Button": {
 	color: "white",
 	top: '25px',
@@ -71,22 +31,4 @@
 	top: "80%",
 	width: 60,
 	height: 60
-}
-
-"#rightButton": {
-	width: 				"44px",
-	height: 			"44px",
-	backgroundImage: 	"pics/btn-info.png"
-}
-
-".credit": {
-	font: {
-		fontWeight: "bold"
-	},
-	color: "white"
-}
-
-"#findUs": {
-	color: "#e3004e",
-	shadowColor: '#ffffff'
 }

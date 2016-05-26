@@ -3,13 +3,13 @@ var etablishment = Alloy.createCollection('etablishment');
 var i = 0;
 
 var activityIndicator = Ti.UI.createActivityIndicator({
-    color: 'gray',
-    message: 'Chargement...',
-    style: Ti.UI.ActivityIndicatorStyle.DARK,
-    top: '45%',
-    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-    height:Ti.UI.SIZE,
-    width:Ti.UI.SIZE
+    color       : 'gray',
+    message     : 'Chargement...',
+    style       : Ti.UI.ActivityIndicatorStyle.DARK,
+    top         : '45%',
+    textAlign   : Ti.UI.TEXT_ALIGNMENT_CENTER,
+    height      :Ti.UI.SIZE,
+    width       :Ti.UI.SIZE
 });
 
 var chargement = Ti.UI.createWindow({
@@ -17,10 +17,7 @@ var chargement = Ti.UI.createWindow({
     fullscreen: true
 });
 
-// $.tabgroup.open();
-
 chargement.add(activityIndicator);
-//$.tabgroup.add(chargement);
 
 chargement.open();
 activityIndicator.show();
@@ -51,7 +48,6 @@ if (!happyhour.count() && !etablishment.count()) {
         Ti.API.info("Get All data");
 
         Alloy.Globals.getAllData();
-
 
         setTimeout(download, 1000);
     }

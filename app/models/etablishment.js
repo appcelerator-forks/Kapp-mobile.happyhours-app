@@ -7,8 +7,8 @@ exports.definition = {
 			"gps"			:  "Text",
 			"yelp_id"		:  "Text",
 			"city"			:  "Text",
-			"description"	:  "description",
 			"haveHappy"		:  "Text",
+			"description"	:  "Text",
 			"now"			:  "Text"
 		},
 		"defaults": {
@@ -20,6 +20,7 @@ exports.definition = {
 			"city"			:  "",
 			"description"	:  "",
 			"haveHappy"		:  "",
+			"description"	:  "",
 			"now"			:  ""
 
 		},
@@ -65,4 +66,4 @@ exports.definition = {
 		});
 		return Collection;
 	}
-}
+};

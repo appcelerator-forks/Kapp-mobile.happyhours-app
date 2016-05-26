@@ -7,7 +7,7 @@ else {
 
 
 $.moment.setTitleControl(Ti.UI.createLabel({
-  color: "#ffffff",
+  color : "#ffffff",
   font: {
     fontFamily: 'TitilliumWeb-Regular',
     fontSize: 20
@@ -21,6 +21,7 @@ function haveHappyFilter(collection) {
 	Ti.API.info("haveHappyFilter ");
 
     Ti.API.info(collection);
+    
 
     return collection.where({
         haveHappy : 'true'
@@ -35,15 +36,15 @@ function myRefresher(e) {
 
     if (!Alloy.Globals.hasConnection()) {
         var dialog = Ti.UI.createAlertDialog({
-            message: 'Veuillez vous connecter à internet. ',
-            ok: 'Je comprends',
-            title: 'Attention'
+            message : 'Veuillez vous connecter à internet. ',
+            ok      : 'Je comprends',
+            title   : 'Attention'
         });
         dialog.show();
     }else{
     	//////////////////////////////////////
-    	var happyhour = Alloy.createCollection('happyhour');
-		var etablishment = Alloy.createCollection('etablishment');
+		var happyhour = Alloy.Collections.instance('happyhour');
+		var etablishment = Alloy.Collections.instance('etablishment');
 		happyhour.deleteAll();
 		etablishment.deleteAll();
 

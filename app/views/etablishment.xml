@@ -1,11 +1,35 @@
 <Alloy>
 
-	<Window id="etablishment" title="Etablishment" >
-		<TabbedBar>
-			 <Label title="Etalishment"/>
-			  <Label title="Map"/>
 
+	<Model src="etablishment" instance="true" id="etablishmentData" />
+	 <Collection src="happyhour" />
+
+
+	<Window id="etablishment" title="Etablishment" mod>
+
+		<TabbedBar>
+			<Label title="Etalishment"/>
+			<Label title="Map"/>
 		</TabbedBar>
+
+		<View id="controlView">
+			<Label id="labelTitle" text="{$.etablishmentData.name}" />
+			<ImageView id="barreIcon" image="icons/barre.png"></ImageView>
+			<Label id="labeladress" text="{$.etablishmentData.adress}" />
+		</View>
+
+		<View id="happyView">
+		</View>
+
+		<View id="allHappy" >
+			<ScrollableView id="happyScrollable" dataCollection="happyhour" >
+			</ScrollableView>
+
+		</View>
+
+		<Button id="btnBack"></Button>
+		<Button id="btnMap"></Button>
+
 	</Window>
-	
+
 </Alloy>

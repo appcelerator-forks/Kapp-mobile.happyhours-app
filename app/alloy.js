@@ -64,7 +64,9 @@ Alloy.Globals.getAllData = function() {
                 if (now != "")
                     havehappy = 'true';
 
-                etablishment = Alloy.createModel('etablishment', {
+				Ti.API.info('etablishment description : ' + etablishment.description);
+				
+                etablishment_bd = Alloy.createModel('etablishment', {
                     id          : etablishment.id,
                     name        : etablishment.name,
                     adress      : etablishment.adress,
@@ -75,8 +77,13 @@ Alloy.Globals.getAllData = function() {
                     haveHappy   : havehappy,
                     now         : now
                 });
+                
+           
+				    Ti.API.info( ' : ' + etablishment_bd.get('description'));
+				
+                
 
-                etablishment.save();
+                etablishment_bd.save();
             }
 
             Alloy.Collections.etablishment.fetch();
@@ -91,15 +98,13 @@ Alloy.Globals.getAllData = function() {
         },
         timeout: 5000 // in milliseconds
 
-        Alloy.Globals.endDownload = true;
-
     });
 
     // Prepare the connection.
     client1.open("GET", Alloy.Globals.urlEtablishment);
     // Send the request.
     client1.send();
-}
+};
 
 function getHourBegin(hour) {
     hour = hour.substring(0, 2);

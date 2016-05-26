@@ -2,12 +2,12 @@ var Map 	= require('ti.map');
 var mapview = Map.createView({mapType:Map.NORMAL_TYPE});
 
 $.map.setTitleControl(Ti.UI.createLabel({
-  color: "#ffffff",
+  color : "#ffffff",
   font: {
     fontFamily: 'TitilliumWeb-Regular',
     fontSize: 20
   },
-	text: "Carte"
+  text  : "Carte"
 }));
 
 /////////////////////////////////////////////////////////
@@ -28,8 +28,9 @@ Ti.Geolocation.getCurrentPosition(function(e) {
 
 
 		$.mapview.setRegion({
-			latitude: latitude, longitude: longitude,
-	        latitudeDelta:0.02, longitudeDelta:0.02
+			latitude         : latitude,
+            longitude        : longitude,
+	        latitudeDelta    :0.02, longitudeDelta:0.02
 		});
 
 });
@@ -55,8 +56,10 @@ Ti.Geolocation.addEventListener('location',function(e){
 ///////////////////////////////////////////////////////
 $.backToMe.addEventListener('click', function(e) {
 	$.mapview.setRegion({
-		latitude: latitude, longitude: longitude,
-        latitudeDelta:0.02, longitudeDelta:0.02
+		latitude      : latitude,
+        longitude     : longitude,
+        latitudeDelta : 0.02,
+        longitudeDelta:0.02
 	});
 });
 
@@ -65,8 +68,6 @@ etablishment.fetch();
 
 // for each etablishment we build an annotation
 etablishment.each(function(etablishment) {
-
-
 
 	var coord = etablishment.get('gps').split(',');
 
@@ -85,20 +86,18 @@ etablishment.each(function(etablishment) {
 	var happy = etablishment.get('text');
 
 	var annotation = Map.createAnnotation({
-		latitude: 	coord[0],
-		longitude: 	coord[1],
-		title: 		etablishment.get('name'),
-		subtitle:   accroche,
-		image: 		"pin/blue-pin.png",
-		myId:  		etablishment.get('id'),
-		leftButton: "icons/goto.png"
+		latitude      : coord[0],
+		longitude     : coord[1],
+		title         : etablishment.get('name'),
+		subtitle      : accroche,
+		image         : "pin/blue-pin.png",
+		myId          : etablishment.get('id'),
+		leftButton    : "icons/goto.png"
 	});
 
 	$.mapview.addAnnotation(annotation);
 
 	annotation.addEventListener('click', clickAnnotation);
-
-
 
 });
 
@@ -108,7 +107,6 @@ $.mapview.addEventListener('click', function(evt){
 
     }
 });
-
 
 
 function clickAnnotation(evt) {

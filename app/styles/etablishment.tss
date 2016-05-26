@@ -10,7 +10,103 @@
     //navTintColor: "white"
 }
 
-"#textDay": {
-	textAlign: 	"center"
+// /////////////////////////////////////////////////////////
+// ////////////MAIN VIEW ///////////////////////////////////
+// /////////////////////////////////////////////////////////
+"#controlView": {
+	backgroundImage	: 'background/background.png',
+	height			: "40%",
+	 width			: "100%",
+	 top 			: "0%",
+	 zIndex			: 0,
+}
 
+"#happyView": {
+	height				: "50%",
+	 width				: "100%",
+	 top 				: "30%",
+	 zIndex				: 10,
+	 backgroundImage	: 'background/background_etablishment.png'
+}
+
+"#allHappy": {
+	height				: "55%",
+	 width				: "98%",
+	 top 				: "40%",
+	 left				: "1%",
+	 zIndex				: 10,
+	 backgroundImage	: 'background/background_happy.png'
+}
+
+// /////////////////////////////////////////////////////////
+// ////////////////////BUTTON///////////////////////////////
+// /////////////////////////////////////////////////////////
+
+"#btnBack": {
+	backgroundImage	: "icons/cross.png",
+	top				: "5%",
+	right 			: "6%",
+	width			: "120px",
+	height			: "120px",
+	zIndex			: 20
+}
+"#btnMap": {
+	backgroundImage	: "icons/map_etablishment.png",
+	top				: "26%",
+	right 			: "5%",
+	width			: "120px",
+	height			: "120px",
+	zIndex			: 20
+}
+
+// /////////////////////////////////////////////////////////
+// ////////////////////LABEL////////////////////////////////
+// /////////////////////////////////////////////////////////
+"#labelTitle": {
+	color	: "white",
+	top		: "50%",
+	left 	: "30px",
+	font : {
+		fontSize	: "25px"
+	},
+	zIndex	: 0
+}
+"#labeladress": {
+	color	: "white",
+	top		: "70%",
+	left 	: "30px",
+	font : {
+		fontSize	: "10px"
+	},
+	zIndex	: 0
+}
+
+// /////////////////////////////////////////////////////////
+// ////////////////////Icon////////////////////////////////
+// /////////////////////////////////////////////////////////
+"#barreIcon" : {
+	top		: "60%",
+	left 	: "10px",
+	width	: "100px",
+	height	: "50px",
+	zIndex	: 20
+}
+
+// /////////////////////////////////////////////////////////
+// ////////////////////Scroll////////////////////////////////
+// /////////////////////////////////////////////////////////
+"#happyScrollable": {
+	height			: "55%",
+	width			: "80%",
+	top 			: "30%",
+	left			: "10%",
+	backgroundColor	: "white",
+}
+".oneHappy": {
+	backgroundColor	: 'red',
+	height			: "90%",
+	width			: "100%",
+	left			: "0%",
+	top				: "0%",
+	zIndex			: 40,
 }
