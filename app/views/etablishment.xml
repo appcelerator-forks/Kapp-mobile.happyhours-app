@@ -22,7 +22,16 @@
 		</View>
 
 		<View id="allHappy" >
-			<ScrollableView id="happyScrollable" dataCollection="happyhour" >
+			<ScrollableView id="happyScrollable" dataCollection="happyhour">
+				<View id="{id}" class="oneHappy">
+					<Label text="{day}" class="labelTextDay"/>
+					<Label text="De {hours}" class="labeltextHour"/>
+
+					<Label text="{text}" class="labelTextHappy" />
+
+					<ImageView image="icons/line_happy.png" class="barreIconDay"/>
+					<ImageView image="icons/clock.png" class="clock"/>
+				</View>
 			</ScrollableView>
 
 		</View>

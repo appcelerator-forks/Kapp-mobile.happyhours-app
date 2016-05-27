@@ -9,7 +9,7 @@
 				<Label text="{now}" class="happy"/>
 				<View class="image" backgroundImage='background/background.png'>
 					<View class="description">
-						<Label class="description_label" text="{description}" />
+						<Label class="description_label" text="{description_2}" />
 						<ImageView class="image_arrow" image="/icons/right-arrow.png"/>
 					</View>
 				</View>

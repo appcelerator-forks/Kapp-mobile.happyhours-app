@@ -22,7 +22,37 @@ exports.definition = {
 	},
 	extendModel: function(Model) {
 		_.extend(Model.prototype, {
+			transform: function transform() {
+				var transformed = this.toJSON();
+				var dayText = '';
 
+				day = transformed.day.toString();
+
+				if(day.match(/1/)){
+					dayText+=' Lundi ';
+				}
+				if(day.match(/2/)){
+					dayText+=' Mardi ';
+				}
+				if(day.match(/3/)){
+					dayText+=' Mercredi ';
+				}
+				if(day.match(/4/)){
+					dayText+=' Jeudi ';
+				}
+				if(day.match(/5/)){
+					dayText+=' Vendredi ';
+				}
+				if(day.match(/6/)){
+					dayText+=' Samedi ';
+				}
+				if(day.match(/7/)){
+					dayText+=' Dimanche ';
+				}
+				transformed.day = dayText;
+
+				return transformed;
+			}
 		});
 		return Model;
 	},

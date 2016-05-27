@@ -2,25 +2,25 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>fr.happyhours.happyhours</id>
     <name>Happy Hours</name>
-    <version>0.1.1.4</version>
+    <version>0.3.0.0</version>
     <publisher>rkueny</publisher>
     <url>http://happyhours-app.fr</url>
-    <description>undefined</description>
+    <description>Decouvrez toutes les happy hours Toulousaines</description>
     <copyright>2015 by HappyHours</copyright>
     <icon>appicon.png</icon>
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
     <analytics>true</analytics>
-    <guid>b808b602-97df-4fb5-8451-52e582f19fd7</guid>
+    <guid>f1223335-f84d-4c5b-9222-2529a9ca866d</guid>
     <property name="ti.ui.defaultunit" type="string">dp</property>
     <property name="installr.api_token">eTgekbLvdCEgx3WorXBIB6SakjhB3JZv</property>
     <ios>
         <plist>
             <dict>
+                <key>ITSAppUsesNonExemptEncryption</key>
+                <false/>
                 <key>NSLocationAlwaysUsageDescription</key>
-                <string>
-                   Test
-                </string>
+                <string/>
                 <key>UISupportedInterfaceOrientations~iphone</key>
                 <array>
                     <string>UIInterfaceOrientationPortrait</string>
@@ -65,16 +65,12 @@
         <module platform="iphone" version="1.1.1">ti.compression</module>
         <module platform="android" version="2.0.3">ti.compression</module>
         <module platform="android">bencoding.android.tools</module>
-        <module platform="commonjs">reste</module>
-        <module platform="android">ti.styledlabel</module>
-        <module platform="iphone">ti.styledlabel</module>
-        <module platform="iphone">com.dzlabel</module>
     </modules>
     <property name="tishadow:version" type="string">2.8.2</property>
     <property name="ti.android.bug2373.skipAlert" type="bool">true</property>
     <property name="ti.android.bug2373.finishfalseroot" type="bool">true</property>
     <deployment-targets>
-        <target device="android">false</target>
+        <target device="android">true</target>
         <target device="ipad">false</target>
         <target device="iphone">true</target>
         <target device="mobileweb">false</target>
@@ -83,4 +79,21 @@
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>
+    <property name="appc-app-id" type="string">5748082e62ac941b7d828926</property>
+    <property name="acs-authbase-url-development" type="string">https://secure-identity.cloud.appcelerator.com</property>
+    <property name="acs-base-url-development" type="string">https://api.cloud.appcelerator.com</property>
+    <property name="acs-oauth-secret-development" type="string">WQ2rLBsyXO2NN1cIzkHdk3EOKjLMqJhZ</property>
+    <property name="acs-oauth-key-development" type="string">uo9LERi5kw8k3GyZvwLckhCufNMMFDuZ</property>
+    <property name="acs-api-key-development" type="string">gKJa6LtYnHusjKvzZoTdNvq1wHExknio</property>
+    <property name="acs-username-development" type="string">appc_app_user_dev</property>
+    <property name="acs-password-development" type="string">nfzyy1KUKVqmxTngGL</property>
+    <property name="acs-authbase-url-production" type="string">https://secure-identity.cloud.appcelerator.com</property>
+    <property name="acs-base-url-production" type="string">https://api.cloud.appcelerator.com</property>
+    <property name="acs-oauth-secret-production" type="string">9AXhF10cbZBcdw14JTP2dkpXazy7JIdQ</property>
+    <property name="acs-oauth-key-production" type="string">vJZKyyJfPB5yAV1Ez9k4vkZZM1pGJzSd</property>
+    <property name="acs-api-key-production" type="string">jphsdkjA6IX56jDyLBwdnWt58XqBU5Fs</property>
+    <property name="acs-username-production" type="string">appc_app_user</property>
+    <property name="acs-password-production" type="string">uq2OQQejxfDDREFFJD</property>
+    <property name="appc-org-id" type="string">100026729</property>
+    <property name="appc-creator-user-id" type="string">26097a00-3ca7-461a-9ff4-d5fbfbea0d53</property>
 </ti:app>

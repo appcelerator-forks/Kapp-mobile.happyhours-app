@@ -103,10 +103,57 @@
 	backgroundColor	: "white",
 }
 ".oneHappy": {
-	backgroundColor	: 'red',
+	backgroundColor	: 'white',
 	height			: "90%",
 	width			: "100%",
 	left			: "0%",
 	top				: "0%",
 	zIndex			: 40,
+}
+".labelTextDay": {
+	color		: "black",
+	font: {
+		fontSize: 9,
+	},
+	textAlign	: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	top			: "5%",
+	width 		: "90%",
+	height 		: "50px",
+	left 		: "4%",
+}
+".labeltextHour" : {
+	color		: "black",
+	textAlign	: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+	font: {
+		fontSize: 11,
+	},
+	left		: "15%",
+	top			: "81%",
+}
+".barreIconDay": {
+	top		: "18%",
+	left 	: "40%",
+	width	: "100px",
+	height	: "50px",
+	zIndex	: 20
+}
+".clock": {
+	top		: "80%",
+	left 	: "5%",
+	width	: "40px",
+	height	: "40px",
+	zIndex	: 20
+}
+
+".labelTextHappy": {
+	textAlign	: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+	font: {
+    	fontSize: 12,
+    },
+    color	: "black",
+	top		: "30%",
+	left 	: "5%",
+	height	: "auto",
+	width	: "90%",
+	backgroundColor: "transparent",
 }

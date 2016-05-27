@@ -8,8 +8,8 @@ exports.definition = {
 			"yelp_id"		:  "Text",
 			"city"			:  "Text",
 			"haveHappy"		:  "Text",
-			"description"	:  "Text",
-			"now"			:  "Text"
+			"now"			:  "Text",
+			"description_2"	: "Text"
 		},
 		"defaults": {
 			"name"			:  "",

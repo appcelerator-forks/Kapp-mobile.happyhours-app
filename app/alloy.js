@@ -65,7 +65,7 @@ Alloy.Globals.getAllData = function() {
                     havehappy = 'true';
 
 				Ti.API.info('etablishment description : ' + etablishment.description);
-				
+
                 etablishment_bd = Alloy.createModel('etablishment', {
                     id          : etablishment.id,
                     name        : etablishment.name,
@@ -73,15 +73,15 @@ Alloy.Globals.getAllData = function() {
                     gps         : etablishment.gps,
                     yelp_id     : etablishment.yelp_id,
                     city        : etablishment.city,
-                    description : etablishment.description,
+                    description_2 : etablishment.description,
                     haveHappy   : havehappy,
                     now         : now
                 });
-                
-           
-				    Ti.API.info( ' : ' + etablishment_bd.get('description'));
-				
-                
+
+
+				Ti.API.info( ' : ' + etablishment_bd.get('description_2'));
+
+
 
                 etablishment_bd.save();
             }
@@ -230,7 +230,10 @@ Alloy.Globals.PagingControl = function(scrollableView){
 	}
 
 	// Mark the initial selected page
-	pages[scrollableView.getCurrentPage()].setOpacity(1);
+    if(pages[0]) {
+        pages[0].setOpacity(1);
+    }
+
 
 	// Callbacks
 	onScroll = function(event){
