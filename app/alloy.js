@@ -16,7 +16,7 @@ Alloy.Globals.getAllData = function() {
             var responseText = JSON.parse(this.responseText);
 
             // TEST
-            responseText = '[{"id":1,"name":"Tonton","description":"Bar de nuit pris\u00e9 des \u00e9tudiants, au d\u00e9cor festif et bon enfant. \u00c9v\u00e9nements, p\u00e9tanques et soir\u00e9es \u00e0 th\u00e8mes.","adress":"Place St Pierre","gps":"43.6038642,1.4351481,15","city":"Toulouse","happies":[{"id":4,"id_description":"happy_tonton","day":"1,2,3,4,5,6,7","text":"Un ricard achet\u00e9, un ricard offert !","hours":"19H00-22H00"},{"id":6,"id_description":"happy_tonton_exceptionnel","day":"2,3","text":"Tout gratuit","hours":"21H00-21H30"}]},{"id":2,"name":"The London Town","description":"Un pub traditionnel anglais, au milieu de l\u2019incessant va-et-vient de la ville. Une client\u00e8le jeune, des concerts et une ambiance g\u00e9niale font que c\u2019est l\u2019un des pubs les plus fr\u00e9quent\u00e9s de Toulouse.","adress":"14 rue de Pretres 31000 Toulouse","gps":"43.5975499,1.4416755","city":"Toulouse","happies":[{"id":5,"id_description":"happy_london","day":"1,2,3","text":"Peitite happy","hours":"19H00-22H00"}]}]';
+            responseText = '[{"id":1,"name":"Tonton","description":"Bar de nuit pris\u00e9 des \u00e9tudiants, au d\u00e9cor festif et bon enfant. \u00c9v\u00e9nements, p\u00e9tanques et soir\u00e9es \u00e0 th\u00e8mes.","adress":"Place St Pierre","gps":"43.6038642,1.4351481,15","city":"Toulouse","happies":[{"id":4,"id_description":"happy_tonton","day":"1,2,3,4,5,6,7","text":"Un ricard achet\u00e9, un ricard offert !","hours":"12H45-15H00"},{"id":6,"id_description":"happy_tonton_exceptionnel","day":"2,3","text":"Tout gratuit","hours":"21H00-21H30"}]},{"id":2,"name":"The London Town","description":"Un pub traditionnel anglais, au milieu de l\u2019incessant va-et-vient de la ville. Une client\u00e8le jeune, des concerts et une ambiance g\u00e9niale font que c\u2019est l\u2019un des pubs les plus fr\u00e9quent\u00e9s de Toulouse.","adress":"14 rue de Pretres 31000 Toulouse","gps":"43.5975499,1.4416755","city":"Toulouse","happies":[{"id":5,"id_description":"happy_london","day":"1,2,3,4,5,6","text":"Peitite happy","hours":"11H00-14H00"}]}]';
 
             responseText = JSON.parse(responseText);
 
@@ -87,6 +87,8 @@ Alloy.Globals.getAllData = function() {
             }
 
             Alloy.Collections.etablishment.fetch();
+
+            Alloy.Collections.etablishment.sort();
 
             Alloy.Globals.endDownload = true;
 

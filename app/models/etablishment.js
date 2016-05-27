@@ -14,7 +14,6 @@ exports.definition = {
 		"defaults": {
 			"name"			:  "",
 			"adress"		:  "",
-			"adress"		:  "",
 			"gps"			:  "",
 			"yelp_id"		:  0,
 			"city"			:  "",
@@ -61,7 +60,49 @@ exports.definition = {
 				db.close();
 
 				return count;
-			}
+			},
+
+			// Implement the comparator method.
+            comparator : function(collection) {
+                return collection.get("now");
+            },
+
+			//*** Override sortBy to allow sort on any field, either direction
+		   sortBy: function (iterator, context) {
+			   var obj = this.models;
+
+			   return _.pluck(_.map(obj, function (value, index, list) {
+				   return {
+					   value: value,
+					   index: index,
+					   criteria: iterator.call(context, value, index, list)
+				   };
+			   }).sort(function (left, right) {
+
+
+				   if (left.criteria !== right.criteria) {
+					   if(left.criteria == "En ce moment") {
+						   return -1;
+					   } else if (right.criteria  == "En ce moment") {
+						   return 1;
+					   }  else if (left.criteria  == "Dans 30 min") {
+						   return -1;
+					   } else if (right.criteria  == "Dans 30 min") {
+						   return 1;
+					   } else if (left.criteria  == "Dans 1h") {
+						   return -1;
+					   } else if (right.criteria  == "Dans 1h") {
+						   return 1;
+					   }
+
+					    return 1;
+
+				   }
+
+				   1
+
+			   }), 'value');
+		   }
 
 		});
 		return Collection;
