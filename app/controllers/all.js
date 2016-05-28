@@ -16,8 +16,8 @@ $.all.setTitleControl(Ti.UI.createLabel({
 }));
 
 searchBar = Ti.UI.createSearchBar({
-    barColor        : "rgb(186,185,191)",
-     borderColor    : "rgb(186,185,191)",
+    barColor        : "#BAB9BF",
+     borderColor    : "#BAB9BF",
      height         : "43",
      top            : "0",
      hintText       : "Rechercher"

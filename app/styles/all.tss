@@ -68,7 +68,6 @@
 }
 	".description_label": {
 		left	: "30px",
-		/*top		: "10px",*/
 		right	: "30px",
 		width	: "80%",
 		font: {

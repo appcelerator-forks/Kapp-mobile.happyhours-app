@@ -1,11 +1,11 @@
 // Alloy.Globals.json;
 // Alloy.Globals.dataEtablishment  =  {};
-// Alloy.Globals.firstOpening  =   true;
-var pageColor = "rgb(226,150,122)";
+Alloy.Globals.firstOpening  =   true;
+var pageColor = "#E2967A";
 Alloy.Globals.endDownload = false;
 
-Alloy.Globals.urlEtablishment = "http://happyhours-app.fr/api/allEtablishment.php";
-Alloy.Globals.urlHappy = "http://happyhours-app.fr/api/allHappyHours.php";
+Alloy.Globals.urlEtablishment = "http://b5fa855e.ngrok.io/web/api/etablishment";
+//Alloy.Globals.urlHappy = "http://happyhours-app.fr/api/allHappyHours.php";
 
 Alloy.Globals.getAllData = function() {
 
@@ -15,10 +15,11 @@ Alloy.Globals.getAllData = function() {
 
             var responseText = JSON.parse(this.responseText);
 
+            //console.log(JSON.parse(this.responseText));
             // TEST
-            responseText = '[{"id":1,"name":"Tonton","description":"Bar de nuit pris\u00e9 des \u00e9tudiants, au d\u00e9cor festif et bon enfant. \u00c9v\u00e9nements, p\u00e9tanques et soir\u00e9es \u00e0 th\u00e8mes.","adress":"Place St Pierre","gps":"43.6038642,1.4351481,15","city":"Toulouse","happies":[{"id":4,"id_description":"happy_tonton","day":"1,2,3,4,5,6,7","text":"Un ricard achet\u00e9, un ricard offert !","hours":"12H45-15H00"},{"id":6,"id_description":"happy_tonton_exceptionnel","day":"2,3","text":"Tout gratuit","hours":"21H00-21H30"}]},{"id":2,"name":"The London Town","description":"Un pub traditionnel anglais, au milieu de l\u2019incessant va-et-vient de la ville. Une client\u00e8le jeune, des concerts et une ambiance g\u00e9niale font que c\u2019est l\u2019un des pubs les plus fr\u00e9quent\u00e9s de Toulouse.","adress":"14 rue de Pretres 31000 Toulouse","gps":"43.5975499,1.4416755","city":"Toulouse","happies":[{"id":5,"id_description":"happy_london","day":"1,2,3,4,5,6","text":"Peitite happy","hours":"11H00-14H00"}]}]';
+            //responseText = '[{"id":1,"name":"Tonton","description":"Bar de nuit pris\u00e9 des \u00e9tudiants, au d\u00e9cor festif et bon enfant. \u00c9v\u00e9nements, p\u00e9tanques et soir\u00e9es \u00e0 th\u00e8mes.","adress":"Place St Pierre","gps":"43.6038642,1.4351481,15","city":"Toulouse","happies":[{"id":4,"id_description":"happy_tonton","day":"1,2,3,4,5,6,7","text":"Un ricard achet\u00e9, un ricard offert !","hours":"12H45-15H00"},{"id":6,"id_description":"happy_tonton_exceptionnel","day":"2,3","text":"Tout gratuit","hours":"21H00-21H30"}],"image":"348s.jpg","updated_at":"2016-05-27T14:27:05+0200"},{"id":2,"name":"The London Town","description":"Un pub traditionnel anglais, au milieu de l\u2019incessant va-et-vient de la ville. Une client\u00e8le jeune, des concerts et une ambiance g\u00e9niale font que c\u2019est l\u2019un des pubs les plus fr\u00e9quent\u00e9s de Toulouse.","adress":"14 rue de Pretres","gps":"43.5975499,1.4416755","city":"Toulouse","happies":[{"id":5,"id_description":"happy_london","day":"1,2,3,4,5,6","text":"Peitite happy","hours":"11H00-14H00"}],"image":"LOIMID031V5011BP_2_LONDON-INTERweb-2.jpg","updated_at":"2016-05-27T14:26:53+0200"}]';
 
-            responseText = JSON.parse(responseText);
+            //responseText = JSON.parse(responseText);
 
             var d = new Date();
             day = d.getDay() === 0 ? 7 : d.getDay(); //day
@@ -61,25 +62,26 @@ Alloy.Globals.getAllData = function() {
 
                 var havehappy = 'false';
 
-                if (now != "")
+                if (now != "" && now != "Passer" )
                     havehappy = 'true';
 
 				Ti.API.info('etablishment description : ' + etablishment.description);
 
                 etablishment_bd = Alloy.createModel('etablishment', {
-                    id          : etablishment.id,
-                    name        : etablishment.name,
-                    adress      : etablishment.adress,
-                    gps         : etablishment.gps,
-                    yelp_id     : etablishment.yelp_id,
-                    city        : etablishment.city,
-                    description_2 : etablishment.description,
-                    haveHappy   : havehappy,
-                    now         : now
+                    id              : etablishment.id,
+                    name            : etablishment.name,
+                    adress          : etablishment.adress,
+                    gps             : etablishment.gps,
+                    yelp_id         : etablishment.yelp_id,
+                    city            : etablishment.city,
+                    description_2   : etablishment.description,
+                    haveHappy       : havehappy,
+                    now             : now,
+                    image           : etablishment.image,
                 });
 
 
-				Ti.API.info( ' : ' + etablishment_bd.get('description_2'));
+				Ti.API.info( ' : ' + etablishment_bd.get('image'));
 
 
 

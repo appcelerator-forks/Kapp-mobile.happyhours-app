@@ -5,13 +5,14 @@
 		<Widget id="ptr" src="nl.fokkezb.pullToRefresh" onRelease="myRefresher">
 			<TableView layout="vertical" width="100%" height="100%" id="happyhourcontents" dataCollection="etablishment" dataFilter="haveHappyFilter">
 				<!-- dataTransform="transform"  -->
-				<TableViewRow width="100%" height="70%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment" selectedBackgroundColor="##E8E8E8">
+				<TableViewRow width="100%" height="70%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment" backgroundSelectedColor="#E8E8E8" >
 					<Label text="{name}" class="name"/>
 					<Label text="{adress}" class="adress"/>
 					<Label text="Toulouse" class="ville"/>
 					<Label text="{now}" class="happy"/>
-					<View class="image" backgroundImage='background/background.png'>
-						<View class="description">
+					<View class="image">
+						<ImageView width="100%" height="100%" image="http://b5fa855e.ngrok.io/web/uploads/images/etablishment/{image}" defaultImage="background/background.png"/>
+						<View class="description" >
 							<Label class="description_label" text="{description_2}" />
 							<ImageView class="image_arrow" image="/icons/right-arrow.png"/>
 						</View>

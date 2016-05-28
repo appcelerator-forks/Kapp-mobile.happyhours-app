@@ -1,10 +1,3 @@
-if (Ti.Platform.name === 'iPhone OS'){
-  style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
-}
-else {
-  style = Ti.UI.ActivityIndicatorStyle.DARK;
-}
-
 
 $.moment.setTitleControl(Ti.UI.createLabel({
   color : "#ffffff",

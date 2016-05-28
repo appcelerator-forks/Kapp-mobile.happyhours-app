@@ -9,7 +9,8 @@ exports.definition = {
 			"city"			:  "Text",
 			"haveHappy"		:  "Text",
 			"now"			:  "Text",
-			"description_2"	: "Text"
+			"description_2"	: "Text",
+			"image"			: "Text"
 		},
 		"defaults": {
 			"name"			:  "",
@@ -20,7 +21,8 @@ exports.definition = {
 			"description"	:  "",
 			"haveHappy"		:  "",
 			"description"	:  "",
-			"now"			:  ""
+			"now"			:  "",
+			"image"			: "",
 
 		},
 		"adapter": {
@@ -99,7 +101,7 @@ exports.definition = {
 
 				   }
 
-				   1
+				   return 1;
 
 			   }), 'value');
 		   }

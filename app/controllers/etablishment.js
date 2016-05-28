@@ -21,7 +21,6 @@ $.btnBack.addEventListener('click', closeWindow);
 $.btnMap.addEventListener('click', openMap);
 
 
-
 function closeWindow() {
 	$.etablishment.close();
 }
