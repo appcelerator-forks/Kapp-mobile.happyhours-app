@@ -1,4 +1,6 @@
 <Alloy>
+
+	 <Collection src="happyhour" />
 	 <TabGroup id="tabgroup" activeTabIconTint="#e25d55" backgroundColor="white">
         <Tab id="tab1" title="En ce moment" icon="tabbar/now.png">
         	<Require src="moment" />

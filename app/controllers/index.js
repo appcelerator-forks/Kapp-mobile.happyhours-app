@@ -24,11 +24,17 @@ activityIndicator.show();
 
 /*for test */
 //////////////////////////////////////
-if(Alloy.Globals.hasConnection) {
+
+if(Titanium.Network.online) {
+    Ti.API.info('online : ' + Titanium.Network.online);
     Ti.API.info('has connection');
     happyhour.deleteAll();
     etablishment.deleteAll();
+} else {
+    Ti.API.info("hasn't connection");
 }
+
+Ti.API.info('online : ' + Titanium.Network.online);
 
 
 
@@ -36,11 +42,12 @@ if(Alloy.Globals.hasConnection) {
 ////////////////////Get DATA////////////////////////////
 ///////////////////////////////////////////////////////
 
+// si pas établissement existants
+if (!Alloy.Collections.etablishment.count()) {
 
-// si pas d'happyhour et d'établissement existants
-if (!happyhour.count() && !etablishment.count()) {
+    Ti.API.info('no etablishment');
 
-    if (!Alloy.Globals.hasConnection()) {
+    if (!Titanium.Network.online) {
         var dialog = Ti.UI.createAlertDialog({
             message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.',
             ok: 'Je comprends',
@@ -54,7 +61,14 @@ if (!happyhour.count() && !etablishment.count()) {
 
         Alloy.Collections.etablishment.sort();
 
+        activityIndicator.hide();
+        chargement.close();
+
+        $.tabgroup.open();
+
     }else{
+
+
 
         Alloy.Globals.getAllData();
 
@@ -62,13 +76,23 @@ if (!happyhour.count() && !etablishment.count()) {
     }
 
 }else {
-    if (!Alloy.Globals.hasConnection()) {
+
+    Ti.API.info('etablishment');
+
+    if (!Titanium.Network.online) {
 
         Alloy.Globals.endDownload = true;
+
+        updateNow();
 
         Alloy.Collections.etablishment.fetch();
 
         Alloy.Collections.etablishment.sort();
+
+        activityIndicator.hide();
+        chargement.close();
+
+        $.tabgroup.open();
 
     }else {
 
@@ -77,6 +101,12 @@ if (!happyhour.count() && !etablishment.count()) {
         Alloy.Collections.etablishment.fetch();
 
         Alloy.Collections.etablishment.sort();
+
+        activityIndicator.hide();
+        chargement.close();
+
+        $.tabgroup.open();
+
         // TODO : Update data after 24h
     }
 }
@@ -84,7 +114,9 @@ if (!happyhour.count() && !etablishment.count()) {
 
 function download() {
 
-    if (!Alloy.Globals.hasConnection) {
+    Ti.API.info('download');
+
+    if (!Titanium.Network.online) {
         activityIndicator.hide();
         chargement.close();
 
@@ -107,5 +139,10 @@ function download() {
     setTimeout(download, 1000);
 
 
+
+}
+
+
+function updateNow() {
 
 }

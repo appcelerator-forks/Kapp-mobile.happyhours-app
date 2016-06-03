@@ -1,11 +1,9 @@
-// Alloy.Globals.json;
-// Alloy.Globals.dataEtablishment  =  {};
-Alloy.Globals.firstOpening  =   true;
+Alloy.Globals.firstOpening = true;
 var pageColor = "#E2967A";
 Alloy.Globals.endDownload = false;
 
-Alloy.Globals.urlEtablishment = "http://b5fa855e.ngrok.io/web/api/etablishment";
-//Alloy.Globals.urlHappy = "http://happyhours-app.fr/api/allHappyHours.php";
+Alloy.Globals.urlApi = "http://cba7e023.ngrok.io/";
+Alloy.Globals.urlEtablishment = "http://cba7e023.ngrok.io/web/api/etablishment";
 
 Alloy.Globals.getAllData = function() {
 
@@ -15,25 +13,26 @@ Alloy.Globals.getAllData = function() {
 
             var responseText = JSON.parse(this.responseText);
 
-            //console.log(JSON.parse(this.responseText));
-            // TEST
-            //responseText = '[{"id":1,"name":"Tonton","description":"Bar de nuit pris\u00e9 des \u00e9tudiants, au d\u00e9cor festif et bon enfant. \u00c9v\u00e9nements, p\u00e9tanques et soir\u00e9es \u00e0 th\u00e8mes.","adress":"Place St Pierre","gps":"43.6038642,1.4351481,15","city":"Toulouse","happies":[{"id":4,"id_description":"happy_tonton","day":"1,2,3,4,5,6,7","text":"Un ricard achet\u00e9, un ricard offert !","hours":"12H45-15H00"},{"id":6,"id_description":"happy_tonton_exceptionnel","day":"2,3","text":"Tout gratuit","hours":"21H00-21H30"}],"image":"348s.jpg","updated_at":"2016-05-27T14:27:05+0200"},{"id":2,"name":"The London Town","description":"Un pub traditionnel anglais, au milieu de l\u2019incessant va-et-vient de la ville. Une client\u00e8le jeune, des concerts et une ambiance g\u00e9niale font que c\u2019est l\u2019un des pubs les plus fr\u00e9quent\u00e9s de Toulouse.","adress":"14 rue de Pretres","gps":"43.5975499,1.4416755","city":"Toulouse","happies":[{"id":5,"id_description":"happy_london","day":"1,2,3,4,5,6","text":"Peitite happy","hours":"11H00-14H00"}],"image":"LOIMID031V5011BP_2_LONDON-INTERweb-2.jpg","updated_at":"2016-05-27T14:26:53+0200"}]';
-
-            //responseText = JSON.parse(responseText);
-
             var d = new Date();
             day = d.getDay() === 0 ? 7 : d.getDay(); //day
 
+            var now = "";
+            var newNow = "";
+
             for (var i = 0; i < responseText.length; i++) {
+
                 var etablishment = responseText[i];
 
-                var now = "";
+                now = "";
 
                 for (var j = 0; j < etablishment.happies.length; j++) {
+
+                    newNow = "";
 
                     var happy = etablishment.happies[j];
 
                     day = day.toString();
+
 
                     if (happy.day.indexOf(day) >= 0) {
 
@@ -45,50 +44,49 @@ Alloy.Globals.getAllData = function() {
                         var minBegin = getMinBegin(happy.hours);
                         var minEnd = getMinEnd(happy.hours);
 
-                        now = whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, now);
-
+                        newNow = whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, now);
+                        if ((newNow == "En ce moment") || (now != "En ce moment" && newNow == "Dans 30 min") || (now != "En ce moment" && now != "Dans 30 min" && newNow == "Dans 1h") || now == "")
+                            now = newNow;
                     }
 
-                    var happyhour = Alloy.createModel('happyhour', {
-                        id              : happy.id,
-                        id_etablishment : etablishment.id,
-                        day             : happy.day,
-                        text            : happy.text,
-                        hours           : happy.hours
+                    var happyhour_bd = Alloy.createModel('happyhour', {
+                        id: happy.id,
+                        id_etablishment: etablishment.id,
+                        day: happy.day,
+                        text: happy.text,
+                        hours: happy.hours
 
                     });
-                    happyhour.save();
+
+
+                    happyhour_bd.save();
+
                 }
 
                 var havehappy = 'false';
 
-                if (now != "" && now != "Passer" )
+                if (now != "" && now != "Passer")
                     havehappy = 'true';
 
-				Ti.API.info('etablishment description : ' + etablishment.description);
-
                 etablishment_bd = Alloy.createModel('etablishment', {
-                    id              : etablishment.id,
-                    name            : etablishment.name,
-                    adress          : etablishment.adress,
-                    gps             : etablishment.gps,
-                    yelp_id         : etablishment.yelp_id,
-                    city            : etablishment.city,
-                    description_2   : etablishment.description,
-                    haveHappy       : havehappy,
-                    now             : now,
-                    image           : etablishment.image,
+                    id: etablishment.id,
+                    name: etablishment.name,
+                    adress: etablishment.adress,
+                    gps: etablishment.gps,
+                    yelp_id: etablishment.yelp_id,
+                    city: etablishment.city,
+                    description_2: etablishment.description,
+                    haveHappy: havehappy,
+                    now: now,
+                    image: etablishment.image,
                 });
-
-
-				Ti.API.info( ' : ' + etablishment_bd.get('image'));
-
-
 
                 etablishment_bd.save();
             }
 
             Alloy.Collections.etablishment.fetch();
+
+            Alloy.Collections.happyhour.fetch();
 
             Alloy.Collections.etablishment.sort();
 
@@ -134,20 +132,22 @@ function getHourEnd(hour) {
     return hour;
 }
 
-function getMinBegin(hour) {
-    hour = hour.substring(2, 4);
-    hour = hour.replace("H", "");
-    hour = parseInt(hour);
+function getMinBegin(min) {
 
-    return hour;
+    min = min.substring(3, 5);
+    min = min.replace("H", "");
+    min = parseInt(min);
+
+    return min;
 }
 
-function getMinEnd(hour) {
-    hour = hour.substring(9, 10);
-    hour = hour.replace("H", "");
-    hour = parseInt(hour);
+function getMinEnd(min) {
 
-    return hour;
+    min = min.substring(9, 11);
+    min = min.replace("H", "");
+    min = parseInt(min);
+
+    return min;
 }
 
 function whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, lastNow) {
@@ -161,6 +161,9 @@ function whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, lastNow) {
         h = h + 24;
     }
 
+
+
+
     if (((hourBegin == h && minBegin <= m) || (hourBegin < h)) && ((hourEnd > h) || (hourEnd == h && minEnd >= m))) {
 
         now = "En ce moment";
@@ -168,17 +171,30 @@ function whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, lastNow) {
     } else if ((
             (hourBegin == h && (minBegin - m) <= 30 && (minBegin - m) > 0)) || (hourBegin == (h + 1) && (((m - minBegin) < 60) && ((m - minBegin) >= 30)))) {
 
-        if (lastNow != "En ce moment")
-            now = "Dans 30 min";
 
-    } else if (hourBegin == (h + 1) && (((m - minBegin) >= 0) && ((m - minBegin) <= 30))) {
+        now = "Dans 30 min";
 
-        if (lastNow != "En ce moment" && lastNow != "Dans 30 min")
-            now = "Dans 1h";
+    } else if ((hourBegin == (h + 1) && (((m - minBegin) >= 0) && ((m - minBegin) <= 30))) || (hourBegin == h && (minBegin - m) > 30)) {
+
+
+        now = "Dans 1h";
 
     } else if (hourBegin > (h + 1)) {
-        if (lastNow != "En ce moment" && lastNow != "Dans 30 min" && lastNow != "Dans 1h")
-            now = "Dans la soirée";
+
+
+        minString = minBegin.toString();
+
+        if (minString.length == 1) {
+            minString = "0" + minString;
+        }
+
+        hourString = hourBegin.toString();
+
+        if (hourString.length == 1) {
+            hourString = "0" + hourString;
+        }
+
+        now = hourString + "H" + minString;
 
     }
 
@@ -191,72 +207,69 @@ function whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, lastNow) {
  * @return boolean
  */
 Alloy.Globals.hasConnection = function hasConnection() {
-    if (Ti.Network.networkType === Ti.Network.NETWORK_NONE) return false;
-
-    return true;
+    return Titanium.Network.online;
 };
 
 
-
 /**
-*
-* Personal Paging control
-*
-*/
-Alloy.Globals.PagingControl = function(scrollableView){
+ *
+ * Personal Paging control
+ *
+ */
+Alloy.Globals.PagingControl = function(scrollableView) {
 
 
-	// Keep a global reference of the available pages
-	var numberOfPages = scrollableView.getViews().length;
+    // Keep a global reference of the available pages
+    var numberOfPages = scrollableView.getViews().length;
 
     var container = Titanium.UI.createView({
-		height    : 30,
-		top       : "80%",
-        width     : 15 * numberOfPages + 8 * numberOfPages - 15
-	});
+        height: 30,
+        top: "80%",
+        width: 15 * numberOfPages + 8 * numberOfPages - 15
+    });
 
-	var pages = []; // without this, the current page won't work on future references of the module
+    var pages = []; // without this, the current page won't work on future references of the module
 
-	// Go through each of the current pages available in the scrollableView
-	for (var i = 0; i < numberOfPages; i++) {
-		var page = Titanium.UI.createView({
-			borderRadius: 4,
-			width: 8,
-			height: 8,
-			left: 15 * i,
-			backgroundColor: pageColor,
-			opacity: 0.5,
-		});
-		// Store a reference to this view
-		pages.push(page);
-		// Add it to the container
-		container.add(page);
-	}
+    // Go through each of the current pages available in the scrollableView
+    for (var i = 0; i < numberOfPages; i++) {
+        var page = Titanium.UI.createView({
+            borderRadius: 4,
+            width: 8,
+            height: 8,
+            left: 15 * i,
+            backgroundColor: pageColor,
+            opacity: 0.5,
+        });
+        // Store a reference to this view
+        pages.push(page);
+        // Add it to the container
+        container.add(page);
+    }
 
-	// Mark the initial selected page
-    if(pages[0]) {
+    // Mark the initial selected page
+    if (pages[0]) {
         pages[0].setOpacity(1);
     }
 
 
-	// Callbacks
-	onScroll = function(event){
-		// Go through each and reset it's opacity
-		for (var i = 0; i < numberOfPages; i++) {
+    // Callbacks
+    onScroll = function(event) {
+        // Go through each and reset it's opacity
+        for (var i = 0; i < numberOfPages; i++) {
 
-            if(pages[i] != pages[event.currentPage])
-		          pages[i].setOpacity(0.5);
+            if (pages[i] != pages[event.currentPage])
+                pages[i].setOpacity(0.5);
 
 
-		}
+        }
 
         pages[event.currentPage].setOpacity(1);
 
 
-	};
+    };
 
-	// Attach the scroll event to this scrollableView, so we know when to update things
-	scrollableView.addEventListener("scroll", onScroll);
+    // Attach the scroll event to this scrollableView, so we know when to update things
+    scrollableView.addEventListener("scroll", onScroll);
 
-	return container;
+    return container;
 };

@@ -2,7 +2,7 @@
 
 
 	<Model src="etablishment" instance="true" id="etablishmentData" />
-	 <Collection src="happyhour" />
+
 
 
 	<Window id="etablishment" title="Etablishment" mod>
@@ -13,7 +13,7 @@
 		</TabbedBar>
 
 		<View id="controlView">
-			<ImageView width="100%" height="100%" image="http://b5fa855e.ngrok.io/web/uploads/images/etablishment/{$.etablishmentData.image}"  defaultImage="background/background.png"/>
+			<ImageView width="100%" height="100%" image="http://cba7e023.ngrok.io/web/uploads/images/etablishment/{$.etablishmentData.image}"  defaultImage="background/background.png"/>
 			<Label id="labelTitle" text="{$.etablishmentData.name}" />
 			<ImageView id="barreIcon" image="icons/barre.png"></ImageView>
 			<Label id="labeladress" text="{$.etablishmentData.adress}" />
