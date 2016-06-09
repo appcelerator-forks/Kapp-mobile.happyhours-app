@@ -28,14 +28,21 @@ function myRefresher(e) {
 
         Alloy.Collections.etablishment.sort();
 
+        Ti.API.info('refresh no online');
+
     } else {
         //////////////////////////////////////
-        var happyhour = Alloy.Collections.instance('happyhour');
-        var etablishment = Alloy.Collections.instance('etablishment');
-        happyhour.deleteAll();
-        etablishment.deleteAll();
+        //var happyhour = Alloy.Collections.instance('happyhour');
+        //var etablishment = Alloy.Collections.instance('etablishment');
+        //happyhour.deleteAll();
+        //etablishment.deleteAll();
 
-        Alloy.Globals.getAllData();
+        //Alloy.Globals.getAllData();
+
+        Ti.API.info('refresh online');
+
+
+        Alloy.Globals.checkVersion();
 
     }
 
@@ -44,16 +51,10 @@ function myRefresher(e) {
 
 function doTransform(model) {
 
-
-
     var transform = model.toJSON();
 
-    Ti.API.info('transform : ' + transform.name);
-
-    happyhour = Alloy.Collections.happyhour.where({
-        id_etablishment: transform.id
-    });
-
+    var d = new Date();
+    day = d.getDay() === 0 ? 7 : d.getDay(); //day
 
     now = "";
 
@@ -64,7 +65,6 @@ function doTransform(model) {
         newNow = "";
 
         var oneHappy = Alloy.Collections.happyhour.models[i];
-
 
         if (oneHappy.get('id_etablishment') == transform.id) {
             if (oneHappy.get('day').indexOf(day) >= 0) {
@@ -79,18 +79,15 @@ function doTransform(model) {
 
                 newNow = whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, now);
 
-                if ((newNow == "En ce moment") || (now != "En ce moment" && newNow == "Dans 30 min") || (now != "En ce moment" && now != "Dans 30 min" && newNow == "Dans 1h") || now == "")
+                if ((newNow == "En ce moment") || (now != "En ce moment" && newNow == "Dans 30 min") || (now != "En ce moment" && now != "Dans 30 min" && newNow == "Dans 1h") || now == "" ||  now == "Passer")
                     now = newNow;
-
-                Ti.API.info('now : ' + now);
             }
         }
 
-
-
     }
 
-    transform.now = now;
+    if(now != "")
+        transform.now = now;
 
     return transform;
 
@@ -169,12 +166,14 @@ function whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, lastNow) {
 
         now = "Dans 30 min";
 
-    } else if (hourBegin == (h + 1) && (((m - minBegin) >= 0) && ((m - minBegin) <= 30))) {
+    } else if ((hourBegin == (h + 1) && (((m - minBegin) >= 0) && ((m - minBegin) <= 30))) || (hourBegin == h && (minBegin - m) > 30)) {
 
 
         now = "Dans 1h";
 
-    } else if (hourBegin > (h + 1)) {
+    } else if (hourBegin >= (h + 1)) {
+
+
         minString = minBegin.toString();
 
         if (minString.length == 1) {

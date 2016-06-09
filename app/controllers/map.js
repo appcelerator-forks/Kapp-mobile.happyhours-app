@@ -115,8 +115,6 @@ function clickAnnotation(evt) {
  	if (evt.clicksource == 'leftButton') {
  		goEtablishment(evt.annotation.myId, evt.annotation.title);
  	}
- 	Ti.API.info(evt.annotation.myId);
- 	Ti.API.info(evt.annotation.title);
 
 }
 

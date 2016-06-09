@@ -2,9 +2,93 @@ Alloy.Globals.firstOpening = true;
 var pageColor = "#E2967A";
 Alloy.Globals.endDownload = false;
 
-Alloy.Globals.urlApi = "http://cba7e023.ngrok.io/";
-Alloy.Globals.urlEtablishment = "http://cba7e023.ngrok.io/web/api/etablishment";
+Alloy.Globals.urlApi = "http://b9ee9515.ngrok.io/";
+Alloy.Globals.urlEtablishment = Alloy.Globals.urlApi + "web/api/etablishment";
+Alloy.Globals.urlVersion = Alloy.Globals.urlApi + "web/api/version";
 
+// get last api change version
+
+Alloy.Globals.getFirstVersion = function () {
+
+    var client2 = Ti.Network.createHTTPClient({
+        onload: function(e) {
+            var version = JSON.parse(this.responseText);
+
+            var version_bd = Alloy.createModel('version', {
+                id      : version.id,
+                version : version.version
+            });
+
+            version_bd.save();
+
+        },
+        onerror: function(e) {
+            Ti.API.debug(e.error);
+        },
+        timeout: 5000 // in milliseconds
+    });
+
+    // Prepare the connection.
+    client2.open("GET", Alloy.Globals.urlVersion);
+    // Send the request.
+    client2.send();
+
+
+};
+
+Alloy.Globals.checkVersion = function () {
+
+    var client2 = Ti.Network.createHTTPClient({
+
+        onload: function(e) {
+            var version = JSON.parse(this.responseText);
+
+            var versionColelction = Alloy.createCollection('version');
+            versionColelction.fetch();
+
+            if(versionColelction.models[versionColelction.models.length - 1].get("version") != version.num) {
+
+                var version_bd = Alloy.createModel('version', {
+                    id      : version.id,
+                    version : version.num
+                });
+
+                version_bd.save();
+
+
+                var happyhour = Alloy.createCollection('happyhour');
+                var etablishment = Alloy.createCollection('etablishment');
+
+                happyhour.deleteAll();
+                etablishment.deleteAll();
+
+                Alloy.Globals.getAllData();
+
+            } else {
+
+                Alloy.Collections.etablishment.fetch();
+
+                Alloy.Collections.happyhour.fetch();
+
+                Alloy.Collections.etablishment.sort();
+            }
+        },
+
+        onerror: function(e) {
+            Ti.API.debug(e.error);
+        },
+        timeout: 5000 // in milliseconds
+    });
+
+    // Prepare the connection.
+    client2.open("GET", Alloy.Globals.urlVersion);
+    // Send the request.
+    client2.send();
+
+};
+
+
+// get all data from api
 Alloy.Globals.getAllData = function() {
 
     var client1 = Ti.Network.createHTTPClient({
@@ -45,9 +129,18 @@ Alloy.Globals.getAllData = function() {
                         var minEnd = getMinEnd(happy.hours);
 
                         newNow = whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, now);
-                        if ((newNow == "En ce moment") || (now != "En ce moment" && newNow == "Dans 30 min") || (now != "En ce moment" && now != "Dans 30 min" && newNow == "Dans 1h") || now == "")
+
+
+                        if (        (newNow == "En ce moment")
+                                ||  (now != "En ce moment" && newNow == "Dans 30 min")
+                                ||  (now != "En ce moment" && now != "Dans 30 min" && newNow == "Dans 1h")
+                                ||  (now == "" )
+                                ||  (now != "En ce moment" && now != "Dans 30 min" && now != "Dans 1h" && newNow != "Passer")
+                            )
                             now = newNow;
                     }
+
+
 
                     var happyhour_bd = Alloy.createModel('happyhour', {
                         id: happy.id,
@@ -82,6 +175,7 @@ Alloy.Globals.getAllData = function() {
                 });
 
                 etablishment_bd.save();
+
             }
 
             Alloy.Collections.etablishment.fetch();
@@ -161,9 +255,6 @@ function whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, lastNow) {
         h = h + 24;
     }
 
-
-
-
     if (((hourBegin == h && minBegin <= m) || (hourBegin < h)) && ((hourEnd > h) || (hourEnd == h && minEnd >= m))) {
 
         now = "En ce moment";
@@ -179,7 +270,7 @@ function whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, lastNow) {
 
         now = "Dans 1h";
 
-    } else if (hourBegin > (h + 1)) {
+    } else if (hourBegin >= (h + 1)) {
 
 
         minString = minBegin.toString();

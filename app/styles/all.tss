@@ -64,7 +64,6 @@
 	width			: "100%",
 	height			: "40%",
 	backgroundColor	: "white",
-	zIndex			: 2,
 }
 	".description_label": {
 		left	: "30px",
@@ -74,10 +73,12 @@
 			fontSize	: "12",
 			fontWeight	: "400",
 		},
-		verticalAlign	: "middle"
+		verticalAlign	: "middle",
+        backgroundColor	: "white",
 	}
 	".image_arrow": {
 		right			: "60px",
 		width			: "30px",
-		verticalAlign	: "middle"
+		verticalAlign	: "middle",
+        backgroundColor	: "white",
 	}

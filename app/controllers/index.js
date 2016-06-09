@@ -1,5 +1,6 @@
 var happyhour = Alloy.createCollection('happyhour');
 var etablishment = Alloy.createCollection('etablishment');
+var version = Alloy.createCollection('version');
 var i = 0;
 
 var activityIndicator = Ti.UI.createActivityIndicator({
@@ -26,97 +27,103 @@ activityIndicator.show();
 //////////////////////////////////////
 
 if(Titanium.Network.online) {
-    Ti.API.info('online : ' + Titanium.Network.online);
-    Ti.API.info('has connection');
-    happyhour.deleteAll();
-    etablishment.deleteAll();
+//    happyhour.deleteAll();
+//    etablishment.deleteAll();
 } else {
-    Ti.API.info("hasn't connection");
+
 }
-
-Ti.API.info('online : ' + Titanium.Network.online);
-
 
 
 /////////////////////////////////////////////////////////
 ////////////////////Get DATA////////////////////////////
 ///////////////////////////////////////////////////////
 
+
+
 // si pas établissement existants
-if (!Alloy.Collections.etablishment.count()) {
+if (!Alloy.Collections.etablishment.count() || !version.count()) {
 
-    Ti.API.info('no etablishment');
-
+    //Not online :(
     if (!Titanium.Network.online) {
         var dialog = Ti.UI.createAlertDialog({
-            message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une fois.',
-            ok: 'Je comprends',
+            message: 'Afin de voir les Happy hours Toulousains, veuillez vous connecter à internet au moins une première fois.',
+            ok: 'Ok',
             title: 'Attention'
         });
         dialog.show();
 
+        //stop unused download
         Alloy.Globals.endDownload = true;
 
+        //fetch and sort etablishment
         Alloy.Collections.etablishment.fetch();
-
         Alloy.Collections.etablishment.sort();
 
+        //close download indicator
         activityIndicator.hide();
         chargement.close();
 
         $.tabgroup.open();
 
+    //he's online !!!!
     }else{
 
-
-
+        Alloy.Globals.getFirstVersion();
+        //go get all data dude
         Alloy.Globals.getAllData();
 
+        //check download activity
         setTimeout(download, 1000);
     }
 
+//have already data
 }else {
 
-    Ti.API.info('etablishment');
-
+    //but he's not online :(
     if (!Titanium.Network.online) {
 
+        //stop download
         Alloy.Globals.endDownload = true;
 
-        updateNow();
-
+        //fetch and sort etablishment
         Alloy.Collections.etablishment.fetch();
-
         Alloy.Collections.etablishment.sort();
 
+        //stop unused download indicator
         activityIndicator.hide();
         chargement.close();
 
         $.tabgroup.open();
 
+    //he is online !
     }else {
 
+        Alloy.Globals.checkVersion();
+
+        // TODO :  Check data version
+
+        //stop download
         Alloy.Globals.endDownload = true;
 
+        //fetch and sort etablishment
         Alloy.Collections.etablishment.fetch();
-
         Alloy.Collections.etablishment.sort();
 
+        //stop unused download indicator
         activityIndicator.hide();
         chargement.close();
 
         $.tabgroup.open();
-
-        // TODO : Update data after 24h
     }
 }
 
 
 function download() {
 
-    Ti.API.info('download');
-
+    //he is not online during download :/
     if (!Titanium.Network.online) {
+
+        //hide download indicator and hope all have been download
         activityIndicator.hide();
         chargement.close();
 
@@ -124,8 +131,11 @@ function download() {
 
         return;
     }
+
+    //if donwload is ended or timeout
     if(Alloy.Globals.endDownload || i > 5000) {
 
+        //hide download indicator
         activityIndicator.hide();
         chargement.close();
 
@@ -137,12 +147,4 @@ function download() {
     i += 1000;
 
     setTimeout(download, 1000);
-
-
-
-}
-
-
-function updateNow() {
-
 }

@@ -95,6 +95,14 @@ exports.definition = {
                             return -1;
                         } else if (right.criteria == "Dans 1h") {
                             return 1;
+                        } else if (parseInt(right.criteria.substr(0,2)) < parseInt(left.criteria.substr(0,2)) ){
+                            return 1;
+                        } else if (parseInt(right.criteria.substr(0,2)) > parseInt(left.criteria.substr(0,2)) ){
+                            return -1;
+                        } else if (parseInt(right.criteria.substr(3,5)) < parseInt(left.criteria.substr(3,5)) ){
+                            return 1;
+                        } else if (parseInt(right.criteria.substr(3,5)) > parseInt(left.criteria.substr(3,5)) ){
+                            return -1;
                         }
 
                         return 1;
