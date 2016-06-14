@@ -4,8 +4,6 @@
 /////////////////////////////////////////////////////////
 var seachHide = true;
 
-Alloy.Collections.etablishment.fetch();
-
 $.all.setTitleControl(Ti.UI.createLabel({
   color: "#ffffff",
   font: {

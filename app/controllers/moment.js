@@ -7,9 +7,9 @@ $.moment.setTitleControl(Ti.UI.createLabel({
     text: "En ce moment"
 }));
 
+var j = 0;
 
 //Filter
-
 function haveHappyFilter(collection) {
 
     return collection.where({
@@ -22,76 +22,132 @@ function myRefresher(e) {
 
     if (!Titanium.Network.online) {
 
-        Alloy.Collections.etablishment.fetch();
+        Ti.API.info('refresh not online');
 
-        Alloy.Collections.happyhour.fetch();
 
-        Alloy.Collections.etablishment.sort();
+        Alloy.Globals.endDownload = true;
 
-        Ti.API.info('refresh no online');
+        setTimeout(downloadWithoutOpen, 1000);
+
+
 
     } else {
         //////////////////////////////////////
-        //var happyhour = Alloy.Collections.instance('happyhour');
-        //var etablishment = Alloy.Collections.instance('etablishment');
-        //happyhour.deleteAll();
-        //etablishment.deleteAll();
-
-        //Alloy.Globals.getAllData();
 
         Ti.API.info('refresh online');
 
+        Ti.API.info("nice   : we're online");
+        Ti.API.info("log    : set endDownload to false");
+
+        Alloy.Globals.endDownload = false;
 
         Alloy.Globals.checkVersion();
+        setTimeout(downloadWithoutOpen, 1000);
 
     }
 
     e.hide();
 }
 
-function doTransform(model) {
+function downloadWithoutOpen() {
 
-    var transform = model.toJSON();
+        Ti.API.info('downloadWithoutOpen');
 
-    var d = new Date();
-    day = d.getDay() === 0 ? 7 : d.getDay(); //day
+        //he is not online during download :/
+        if (!Titanium.Network.online) {
 
-    now = "";
+            Alloy.Globals.fetchEtablishment();
 
-    var length = Alloy.Collections.happyhour.models.length;
+            j = 0;
 
-    for (var i = 0; i < length; i++) {
-
-        newNow = "";
-
-        var oneHappy = Alloy.Collections.happyhour.models[i];
-
-        if (oneHappy.get('id_etablishment') == transform.id) {
-            if (oneHappy.get('day').indexOf(day) >= 0) {
-
-                //get heure début et heure fin
-                var hourBegin = getHourBegin(oneHappy.get('hours'));
-                var hourEnd = getHourEnd(oneHappy.get('hours'));
-
-                //get minute début et heure fin
-                var minBegin = getMinBegin(oneHappy.get('hours'));
-                var minEnd = getMinEnd(oneHappy.get('hours'));
-
-                newNow = whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, now);
-
-                if ((newNow == "En ce moment") || (now != "En ce moment" && newNow == "Dans 30 min") || (now != "En ce moment" && now != "Dans 30 min" && newNow == "Dans 1h") || now == "" ||  now == "Passer")
-                    now = newNow;
-            }
+            return;
         }
 
-    }
+        //if donwload is ended or timeout
+        if(Alloy.Globals.endDownload || j > 5000) {
 
-    if(now != "")
-        transform.now = now;
+            Ti.API.info("log    : end downloadWithoutOpen, fetch data");
 
-    return transform;
+            Alloy.Globals.fetchEtablishment();
 
+            j = 0;
+
+            return;
+        }
+
+        j += 1000;
+
+        setTimeout(downloadWithoutOpen, 1000);
 }
+
+// function doTransform(model) {
+//
+//     Ti.API.info('transform');
+//
+//     var d = new Date();
+//     day = d.getDay() === 0 ? 7 : d.getDay(); //day
+//
+//     var nowTransform = "";
+//
+//     var length = Alloy.Collections.happyhour.models.length;
+//
+//     Ti.API.info('');
+//
+//     for (var i = 0; i < length; i++) {
+//
+//         newNow = "";
+//
+//         var oneHappy = Alloy.Collections.happyhour.models[i];
+//
+//         if (oneHappy.get('id_etablishment') == transform.id) {
+//
+//             var happyday = oneHappy.get('day').toString();
+//
+//             if ( happyday.indexOf(day) >= 0 ) {
+//
+//                 //get heure début et heure fin
+                // var hourBegin = getHourBegin(oneHappy.get('hours'));
+                // var hourEnd = getHourEnd(oneHappy.get('hours'));
+                //
+                // //get minute début et heure fin
+                // var minBegin = getMinBegin(oneHappy.get('hours'));
+                // var minEnd = getMinEnd(oneHappy.get('hours'));
+                //
+                // newNow = whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, nowTransform);
+                //
+                // if (        (newNow == "En ce moment")
+                //         ||  (nowTransform != "En ce moment" && newNow == "Dans 30 min")
+                //         ||  (nowTransform != "En ce moment" && nowTransform != "Dans 30 min" && newNow == "Dans 1h")
+                //         ||  (nowTransform == "" )
+                //         ||  (nowTransform != "En ce moment" && nowTransform != "Dans 30 min" && nowTransform != "Dans 1h" && newNow != "Passé")
+                //     )
+                //     nowTransform = newNow;
+//             }
+//         }
+//
+//     }
+//
+//     if(nowTransform != "")
+//         transform.now = nowTransform;
+//
+//     var haveHappyTransform;
+//
+//     if(nowTransform == "Passé") {
+//         haveHappyTransform = 'false';
+//     } else {
+//         haveHappyTransform = 'true';
+//     }
+//
+//     Ti.API.info(nowTransform);
+//
+//     model.set({
+//         haveHappy   : haveHappyTransform,
+//         now         : nowTransform,
+//     }).save();
+//
+//     return transform;
+//
+// }
 
 function goEtablishment() {
 
@@ -146,7 +202,7 @@ function getMinEnd(min) {
 }
 
 function whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, lastNow) {
-    var now = "Passer";
+    var now = "Passé";
 
     var d = new Date();
     var h = d.getHours();
