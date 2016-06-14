@@ -69,8 +69,6 @@ if (!Alloy.Collections.etablishment.count() || !version.count()) {
 //have already data
 }else {
 
-    Ti.API.info('ok     : already have data');
-
     //but he's not online :(
     if (!Titanium.Network.online) {
 
@@ -83,9 +81,6 @@ if (!Alloy.Collections.etablishment.count() || !version.count()) {
     //he is online !
     }else {
 
-        Ti.API.info("nice   : we're online");
-        Ti.API.info("log    : set endDownload to false");
-
         Alloy.Globals.endDownload = false;
         Alloy.Globals.checkVersion();
 
@@ -97,9 +92,6 @@ if (!Alloy.Collections.etablishment.count() || !version.count()) {
 
 function openTabGroup () {
 
-    Ti.API.info('openTabGroup');
-    Ti.API.info('');
-
     //close download indicator
     activityIndicator.hide();
     chargement.close();
@@ -110,8 +102,6 @@ function openTabGroup () {
 
 
 function download() {
-
-    Ti.API.info('download');
 
     //he is not online during download :/
     if (!Titanium.Network.online) {

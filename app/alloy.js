@@ -9,8 +9,6 @@ Alloy.Globals.urlVersion = Alloy.Globals.urlApi + "/web/api/version";
 
 Alloy.Globals.updateNow = function () {
 
-    Ti.API.info('okey : update Now');
-
     Alloy.Collections.etablishment.fetch();
     Alloy.Collections.happyhour.fetch();
 
@@ -25,17 +23,12 @@ Alloy.Globals.updateNow = function () {
 
     var haveHappyEtablishment = 'true';
 
-    Ti.API.info('log : etablishment length : ' + lengthEtablishmentCollection);
     // for all etablishment
     for (var i = 0; i < lengthEtablishmentCollection; i++) {
 
          oneEtablishment = Alloy.Collections.etablishment.models[i];
 
          etablishmentNow = "";
-
-         Ti.API.info("log : etablishment name : " + oneEtablishment.get("name"));
-
-         Ti.API.info("log : happy lengt : " + lengthHappyCollection);
 
          //for all happy
          for (var j = 0; j < lengthHappyCollection; j++) {
@@ -46,8 +39,6 @@ Alloy.Globals.updateNow = function () {
 
              // which are related to current etablishmnet
              if ( oneHappy.get('id_etablishment') == oneEtablishment.get("id") ) {
-
-                 Ti.API.info('log : update now of etabishement ' + oneEtablishment.get("name") );
 
                  var hourBegin = getHourBegin(oneHappy.get('hours'));
                  var hourEnd = getHourEnd(oneHappy.get('hours'));
@@ -76,11 +67,6 @@ Alloy.Globals.updateNow = function () {
              haveHappyEtablishment = 'false';
          }
 
-         Ti.API.info('before');
-         Ti.API.info(oneEtablishment);
-
-         Ti.API.info('');
-
          oneEtablishment.set({
              now        : etablishmentNow,
              haveHappy  : haveHappyEtablishment,
@@ -88,37 +74,24 @@ Alloy.Globals.updateNow = function () {
 
          oneEtablishment.save();
 
-         Ti.API.info('after');
-         Ti.API.info(oneEtablishment);
-
-         Ti.API.info('');
-
     }// end for all etablishment
 
     Alloy.Globals.fetchEtablishment();
     Alloy.Globals.endDownload = true;
-
-    Ti.API.info('');
-}
+};
 
 Alloy.Globals.fetchEtablishment = function () {
-
-    Ti.API.info('fetchEtablishment');
 
     //fetch and sort etablishment
     Alloy.Collections.etablishment.fetch();
     Alloy.Collections.etablishment.sort();
 
-    Ti.API.info('fetchHappy');
-
     Alloy.Collections.happyhour.fetch();
 
-}
+};
 
 // get last api change version
 Alloy.Globals.getFirstVersion = function () {
-
-    Ti.API.info('get First Version');
 
     var client2 = Ti.Network.createHTTPClient({
         onload: function(e) {
@@ -148,8 +121,6 @@ Alloy.Globals.getFirstVersion = function () {
 
 Alloy.Globals.checkVersion = function () {
 
-    Ti.API.info('good   : we check last version');
-
     var client2 = Ti.Network.createHTTPClient({
 
         onload: function(e) {
@@ -157,9 +128,6 @@ Alloy.Globals.checkVersion = function () {
 
             var versionColelction = Alloy.createCollection('version');
             versionColelction.fetch();
-
-            Ti.API.info("log    : my num version    : " + version.num);
-            Ti.API.info("log    :server version     : " + versionColelction.models[versionColelction.models.length - 1].get("version"));
 
             if(versionColelction.models[versionColelction.models.length - 1].get("version") != version.num) {
 
@@ -170,15 +138,12 @@ Alloy.Globals.checkVersion = function () {
 
                 version_bd.save();
 
-                Ti.API.info('log : save new version');
-
                 var happyhour = Alloy.createCollection('happyhour');
                 var etablishment = Alloy.createCollection('etablishment');
 
                 happyhour.deleteAll();
                 etablishment.deleteAll();
-                Ti.API.info('log : delete all datas');
-
+                
                 Alloy.Globals.getAllData();
 
             } else {
@@ -207,8 +172,6 @@ Alloy.Globals.checkVersion = function () {
 
 // get all data from api
 Alloy.Globals.getAllData = function() {
-
-    Ti.API.info('get all datas');
 
     var client1 = Ti.Network.createHTTPClient({
         // function called when the response data is available

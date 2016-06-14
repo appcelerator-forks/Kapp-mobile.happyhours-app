@@ -22,10 +22,7 @@ function myRefresher(e) {
 
     if (!Titanium.Network.online) {
 
-        Ti.API.info('refresh not online');
-
-
-        Alloy.Globals.endDownload = true;
+		Alloy.Globals.endDownload = true;
 
         setTimeout(downloadWithoutOpen, 1000);
 
@@ -34,10 +31,6 @@ function myRefresher(e) {
     } else {
         //////////////////////////////////////
 
-        Ti.API.info('refresh online');
-
-        Ti.API.info("nice   : we're online");
-        Ti.API.info("log    : set endDownload to false");
 
         Alloy.Globals.endDownload = false;
 
@@ -51,7 +44,6 @@ function myRefresher(e) {
 
 function downloadWithoutOpen() {
 
-        Ti.API.info('downloadWithoutOpen');
 
         //he is not online during download :/
         if (!Titanium.Network.online) {
@@ -66,8 +58,6 @@ function downloadWithoutOpen() {
         //if donwload is ended or timeout
         if(Alloy.Globals.endDownload || j > 5000) {
 
-            Ti.API.info("log    : end downloadWithoutOpen, fetch data");
-
             Alloy.Globals.fetchEtablishment();
 
             j = 0;
@@ -80,74 +70,6 @@ function downloadWithoutOpen() {
         setTimeout(downloadWithoutOpen, 1000);
 }
 
-// function doTransform(model) {
-//
-//     Ti.API.info('transform');
-//
-//     var d = new Date();
-//     day = d.getDay() === 0 ? 7 : d.getDay(); //day
-//
-//     var nowTransform = "";
-//
-//     var length = Alloy.Collections.happyhour.models.length;
-//
-//     Ti.API.info('');
-//
-//     for (var i = 0; i < length; i++) {
-//
-//         newNow = "";
-//
-//         var oneHappy = Alloy.Collections.happyhour.models[i];
-//
-//         if (oneHappy.get('id_etablishment') == transform.id) {
-//
-//             var happyday = oneHappy.get('day').toString();
-//
-//             if ( happyday.indexOf(day) >= 0 ) {
-//
-//                 //get heure début et heure fin
-                // var hourBegin = getHourBegin(oneHappy.get('hours'));
-                // var hourEnd = getHourEnd(oneHappy.get('hours'));
-                //
-                // //get minute début et heure fin
-                // var minBegin = getMinBegin(oneHappy.get('hours'));
-                // var minEnd = getMinEnd(oneHappy.get('hours'));
-                //
-                // newNow = whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, nowTransform);
-                //
-                // if (        (newNow == "En ce moment")
-                //         ||  (nowTransform != "En ce moment" && newNow == "Dans 30 min")
-                //         ||  (nowTransform != "En ce moment" && nowTransform != "Dans 30 min" && newNow == "Dans 1h")
-                //         ||  (nowTransform == "" )
-                //         ||  (nowTransform != "En ce moment" && nowTransform != "Dans 30 min" && nowTransform != "Dans 1h" && newNow != "Passé")
-                //     )
-                //     nowTransform = newNow;
-//             }
-//         }
-//
-//     }
-//
-//     if(nowTransform != "")
-//         transform.now = nowTransform;
-//
-//     var haveHappyTransform;
-//
-//     if(nowTransform == "Passé") {
-//         haveHappyTransform = 'false';
-//     } else {
-//         haveHappyTransform = 'true';
-//     }
-//
-//     Ti.API.info(nowTransform);
-//
-//     model.set({
-//         haveHappy   : haveHappyTransform,
-//         now         : nowTransform,
-//     }).save();
-//
-//     return transform;
-//
-// }
 
 function goEtablishment() {
 
