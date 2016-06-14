@@ -6,8 +6,23 @@ Alloy.Globals.urlApi = "http://e04d78d1.ngrok.io";
 Alloy.Globals.urlEtablishment = Alloy.Globals.urlApi + "/web/api/etablishment";
 Alloy.Globals.urlVersion = Alloy.Globals.urlApi + "/web/api/version";
 
+var version = Alloy.createCollection('version');
+
+//every 5min, update now label
+
+
+Ti.App.addEventListener( 'resume', function(e) {
+        if (Alloy.Collections.etablishment.count() && version.count()) {
+            Alloy.Globals.updateNow();
+        }
+
+
+});
+
 
 Alloy.Globals.updateNow = function () {
+
+    Ti.API.info('updateNow');
 
     Alloy.Collections.etablishment.fetch();
     Alloy.Collections.happyhour.fetch();
@@ -143,7 +158,7 @@ Alloy.Globals.checkVersion = function () {
 
                 happyhour.deleteAll();
                 etablishment.deleteAll();
-                
+
                 Alloy.Globals.getAllData();
 
             } else {

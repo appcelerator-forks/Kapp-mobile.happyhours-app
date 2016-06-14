@@ -4,6 +4,7 @@ var version = Alloy.createCollection('version');
 var i = 0;
 var j = 0;
 
+
 var activityIndicator = Ti.UI.createActivityIndicator({
     color       : 'gray',
     message     : 'Chargement...',
@@ -32,6 +33,7 @@ if(Titanium.Network.online) {
 }
 //////////////////////////////////////
 
+setInterval(Alloy.Globals.updateNow, 300000);
 
 /////////////////////////////////////////////////////////
 ////////////////////Get DATA////////////////////////////
