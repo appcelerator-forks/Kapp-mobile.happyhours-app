@@ -8,7 +8,7 @@
 				<Label touchEnabled="false" text="Toulouse" class="ville"/>
 				<Label touchEnabled="false" text="{now}" class="happy"/>
 				<View  backgroundColor="#fff" tintColor="#fff" selectedBackgroundColor="white"  touchEnabled="false" class="image" >
-					<ImageView  width="100%" height="100%" image="http://e04d78d1.ngrok.io/web/uploads/images/etablishment/{image}"  defaultImage="background/background.png"/>
+					<ImageView  width="100%" height="100%" image="http://76326168.ngrok.io/web/uploads/images/etablishment/{image}"  defaultImage="background/background.png"/>
 					<View backgroundColor="#fff" tintColor="#fff" selectedBackgroundColor="white" touchEnabled="false" class="description">
 						<Label touchEnabled="false" class="description_label" text="{description_2}" />
 						<ImageView touchEnabled="false" class="image_arrow" image="/icons/right-arrow.png"/>

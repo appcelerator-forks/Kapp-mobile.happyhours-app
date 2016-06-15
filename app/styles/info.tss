@@ -3,3 +3,41 @@
 	barColor: "#ffffff",
 	tintColor: "#ffffff"
 }
+
+"#infoView": {
+	// Set the padding values like so:
+  	top: "0dp", right: "0dp", bottom: "10dp", left: "10dp",
+
+
+}
+"#labelInfo": {
+	top			: "35%",
+	textAlign	: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	font: {
+		fontSize: "20",
+	},
+	color		:"#999"
+}
+
+"#labelInfoDev": {
+	bottom		: 10,
+	color		:"#999",
+	font: {
+		fontSize: "10",
+	},
+}
+
+"#buttonMail": {
+	top				: "50%",
+	font: {
+		fontSize	: "20",
+	},
+	backgroundColor	:'#0B6BFB',
+	borderRadius	: 5,
+	borderColor		: '#0B6BFB',
+	color			: '#fff',
+	left			: 25,
+	right			: 25,
+	height			: 40
+
+}

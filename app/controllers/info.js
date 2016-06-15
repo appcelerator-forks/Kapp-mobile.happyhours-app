@@ -6,3 +6,13 @@ $.info.setTitleControl(Ti.UI.createLabel({
   },
 	text: "Informations"
 }));
+
+$.buttonMail.addEventListener('click', function (e) {
+
+    var emailDialog = Titanium.UI.createEmailDialog();
+    emailDialog.subject = "Happyhour app";
+    emailDialog.toRecipients = ['gaetankueny@gmail.com'];
+    emailDialog.messageBody = '';
+
+    emailDialog.open();
+});

@@ -1,5 +1,12 @@
 <Alloy>
 	<Window title="Informations">
-       <Label id="label1" color="#999">info</Label>
+	   <View id="infoView">
+		   <Label id="labelInfo" >Une happy hour érronée ou manquante ? </Label>
+
+		   <Button id="buttonMail">Contactez nous ! </Button>
+
+		    <Label id="labelInfoDev" >happyhourapp© by gkueny & rkueny</Label>
+
+	   </View>
     </Window>
 </Alloy>

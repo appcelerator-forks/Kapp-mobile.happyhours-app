@@ -2,7 +2,7 @@ Alloy.Globals.firstOpening = true;
 var pageColor = "#E2967A";
 Alloy.Globals.endDownload = false;
 
-Alloy.Globals.urlApi = "http://e04d78d1.ngrok.io";
+Alloy.Globals.urlApi = "http://76326168.ngrok.io";
 Alloy.Globals.urlEtablishment = Alloy.Globals.urlApi + "/web/api/etablishment";
 Alloy.Globals.urlVersion = Alloy.Globals.urlApi + "/web/api/version";
 
