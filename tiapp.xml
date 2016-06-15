@@ -23,8 +23,6 @@
                 </string>
                 <key>ITSAppUsesNonExemptEncryption</key>
                 <false/>
-                <key>NSLocationAlwaysUsageDescription</key>
-                <string/>
                 <key>UISupportedInterfaceOrientations~iphone</key>
                 <array>
                     <string>UIInterfaceOrientationPortrait</string>
