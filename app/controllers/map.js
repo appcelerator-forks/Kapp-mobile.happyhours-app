@@ -1,5 +1,6 @@
 var Map 	= require('ti.map');
 var mapview = Map.createView({mapType:Map.NORMAL_TYPE});
+var k = 0;
 
 $.map.setTitleControl(Ti.UI.createLabel({
   color : "#ffffff",
@@ -10,7 +11,6 @@ $.map.setTitleControl(Ti.UI.createLabel({
   text  : "Carte"
 }));
 
-Alloy.Collections.etablishment.fetch();
 
 /////////////////////////////////////////////////////////
 /////////////////////INITIALIZATION/////////////////////
@@ -65,43 +65,58 @@ $.backToMe.addEventListener('click', function(e) {
 	});
 });
 
-var etablishment = Alloy.createCollection('etablishment');
-etablishment.fetch();
+fetchEtablishmentToMap();
 
-// for each etablishment we build an annotation
-etablishment.each(function(etablishment) {
-
-	var coord = etablishment.get('gps').split(',');
-
-	var accroche = '';
-
-	if (!etablishment.get('now')) {
-		accroche = '';
-	} else {
-		accroche = etablishment.get('now');
+function fetchEtablishmentToMap() {
+	
+	Ti.API.info("fetchEtablishmentToMap");
+	
+	if(!Alloy.Globals.endDownload && k < 10000) {
+		Ti.API.info("not end");
+		setTimeout(fetchEtablishmentToMap, 500);
+		k += 500;
+		return;
 	}
-
-	var d 	= new Date();
-	var day = d.getDay() === 0 ? 7 : d.getDay();
-
-
-	var happy = etablishment.get('text');
-
-	var annotation = Map.createAnnotation({
-		latitude      : coord[0],
-		longitude     : coord[1],
-		title         : etablishment.get('name'),
-		subtitle      : accroche,
-		image         : "pin/blue-pin.png",
-		myId          : etablishment.get('id'),
-		leftButton    : "icons/goto.png"
+	Ti.API.info("fetch");
+	var etablishment = Alloy.createCollection('etablishment');
+	etablishment.fetch();
+	
+	// for each etablishment we build an annotation
+	etablishment.each(function(etablishment) {
+	
+		var coord = etablishment.get('gps').split(',');
+	
+		var accroche = '';
+	
+		if (!etablishment.get('now')) {
+			accroche = '';
+		} else {
+			accroche = etablishment.get('now');
+		}
+	
+		var d 	= new Date();
+		var day = d.getDay() === 0 ? 7 : d.getDay();
+	
+	
+		var happy = etablishment.get('text');
+	
+		var annotation = Map.createAnnotation({
+			latitude      : coord[0],
+			longitude     : coord[1],
+			title         : etablishment.get('name'),
+			subtitle      : accroche,
+			image         : "pin/blue-pin.png",
+			myId          : etablishment.get('id'),
+			leftButton    : "icons/goto.png"
+		});
+	
+		$.mapview.addAnnotation(annotation);
+	
+		annotation.addEventListener('click', clickAnnotation);
+	
 	});
 
-	$.mapview.addAnnotation(annotation);
-
-	annotation.addEventListener('click', clickAnnotation);
-
-});
+}
 
 $.mapview.addEventListener('click', function(evt){
     if(evt.clicksource == "leftButton"){
