@@ -9,8 +9,6 @@ Alloy.Globals.urlVersion = Alloy.Globals.urlApi + "/web/api/version";
 var version = Alloy.createCollection('version');
 
 //every 5min, update now label
-
-
 Ti.App.addEventListener( 'resume', function(e) {
         if (Alloy.Collections.etablishment.count() && version.count()) {
             Alloy.Globals.updateNow();
@@ -64,7 +62,27 @@ Alloy.Globals.updateNow = function () {
 
                  newNow = whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, etablishmentNow);
 
-                 if (        (newNow == "En ce moment")
+                 //particular case when newNow and etablishmentNow are both hour form (xxHyy)
+                 if( newNow.indexOf("H") > 0 && etablishmentNow.indexOf("H") > 0 ) {
+
+                     var hourNew = newNow.substring(0, 2);
+                     var hourEtablishment = etablishmentNow.substring(0, 2);
+                     var minNew = newNow.substring(3, newNow.length);
+                     var minEtablishment = etablishmentNow.substring(3, etablishmentNow.length);
+
+                     //compare hour
+                    if( parseInt(hourNew) < parseInt(hourEtablishment) )  {
+
+                        etablishmentNow = newNow;
+
+                    //compare min
+                } else if ( ( parseInt(hourNew) == parseInt(hourEtablishment) ) &&  ( parseInt(minNew) < parseInt(minEtablishment) ) ) {
+
+                        etablishmentNow = newNow;
+
+                    }
+
+                 } else if ( (newNow == "En ce moment")
                          ||  (etablishmentNow != "En ce moment" && newNow == "Dans 30 min")
                          ||  (etablishmentNow != "En ce moment" && etablishmentNow != "Dans 30 min" && newNow == "Dans 1h")
                          ||  (etablishmentNow == "" )
@@ -228,7 +246,25 @@ Alloy.Globals.getAllData = function() {
                         newNow = whenAreHappy(hourBegin, hourEnd, minBegin, minEnd, now);
 
 
-                        if (        (newNow == "En ce moment")
+                        if( newNow.indexOf("H") > 0 && now.indexOf("H") > 0 ) {
+
+                            var hourNew = newNow.substring(0, 2);
+                            var hourEtablishment = now.substring(0, 2);
+                            var minNew = newNow.substring(3, newNow.length);
+                            var minEtablishment = now.substring(3, now.length);
+                            //compare hour
+                           if( parseInt(hourNew) < parseInt(hourEtablishment) )  {
+
+                               now = newNow;
+
+                           //compare min
+                       } else if ( ( parseInt(hourNew) == parseInt(hourEtablishment) ) &&  ( parseInt(minNew) < parseInt(minEtablishment) ) ) {
+
+                               now = newNow;
+
+                           }
+
+                        } else if (        (newNow == "En ce moment")
                                 ||  (now != "En ce moment" && newNow == "Dans 30 min")
                                 ||  (now != "En ce moment" && now != "Dans 30 min" && newNow == "Dans 1h")
                                 ||  (now == "" )

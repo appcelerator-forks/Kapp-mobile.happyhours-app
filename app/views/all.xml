@@ -1,20 +1,21 @@
 <Alloy>
 	<Collection src="etablishment" />
+	
 	<Window id="all" title="Établissements">
-		<TableView selectedBackgroundColor="white" layout="vertical" width="100%" height="100%" top="" id="partnerscontent" dataCollection="etablishment" filterAttribute="titleEtablishment" >
-			<TableViewRow backgroundColor="#fff" tintColor="#fff" selectedBackgroundColor="white" selectedColor="#fff" width="100%" height="70%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment"  >
-				<Label touchEnabled="false" text="{name}" class="name"/>
-				<Label touchEnabled="false" text="{adress}" class="adress"/>
-				<Label touchEnabled="false" text="Toulouse" class="ville"/>
-				<Label touchEnabled="false" text="{now}" class="happy"/>
-				<View  backgroundColor="#fff" tintColor="#fff" selectedBackgroundColor="white"  touchEnabled="false" class="image" >
-					<ImageView  width="100%" height="100%" image="http://76326168.ngrok.io/web/uploads/images/etablishment/{image}"  defaultImage="background/background.png"/>
-					<View backgroundColor="#fff" tintColor="#fff" selectedBackgroundColor="white" touchEnabled="false" class="description">
-						<Label touchEnabled="false" class="description_label" text="{description_2}" />
-						<ImageView touchEnabled="false" class="image_arrow" image="/icons/right-arrow.png"/>
+		<TableView layout="vertical" width="100%" height="100%" top="" id="partnerscontent" dataCollection="etablishment" filterAttribute="titleEtablishment" >
+			<TableViewRow selectionStyle="NONE" backgroundColor="#fff" tintColor="#fff" selectedBackgroundColor="white" selectedColor="#fff" touchEnabled="false"  width="100%" height="70%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment" >
+					<Label text="{name}" class="name"/>
+					<Label text="{adress}" class="adress"/>
+					<Label text="Toulouse" class="ville"/>
+					<Label text="{now}" class="happy"/>
+					<View class="image">
+						<ImageView width="100%" height="100%" image="http://76326168.ngrok.io/web/uploads/images/etablishment/{image}" defaultImage="background/background.png"/>
+						<View selectedBackgroundColor="white" backgroundColor="white" class="description" >
+							<Label class="description_label" text="{description_2}" />
+							<ImageView class="image_arrow" image="/icons/right-arrow.png"/>
+						</View>
 					</View>
-				</View>
-			</TableViewRow>
+				</TableViewRow>
 		</TableView>
     </Window>
 </Alloy>
