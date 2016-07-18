@@ -6,24 +6,68 @@ var j = 0;
 
 
 var activityIndicator = Ti.UI.createActivityIndicator({
-    color       : 'gray',
-    message     : 'Chargement...',
-    style       : Ti.UI.ActivityIndicatorStyle.DARK,
-    top         : '45%',
-    textAlign   : Ti.UI.TEXT_ALIGNMENT_CENTER,
-    height      :Ti.UI.SIZE,
-    width       :Ti.UI.SIZE
+    color           : 'gray',
+    message         : 'Chargement...',
+    style           : Ti.UI.ActivityIndicatorStyle.DARK,
+    top             : '45%',
+    textAlign       : Ti.UI.TEXT_ALIGNMENT_CENTER,
+    height          : Ti.UI.SIZE,
+    width           : Ti.UI.SIZE,
+    zIndex          : "42"
+
 });
 
 var chargement = Ti.UI.createWindow({
-    backgroundColor: 'white',
-    fullscreen: true
+    fullscreen: true,
+    backgroundColor : "white"
 });
 
 chargement.add(activityIndicator);
 
 chargement.open();
 activityIndicator.show();
+
+if (Titanium.Network.online) {
+    //get imagePub from API
+	Ti.API.info('imagePub' + Alloy.Globals.imagePub );
+	Ti.API.info( Alloy.Globals.imagePub == undefined  );
+	
+    if( Alloy.Globals.imagePub == undefined ) {
+
+        Alloy.Globals.getImagePub();
+        
+      
+        Ti.App.addEventListener("imagePub", function(data) {
+        	
+            
+            Alloy.Globals.imagePub = data.image;
+           
+           var imagePubView = Ti.UI.createImageView({
+           		image : data.image,
+           		width: "100%",
+           		height: "100%",
+           });
+           
+           	chargement.setBackgroundImage(data.image);
+           	chargement.add(imagePubView);
+
+        });
+    } else {
+        var imagePubView = Ti.UI.createView({
+            height  : "100%",
+            width   : "100%",
+            backgroundImage : Alloy.Globals.imagePub
+        });
+        
+       
+
+        chargement.add(imagePubView);
+    }
+    
+    
+} else {
+
+}
 
 /*for test */
 //////////////////////////////////////
@@ -94,17 +138,35 @@ if (!Alloy.Collections.etablishment.count() || !version.count()) {
 
 function openTabGroup () {
 
-    //close download indicator
-    activityIndicator.hide();
-    chargement.close();
+    var button_close = Ti.UI.createButton({
+        backgroundImage	: "icons/cross.png",
+    	top				: "3%",
+    	right 			: "3%",
+    	width			: "120px",
+    	height			: "120px",
+    	zIndex			: 20
+    });
 
-    $.tabgroup.open();
+    button_close.addEventListener('click', function () {
+        //close download indicato
+        chargement.close();
+
+        $.tabgroup.open();
+
+        Ti.App.fireEvent("openTab");
+    });
+
+    activityIndicator.hide();
+
+    chargement.add(button_close);
+
 }
 
 
 
 function download() {
 
+    sleep(3000);
     //he is not online during download :/
     if (!Titanium.Network.online) {
 
@@ -130,4 +192,11 @@ function download() {
     i += 1000;
 
     setTimeout(download, 1000);
+}
+
+function sleep(miliseconds) {
+   var currentTime = new Date().getTime();
+
+   while (currentTime + miliseconds >= new Date().getTime()) {
+   }
 }

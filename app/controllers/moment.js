@@ -9,6 +9,10 @@ $.moment.setTitleControl(Ti.UI.createLabel({
 
 var j = 0;
 
+
+
+
+
 //Filter
 function haveHappyFilter(collection) {
 
@@ -31,8 +35,9 @@ function myRefresher(e) {
     } else {
         //////////////////////////////////////
 
-
         Alloy.Globals.endDownload = false;
+
+        Ti.App.fireEvent("refresh");
 
         Alloy.Globals.checkVersion();
         setTimeout(downloadWithoutOpen, 1000);

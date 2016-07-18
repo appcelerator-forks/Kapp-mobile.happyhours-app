@@ -1,16 +1,16 @@
 <Alloy>
 	<Collection src="etablishment"/>
 
-	<Window id="moment" title="Happy Hours">
+	<Window id="moment" title="Happy Hours" backgroundColor="black">
 		<Widget id="ptr" src="nl.fokkezb.pullToRefresh" onRelease="myRefresher">
-			<TableView layout="vertical" width="100%" height="100%" id="happyhourcontents" dataCollection="etablishment" dataFilter="haveHappyFilter" >
+			<TableView layout="vertical" width="100%" height="100%" separatorColor="transparent" id="happyhourcontents" dataCollection="etablishment" dataFilter="haveHappyFilter" >
 				<TableViewRow selectionStyle="NONE" backgroundColor="#fff" tintColor="#fff" selectedBackgroundColor="white" selectedColor="#fff" touchEnabled="false"  width="100%" height="70%" idEtablishment="{id}" titleEtablishment="{name}" onClick="goEtablishment" >
 					<Label text="{name}" class="name"/>
 					<Label text="{adress}" class="adress"/>
 					<Label text="Toulouse" class="ville"/>
 					<Label text="{now}" class="happy"/>
 					<View class="image">
-						<ImageView width="100%" height="100%" image="http://76326168.ngrok.io/web/uploads/images/etablishment/{image}" defaultImage="background/background.png"/>
+						<ImageView width="100%" height="100%" image="http://04f432c2.ngrok.io/web/uploads/images/etablishment/{image}" defaultImage="background/background.png"/>
 						<View selectedBackgroundColor="white" backgroundColor="white" class="description" >
 							<Label class="description_label" text="{description_2}" />
 							<ImageView class="image_arrow" image="/icons/right-arrow.png"/>

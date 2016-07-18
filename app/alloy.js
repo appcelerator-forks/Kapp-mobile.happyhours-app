@@ -1,10 +1,15 @@
 Alloy.Globals.firstOpening = true;
 var pageColor = "#E2967A";
 Alloy.Globals.endDownload = false;
+Alloy.Globals.myEvent;
+Alloy.Globals.imagePub;
 
-Alloy.Globals.urlApi = "http://76326168.ngrok.io";
+Alloy.Globals.urlApi = "http://04f432c2.ngrok.io";
 Alloy.Globals.urlEtablishment = Alloy.Globals.urlApi + "/web/api/etablishment";
 Alloy.Globals.urlVersion = Alloy.Globals.urlApi + "/web/api/version";
+Alloy.Globals.urlImagePubApi = Alloy.Globals.urlApi + "/web/api/image/pub";
+
+Alloy.Globals.urlImagePub = Alloy.Globals.urlApi + "/web/uploads/images/pub/";
 
 var version = Alloy.createCollection('version');
 
@@ -17,10 +22,34 @@ Ti.App.addEventListener( 'resume', function(e) {
 
 });
 
+Alloy.Globals.getImagePub = function() {
+
+        var client2 = Ti.Network.createHTTPClient({
+            // function called when the response data is available
+            onload: function(e) {
+
+                var responseText = JSON.parse(this.responseText);
+
+                Ti.App.fireEvent('imagePub', {image: Alloy.Globals.urlImagePub + responseText.image});
+
+                Ti.API.info(Alloy.Globals.urlImagePub + responseText.image);
+            },
+            // function called when an error occurs, including a timeout
+            onerror: function(e) {
+
+            },
+            timeout: 5000 // in milliseconds
+
+        });
+
+        // Prepare the connection.
+        client2.open("GET", Alloy.Globals.urlImagePubApi);
+        // Send the request.
+        client2.send();
+};
+
 
 Alloy.Globals.updateNow = function () {
-
-    Ti.API.info('updateNow');
 
     Alloy.Collections.etablishment.fetch();
     Alloy.Collections.happyhour.fetch();
@@ -109,17 +138,23 @@ Alloy.Globals.updateNow = function () {
 
     }// end for all etablishment
 
+
+
     Alloy.Globals.fetchEtablishment();
     Alloy.Globals.endDownload = true;
 };
 
 Alloy.Globals.fetchEtablishment = function () {
 
+    Ti.API.info('fetch');
+
     //fetch and sort etablishment
     Alloy.Collections.etablishment.fetch();
     Alloy.Collections.etablishment.sort();
 
     Alloy.Collections.happyhour.fetch();
+
+    Ti.App.fireEvent("refresh");
 
 };
 

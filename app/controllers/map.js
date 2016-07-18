@@ -11,6 +11,7 @@ $.map.setTitleControl(Ti.UI.createLabel({
   text  : "Carte"
 }));
 
+Ti.App.addEventListener("refresh", fetchEtablishmentToMap);
 
 /////////////////////////////////////////////////////////
 /////////////////////INITIALIZATION/////////////////////
@@ -66,40 +67,39 @@ $.backToMe.addEventListener('click', function(e) {
 });
 
 fetchEtablishmentToMap();
+setInterval(fetchEtablishmentToMap, 300000);
 
 function fetchEtablishmentToMap() {
-	
-	Ti.API.info("fetchEtablishmentToMap");
-	
+
 	if(!Alloy.Globals.endDownload && k < 10000) {
-		Ti.API.info("not end");
+
 		setTimeout(fetchEtablishmentToMap, 500);
 		k += 500;
 		return;
 	}
-	Ti.API.info("fetch");
+
 	var etablishment = Alloy.createCollection('etablishment');
 	etablishment.fetch();
-	
+
 	// for each etablishment we build an annotation
 	etablishment.each(function(etablishment) {
-	
+
 		var coord = etablishment.get('gps').split(',');
-	
+
 		var accroche = '';
-	
+
 		if (!etablishment.get('now')) {
 			accroche = '';
 		} else {
 			accroche = etablishment.get('now');
 		}
-	
+
 		var d 	= new Date();
 		var day = d.getDay() === 0 ? 7 : d.getDay();
-	
-	
+
+
 		var happy = etablishment.get('text');
-	
+
 		var annotation = Map.createAnnotation({
 			latitude      : coord[0],
 			longitude     : coord[1],
@@ -109,11 +109,11 @@ function fetchEtablishmentToMap() {
 			myId          : etablishment.get('id'),
 			leftButton    : "icons/goto.png"
 		});
-	
+
 		$.mapview.addAnnotation(annotation);
-	
+
 		annotation.addEventListener('click', clickAnnotation);
-	
+
 	});
 
 }
